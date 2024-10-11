@@ -12,4 +12,5 @@
     <string name="customer_activity">Customer Activity</string>
     <string name="activity_title">Activity Title</string>
     <string name="activity_description">Activity Description</string>
+    <string name="checkout">CheckOut</string>
 </resources>
