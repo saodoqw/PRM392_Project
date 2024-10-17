@@ -34,7 +34,10 @@ android {
 dependencies {
     implementation(libs.dotsindicator)  // Add the DotsIndicator library
     implementation(libs.picasso)
-    implementation(libs.room.database)//refer to name defied in lib.version.toml file
+    implementation(libs.room.database)
+    implementation(libs.lombok)//refer to name defied in lib.version.toml file
+    annotationProcessor(libs.room.compiler)
+    androidTestImplementation(libs.room.testing)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
