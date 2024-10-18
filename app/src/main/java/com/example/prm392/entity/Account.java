@@ -16,6 +16,8 @@ foreignKeys = {
 public class Account extends BaseEntity{
     @ColumnInfo(name = "full_name", typeAffinity = ColumnInfo.TEXT)
     private String username;
+    @ColumnInfo(name = "password", typeAffinity = ColumnInfo.TEXT)
+    private String password;
     @ColumnInfo(name = "phone", typeAffinity = ColumnInfo.TEXT)
     private String phone;
     @ColumnInfo(name = "address", typeAffinity = ColumnInfo.TEXT)
@@ -36,6 +38,14 @@ public class Account extends BaseEntity{
 
     public String getUsername() {
         return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setUsername(String username) {
