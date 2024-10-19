@@ -3,7 +3,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#E0E0E0</color>
-    <color name="purple">#673AB7</color>
+    <color name="purple">#B535FF</color>
     <color name="LightGrey">#E9E9E9</color>
+    <color name="lightGreen">#C3FF83</color>
+    <color name="lightRed">#F85757</color>
+    <color name="lightYellow">#FFED8B</color>
+
+
+
 
 </resources>
