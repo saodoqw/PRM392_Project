@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">PRM392</string>
+    <string name="your_cart_is_empty">Your cart is empty</string>
+    <string name="my_cart">My Cart</string>
+    <string name="name">name</string>
+    <string name="email">email</string>
+    <string name="address">address</string>
+    <string name="customerdetail">CustomerDetail</string>
+    <string name="customer_email">Customer Email</string>
+    <string name="customer_name">Customer Name</string>
+    <string name="customer_address">Customer Address</string>
+    <string name="customer_activity">Customer Activity</string>
+    <string name="activity_title">Activity Title</string>
+    <string name="activity_description">Activity Description</string>
+    <string name="checkout">CheckOut</string>
 </resources>

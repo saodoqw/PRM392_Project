@@ -17,6 +17,18 @@
             android:exported="true" />
         <activity
             android:name=".ShoeListAdminActivity"
+                  android:exported="true" />
+      <activity
+            android:name=".CheckOutActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CustomerDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CustomerActivity"
+            android:exported="true" />
+        <activity
+            android:name=".CartActivity"
             android:exported="true" />
         <activity
             android:name=".ShoeListActivity"
