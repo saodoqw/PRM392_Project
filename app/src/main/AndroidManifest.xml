@@ -25,6 +25,9 @@
             android:name=".UpdateShoeActivity"
             android:exported="true" />
         <activity
+            android:name=".AddShoeActivity"
+            android:exported="true" />
+        <activity
             android:name=".ShoeListAdminActivity"
                   android:exported="true" />
       <activity

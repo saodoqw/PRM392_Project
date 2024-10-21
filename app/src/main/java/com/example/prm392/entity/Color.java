@@ -1,5 +1,4 @@
 package com.example.prm392.entity;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 
@@ -14,7 +13,6 @@ public class Color extends BaseEntity{
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.color = color;
     }
-
     public int getColor() {
         return color;
     }
