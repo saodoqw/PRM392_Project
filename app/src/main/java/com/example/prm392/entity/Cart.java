@@ -20,7 +20,7 @@ import java.sql.Date;
                         onDelete = ForeignKey.CASCADE
                 )
         })
-public class Cart extends BaseEntity{
+public class Cart extends BaseEntity {
     @ColumnInfo(name = "quantity", typeAffinity = ColumnInfo.INTEGER)
     private int quantity;
     @ColumnInfo(name = "product_id", index = true)

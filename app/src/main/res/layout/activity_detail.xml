@@ -50,7 +50,7 @@
                 android:layout_height="290dp"
                 android:layout_margin="16dp"
                 android:background="@drawable/grey_bg"
-                android:padding="16dp" />
+                android:padding="16dp" />`
 
             <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                 android:id="@+id/dotIndicator"
