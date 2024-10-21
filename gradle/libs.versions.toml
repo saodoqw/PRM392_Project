@@ -13,6 +13,8 @@ room-compiler="2.6.1"
 room-testing="2.6.1"
 dotsindicator = "4.3"
 lombok = "1.18.30"
+googleGmsGoogleServices = "4.4.2"
+firebaseDatabase = "21.0.0"
 [libraries]
 dotsindicator = { group = "com.tbuonomo", name = "dotsindicator", version = "4.3" }
 room-database = { group ="androidx.room", name = "room-runtime", version.ref="room-database"}
@@ -27,7 +29,9 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 lombok = { group = "org.projectlombok", name = "lombok", version.ref = "lombok" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 

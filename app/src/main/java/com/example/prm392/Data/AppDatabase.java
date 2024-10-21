@@ -1,6 +1,9 @@
 package com.example.prm392.Data;
 
+import android.content.Context;
+
 import androidx.room.Database;
+import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
@@ -13,6 +16,20 @@ import com.example.prm392.entity.*;
         , version =1,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
+    private static final String DATABASE_NAME = "PRM392ShoesStore";
+    private static AppDatabase appDatabase;
+
+    public static synchronized AppDatabase getAppDatabase(Context context) {
+        if (appDatabase == null) {
+            appDatabase = Room.databaseBuilder(context.getApplicationContext(),
+                            AppDatabase.class,
+                            DATABASE_NAME)
+                    .fallbackToDestructiveMigration()
+                    .build();
+        }
+        return appDatabase;
+    }
+
     //declare abstract method for each DAO
     public abstract AboutDAO aboutDao();
     public abstract AccountDAO accountDao();
