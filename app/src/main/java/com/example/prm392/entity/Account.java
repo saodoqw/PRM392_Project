@@ -4,6 +4,9 @@ import androidx.room.Entity;
 
 import java.sql.Date;
 
+import lombok.Builder;
+import lombok.experimental.SuperBuilder;
+
 @Entity(tableName = "account",
 foreignKeys = {
         @androidx.room.ForeignKey(
@@ -27,9 +30,10 @@ public class Account extends BaseEntity{
     @ColumnInfo(name = "userRoleId",index = true)
     private long userRoleId;
 
-    public Account(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String username, String phone, String address, String image, long userRoleId) {
+    public Account(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String username,String password, String phone, String address, String image, long userRoleId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.username = username;
+        this.password = password;
         this.phone = phone;
         this.address = address;
         this.image = image;

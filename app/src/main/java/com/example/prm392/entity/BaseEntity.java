@@ -5,6 +5,9 @@ import androidx.room.PrimaryKey;
 
 import java.sql.Date;
 
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 public abstract class BaseEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")

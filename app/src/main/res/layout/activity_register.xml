@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:fontFamily="@font/igfont"
-            android:text="@string/login"
+            android:text="@string/register"
             android:textColor="#FFFFFF"
             android:textSize="55sp" />
     </LinearLayout>
@@ -56,42 +56,41 @@
             android:padding="10dp"
             android:textColorHint="#B2EBF2" />
 
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/phone"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:minHeight="48dp"
+            android:padding="10dp"
+            android:textColorHint="#B2EBF2" />
+
+        <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:hint="@string/address"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:padding="10dp"
+            android:textColorHint="#B2EBF2" />
+
         <Button
-            android:id="@+id/login"
+            android:id="@+id/register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_border"
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:padding="10dp"
-            android:text="@string/login"
+            android:text="@string/register"
             android:textColor="#EDE7F6"
             tools:ignore="VisualLintButtonSize" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/forgot_your_login_details"
-                android:textColor="#EDE7F6"
-                android:textSize="16sp" />
-
-            <Button
-                android:id="@+id/forgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/get_help_signing_in"
-                android:textColor="#EA80FC"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:ignore="TextContrastCheck"/>
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -126,16 +125,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/don_t_have_an_account"
+            android:text="@string/have_account_already"
             android:textColor="#FFEBEE"
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/register"
+            android:id="@+id/login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@string/sign_up"
+            android:text="@string/login"
             android:textColor="#D7CCC8"
             android:textSize="16sp"
             android:textStyle="bold" />
