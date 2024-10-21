@@ -28,15 +28,15 @@ public class CartActivity extends AppCompatActivity {
             return insets;
         });
 
-        cart = new Cart();
-        cartRecyclerView = findViewById(R.id.ViewCart);
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cartAdapter = new CartAdapter(this, cart.getItems());
-        cartRecyclerView.setAdapter(cartAdapter);
-
-        // Add sample cart items
-        cart.addItem(new CartItem(1, "Product 1", 2, 10.0));
-        cart.addItem(new CartItem(2, "Product 2", 1, 20.0));
-        cartAdapter.notifyDataSetChanged();
+//        cart = new Cart();
+//        cartRecyclerView = findViewById(R.id.ViewCart);
+//        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        cartAdapter = new CartAdapter(this, cart.getItems());
+//        cartRecyclerView.setAdapter(cartAdapter);
+//
+//        // Add sample cart items
+//        cart.addItem(new CartItem(1, "Product 1", 2, 10.0));
+//        cart.addItem(new CartItem(2, "Product 2", 1, 20.0));
+//        cartAdapter.notifyDataSetChanged();
     }
 }

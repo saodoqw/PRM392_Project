@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "974398468663",
+    "project_id": "prm392shoesstore",
+    "storage_bucket": "prm392shoesstore.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:974398468663:android:bf1286362722844f6005b2",
+        "android_client_info": {
+          "package_name": "com.example.prm392"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcRqV3Z-b2rMwz1xx3oiWTNL_oFRy9jiY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

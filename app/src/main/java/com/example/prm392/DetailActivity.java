@@ -32,9 +32,9 @@ public class DetailActivity extends AppCompatActivity {
 
         //List color
         List<Color> colors = new ArrayList<Color>();
-        colors.add(new Color(1,R.drawable.ic_launcher_background));
-        colors.add(new Color(2,R.drawable.ic_action_favourite));
-        colors.add(new Color(3,R.drawable.ic_launcher_foreground));
+        colors.add(new Color(1,null,null,null,null,null,null,R.drawable.ic_launcher_background));
+        colors.add(new Color(2,null,null,null,null,null,null,R.drawable.ic_action_favourite));
+        colors.add(new Color(3,null,null,null,null,null,null,R.drawable.ic_launcher_foreground));
 
 
         RecyclerView recyclerView = findViewById(R.id.colorList);

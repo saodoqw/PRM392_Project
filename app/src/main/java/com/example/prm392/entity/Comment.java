@@ -2,45 +2,45 @@ package com.example.prm392.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 
 import java.sql.Date;
 
-@Entity(tableName = "cart",
+@Entity(tableName = "comment",
         foreignKeys = {
-                @ForeignKey(
+                @androidx.room.ForeignKey(
                         entity = Account.class,
                         parentColumns = "id",
                         childColumns = "account_id",
-                        onDelete = ForeignKey.CASCADE
+                        onDelete = androidx.room.ForeignKey.CASCADE
                 ),
-                @ForeignKey(entity = Product.class,
+                @androidx.room.ForeignKey(
+                        entity = Product.class,
                         parentColumns = "id",
                         childColumns = "product_id",
-                        onDelete = ForeignKey.CASCADE
+                        onDelete = androidx.room.ForeignKey.CASCADE
                 )
         })
-public class Cart extends BaseEntity {
-    @ColumnInfo(name = "quantity", typeAffinity = ColumnInfo.INTEGER)
-    private int quantity;
+public class Comment extends BaseEntity{
+    @ColumnInfo(name = "content", typeAffinity = ColumnInfo.TEXT)
+    private String content;
     @ColumnInfo(name = "product_id", index = true)
     private long productId;
     @ColumnInfo(name = "account_id", index = true)
     private long accountId;
 
-    public Cart(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, long productId, long accountId) {
+    public Comment(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String content, long productId, long accountId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
-        this.quantity = quantity;
+        this.content = content;
         this.productId = productId;
         this.accountId = accountId;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getContent() {
+        return content;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public long getProductId() {
