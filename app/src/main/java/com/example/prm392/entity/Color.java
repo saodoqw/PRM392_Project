@@ -1,27 +1,23 @@
 package com.example.prm392.entity;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
 
-public class Color {
-    private int ColorId;
-    private String Color;
+import java.sql.Date;
 
-    public Color( int colorId, String color) {
-        Color = color;
-        ColorId = colorId;
+@Entity(tableName = "color")
+public class Color extends BaseEntity{
+    @ColumnInfo(name = "color", typeAffinity = ColumnInfo.INTEGER)
+    private int color;
+
+    public Color(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int color) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
+        this.color = color;
+    }
+    public int getColor() {
+        return color;
     }
 
-    public int getColorId() {
-        return ColorId;
-    }
-
-    public void setColorId(int colorId) {
-        ColorId = colorId;
-    }
-
-    public String getColor() {
-        return Color;
-    }
-
-    public void setColor(String color) {
-        Color = color;
+    public void setColor(int color) {
+        this.color = color;
     }
 }

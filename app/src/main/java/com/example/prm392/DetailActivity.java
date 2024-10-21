@@ -37,6 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         colors.add(new Color(3,"Grey"));
 
 
+
         RecyclerView recyclerView = findViewById(R.id.colorList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(new ColorListAdapter(getApplicationContext(),colors));
