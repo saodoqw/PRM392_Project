@@ -2,9 +2,9 @@ package com.example.prm392.entity;
 
 public class Color {
     private int ColorId;
-    private int Color;
+    private String Color;
 
-    public Color( int colorId, int color) {
+    public Color( int colorId, String color) {
         Color = color;
         ColorId = colorId;
     }
@@ -17,11 +17,11 @@ public class Color {
         ColorId = colorId;
     }
 
-    public int getColor() {
+    public String getColor() {
         return Color;
     }
 
-    public void setColor(int color) {
+    public void setColor(String color) {
         Color = color;
     }
 }
