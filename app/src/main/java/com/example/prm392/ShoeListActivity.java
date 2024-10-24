@@ -1,6 +1,7 @@
 package com.example.prm392;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -135,6 +137,17 @@ public class ShoeListActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     // Method to apply all filters

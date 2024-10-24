@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -58,7 +59,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
         brandSpinner = findViewById(R.id.spinner_brand);
         colorSpinner = findViewById(R.id.spinner_color);
         stockContainer = findViewById(R.id.stock_container);
-        addSizeColorButton = findViewById(R.id.btn_add_size_color);
+//        addSizeColorButton = findViewById(R.id.btn_add_size_color);
         updateShoeButton = findViewById(R.id.btn_update_shoe);
         changeImageButton = findViewById(R.id.btn_change_image);
         addColor = findViewById(R.id.btn_add_new_color);
@@ -99,13 +100,30 @@ public class UpdateShoeActivity extends AppCompatActivity {
         colorSpinner.setAdapter(spinnerColorAdapter);
 
         // Handle adding size and color stock entries
-        addSizeColorButton.setOnClickListener(v -> addSizeColorFields());
+//        addSizeColorButton.setOnClickListener(v -> addSizeColorFields());
+        for (int i = 35; i <= 45; i++) {
+            addSizeFields(i);
+        }
 
         // Handle shoe update
         updateShoeButton.setOnClickListener(v -> updateShoe());
 
         // Handle add new color
         addColor.setOnClickListener(v -> addNewColor());
+
+
+
+
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(UpdateShoeActivity.this, ShoeListActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void addNewColor() {
@@ -180,17 +198,23 @@ public class UpdateShoeActivity extends AppCompatActivity {
     }
 
 
-    // Add dynamic fields for size and color stock
-    private void addSizeColorFields() {
+    // Add dynamic fields for size and stock
+    private void addSizeFields(int i) {
+        // Inflate the layout for size and stock entry
         View sizeColorView = getLayoutInflater().inflate(R.layout.size_color_stock_item, null);
 
-        EditText sizeEditText = sizeColorView.findViewById(R.id.edit_size);
-        EditText stockEditText = sizeColorView.findViewById(R.id.edit_stock);
+        // Find views by ID
+        TextView sizeTextView = sizeColorView.findViewById(R.id.txt_size); // Ensure this is a TextView
+        EditText stockEditText = sizeColorView.findViewById(R.id.edit_stock); // Ensure this is an EditText
 
+        // Set the size number to the TextView
+        sizeTextView.setText(String.valueOf(i));
+
+        // Add the inflated view to the stock container
         stockContainer.addView(sizeColorView);
 
-        // Add this combination to stock list (data binding)
-        stockList.add(new StockItem(sizeEditText, stockEditText));
+        // Add this combination to the stock list (data binding)
+        stockList.add(new StockItem(sizeTextView, stockEditText));
     }
 
     // Handle updating the shoe details
@@ -228,10 +252,10 @@ public class UpdateShoeActivity extends AppCompatActivity {
 
     // Inner class to hold stock item
     private class StockItem {
-        EditText sizeEditText;
+        TextView sizeEditText;
         EditText stockEditText;
 
-        StockItem(EditText size, EditText stock) {
+        StockItem(TextView size, EditText stock) {
             this.sizeEditText = size;
             this.stockEditText = stock;
         }

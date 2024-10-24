@@ -1,6 +1,8 @@
 package com.example.prm392;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,5 +53,15 @@ public class DetailActivity extends AppCompatActivity {
         RecyclerView recyclerViewSize = findViewById(R.id.sizeList); // Assuming colorList is the RecyclerView for size
         recyclerViewSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewSize.setAdapter(new SizeListAdapter(getApplicationContext(), sizes));  // Use SizeListAdapter for sizes
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ShoeListActivity.class);
+            startActivity(intent);
+        });
+
     }
 }
