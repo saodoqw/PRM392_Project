@@ -13,4 +13,6 @@
     <string name="activity_title">Activity Title</string>
     <string name="activity_description">Activity Description</string>
     <string name="checkout">CheckOut</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="see_all">See all</string>
 </resources>
