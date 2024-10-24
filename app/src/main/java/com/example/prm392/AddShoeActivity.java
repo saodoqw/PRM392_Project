@@ -26,7 +26,7 @@ import com.example.prm392.entity.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateShoeActivity extends AppCompatActivity {
+public class AddShoeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private ImageView shoeImage;
@@ -63,9 +63,10 @@ public class UpdateShoeActivity extends AppCompatActivity {
         changeImageButton = findViewById(R.id.btn_change_image);
         addColor = findViewById(R.id.btn_add_new_color);
 
+        //Handle add button
+        updateShoeButton.setText("Add Shoe");
 
         // Handle image change
-
         imagesRecyclerView = findViewById(R.id.images_recycler_view);
         imagesRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         imageAdapter = new ImageAdapter(this, selectedImages);

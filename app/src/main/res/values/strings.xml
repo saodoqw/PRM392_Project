@@ -1,10 +1,20 @@
 <resources>
     <string name="app_name">PRM392</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_login_details">Forgot your login details?</string>
+    <string name="get_help_signing_in">Get help signing in</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="register">Register</string>
+    <string name="phone">phone number</string>
+    <string name="address">address</string>
+    <string name="have_account_already">Have account ready?</string>
     <string name="your_cart_is_empty">Your cart is empty</string>
     <string name="my_cart">My Cart</string>
     <string name="name">name</string>
     <string name="email">email</string>
-    <string name="address">address</string>
     <string name="customerdetail">CustomerDetail</string>
     <string name="customer_email">Customer Email</string>
     <string name="customer_name">Customer Name</string>

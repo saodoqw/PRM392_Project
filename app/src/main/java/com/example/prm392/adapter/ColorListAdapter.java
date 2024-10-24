@@ -35,15 +35,15 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.Colo
     @Override
     public void onBindViewHolder(@NonNull ColorListAdapter.ColorListViewHolder holder, int position) {
         Color color = colors.get(position);
-        holder.pic.setImageResource(color.getColor());
+        holder.color.setText("" + color.getColor());
 
         // Check if the current position matches the selected position
         if (holder.getAdapterPosition() == selectedPosition) {
             // Set the purple border for the selected item
-            holder.pic.setBackgroundResource(R.drawable.selected_border);
+            holder.color.setBackgroundResource(R.drawable.selected_border);
         } else {
             // Remove the border for unselected items
-            holder.pic.setBackgroundResource(R.drawable.grey_bg);
+            holder.color.setBackgroundResource(R.drawable.grey_bg);
         }
 
         // Set click listener to update the selected position
@@ -64,11 +64,11 @@ public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.Colo
     }
 
     public class ColorListViewHolder extends RecyclerView.ViewHolder {
-        private ImageView pic;
+        private TextView color;
 
         public ColorListViewHolder(@NonNull View itemView) {
             super(itemView);
-            pic = itemView.findViewById(R.id.pic);
+            color = itemView.findViewById(R.id.color_txt);
         }
     }
 }
