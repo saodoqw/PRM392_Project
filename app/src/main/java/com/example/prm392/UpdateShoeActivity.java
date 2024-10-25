@@ -34,7 +34,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
     private EditText shoeName, priceEditText;
     private Spinner brandSpinner,colorSpinner;
     private LinearLayout stockContainer;
-    private Button addSizeColorButton, updateShoeButton, changeImageButton, addColor;
+    private Button updateShoeButton, changeImageButton, addColor;
 
     // Holds the size and color combinations
     private List<StockItem> stockList = new ArrayList<>();
