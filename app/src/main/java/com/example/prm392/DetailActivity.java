@@ -32,17 +32,17 @@ public class DetailActivity extends AppCompatActivity {
             return insets;
         });
 
-        //List color
-        List<Color> colors = new ArrayList<Color>();
-        colors.add(new Color(1,"Black"));
-        colors.add(new Color(2,"White"));
-        colors.add(new Color(3,"Grey"));
-
-
-
-        RecyclerView recyclerView = findViewById(R.id.colorList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new ColorListAdapter(getApplicationContext(),colors));
+//        //List color
+//        List<Color> colors = new ArrayList<Color>();
+//        colors.add(new Color(1,"Black"));
+//        colors.add(new Color(2,"White"));
+//        colors.add(new Color(3,"Grey"));
+//
+//
+//
+//        RecyclerView recyclerView = findViewById(R.id.colorList);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setAdapter(new ColorListAdapter(getApplicationContext(),colors));
 
 
         //List size

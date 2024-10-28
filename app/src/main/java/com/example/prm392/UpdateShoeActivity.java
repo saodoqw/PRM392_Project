@@ -2,6 +2,8 @@ package com.example.prm392;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.prm392.R;
 import com.example.prm392.adapter.ImageAdapter;
 import com.example.prm392.entity.Color;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +60,6 @@ public class UpdateShoeActivity extends AppCompatActivity {
         shoeName = findViewById(R.id.edit_shoe_name);
         priceEditText = findViewById(R.id.edit_price);
         brandSpinner = findViewById(R.id.spinner_brand);
-        colorSpinner = findViewById(R.id.spinner_color);
         stockContainer = findViewById(R.id.stock_container);
 //        addSizeColorButton = findViewById(R.id.btn_add_size_color);
         updateShoeButton = findViewById(R.id.btn_update_shoe);
@@ -88,16 +90,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         brandSpinner.setAdapter(spinnerAdapter);
 
-        //Handle color
-        colors.add(new Color(1,"Black"));
-        colors.add(new Color(2,"White"));
-        // Tạo danh sách tên màu từ danh sách Color
-        for (Color color : colors) {
-            colorNames.add(color.getColor());  // Lấy tên từ mỗi đối tượng Color
-        }
-        ArrayAdapter<String> spinnerColorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, colorNames);
-        spinnerColorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        colorSpinner.setAdapter(spinnerColorAdapter);
+
 
         // Handle adding size and color stock entries
 //        addSizeColorButton.setOnClickListener(v -> addSizeColorFields());
@@ -146,7 +139,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
 
             if (!newColorName.isEmpty()) {
                 // Thêm màu mới vào danh sách
-                colors.add(new Color(colors.size() + 1, newColorName));
+//                colors.add(new Color(colors.size() + 1, newColorName));
                 colorNames.add(newColorName);
                 // Cập nhật lại adapter của Spinner
                 ArrayAdapter<String> adapter = (ArrayAdapter<String>) colorSpinner.getAdapter();
@@ -168,33 +161,78 @@ public class UpdateShoeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
 
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                                this.getContentResolver(),
-                                data.getClipData().getItemAt(i).getUri()
-                        );
-                        selectedImages.add(bitmap);  // Thêm ảnh vào danh sách
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    Uri imageUri = data.getClipData().getItemAt(i).getUri();
+                    addScaledImage(imageUri);  // Load và thêm ảnh đã được nén
                 }
             } else if (data.getData() != null) {
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), data.getData());
-                    selectedImages.add(bitmap);  // Thêm ảnh vào danh sách
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Uri imageUri = data.getData();
+                addScaledImage(imageUri);  // Load và thêm ảnh đã được nén
             }
 
-            // Cập nhật RecyclerView
+            // Cập nhật RecyclerView sau khi thêm ảnh
             imageAdapter.notifyDataSetChanged();
         }
+    }
+
+    // Phương thức thêm ảnh với scaling để tránh OOM
+    private void addScaledImage(Uri imageUri) {
+        try {
+            Bitmap bitmap = decodeSampledBitmapFromUri(imageUri, 300, 300); // Scale ảnh về 300x300
+            if (bitmap != null) {
+                selectedImages.add(bitmap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Phương thức load bitmap đã được scale từ Uri
+    private Bitmap decodeSampledBitmapFromUri(Uri uri, int reqWidth, int reqHeight) {
+        try {
+            // Tùy chọn để lấy kích thước ảnh ban đầu
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            InputStream input = getContentResolver().openInputStream(uri);
+            BitmapFactory.decodeStream(input, null, options);
+            input.close();
+
+            // Tính toán tỉ lệ inSampleSize
+            options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+            options.inJustDecodeBounds = false;
+
+            // Load ảnh đã được nén
+            input = getContentResolver().openInputStream(uri);
+            Bitmap scaledBitmap = BitmapFactory.decodeStream(input, null, options);
+            input.close();
+
+            return scaledBitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    // Tính toán tỉ lệ nén ảnh
+    private int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        int height = options.outHeight;
+        int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+            int halfHeight = height / 2;
+            int halfWidth = width / 2;
+
+            while ((halfHeight / inSampleSize) >= reqHeight &&
+                    (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+        return inSampleSize;
     }
 
 

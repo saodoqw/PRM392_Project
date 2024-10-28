@@ -17,6 +17,7 @@ import com.example.prm392.entity.Role;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
+    private AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,5 +31,9 @@ public class MainActivity extends AppCompatActivity {
         });
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
+
+
+        appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
+
     }
 }

@@ -61,11 +61,11 @@ public class ShoeListAdminActivity extends AppCompatActivity {
 
         // Create a list of shoes
         shoeList = new ArrayList<>();
-        shoeList.add(new Shoe("Nike Air Max", 120.0, R.drawable.nike_air_max, "Nike"));
-        shoeList.add(new Shoe("Adidas Ultraboost", 150.0, R.drawable.adidas_ultraboost, "Adidas"));
-        shoeList.add(new Shoe("Puma RS-X", 120.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma RS-X", 110.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma A", 20.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(1,"Nike Air Max", 120.0, R.drawable.nike_air_max, "Nike"));
+        shoeList.add(new Shoe(2,"Adidas Ultraboost", 150.0, R.drawable.adidas_ultraboost, "Adidas"));
+        shoeList.add(new Shoe(3,"Puma RS-X", 120.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(4,"Puma RS-X", 110.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(5,"Puma A", 20.0, R.drawable.puma_rsx, "Puma"));
 
         // Set up the adapter
         adapter = new ShoeListAdminAdapter(this, shoeList);
@@ -148,9 +148,12 @@ public class ShoeListAdminActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //Handle update button
-//        Intent intent = new Intent(ShoeListActivity.this, UpdateShoeActivity.class);
-//        startActivity(intent);
+        //Handle create button
+        ImageView createBtn = findViewById(R.id.createBtn);
+        createBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListAdminActivity.this, AddShoeActivity.class);
+            startActivity(intent);
+        });
 
     }
 
