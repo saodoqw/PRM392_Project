@@ -69,6 +69,12 @@
             android:layout_marginBottom="16dp"
             android:inputType="numberDecimal" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Brand:"
+            android:textSize="18sp"
+            android:layout_marginBottom="8dp" />
         <!-- Brand selection -->
         <Spinner
             android:id="@+id/spinner_brand"
@@ -76,26 +82,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp" />
 
-        <!-- Color selection -->
-        <Spinner
-            android:id="@+id/spinner_color"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-        <Button
-            android:id="@+id/btn_add_new_color"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add new color"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp" />
-
         <!-- Stock by Size and Color -->
         <TextView
             android:id="@+id/stock_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Stock by Size and Color"
+            android:text="Stock"
             android:textSize="18sp"
             android:layout_marginBottom="8dp" />
 
@@ -105,14 +97,20 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginBottom="16dp" />
-
         <Button
-            android:id="@+id/btn_add_size_color"
+            android:id="@+id/btn_add_new_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Size and Color"
+            android:text="Add new color"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp" />
+<!--        <Button-->
+<!--            android:id="@+id/btn_add_size_color"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Add Size and Color"-->
+<!--            android:layout_gravity="center_horizontal"-->
+<!--            android:layout_marginBottom="16dp" />-->
 
 
         <!-- Stock by Size and Color -->

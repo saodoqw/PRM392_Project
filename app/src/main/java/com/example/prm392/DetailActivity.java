@@ -1,6 +1,8 @@
 package com.example.prm392;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,17 +32,17 @@ public class DetailActivity extends AppCompatActivity {
             return insets;
         });
 
-        //List color
-        List<Color> colors = new ArrayList<Color>();
-        colors.add(new Color(1,"Black"));
-        colors.add(new Color(2,"White"));
-        colors.add(new Color(3,"Grey"));
-
-
-
-        RecyclerView recyclerView = findViewById(R.id.colorList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(new ColorListAdapter(getApplicationContext(),colors));
+//        //List color
+//        List<Color> colors = new ArrayList<Color>();
+//        colors.add(new Color(1,"Black"));
+//        colors.add(new Color(2,"White"));
+//        colors.add(new Color(3,"Grey"));
+//
+//
+//
+//        RecyclerView recyclerView = findViewById(R.id.colorList);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+//        recyclerView.setAdapter(new ColorListAdapter(getApplicationContext(),colors));
 
 
         //List size
@@ -51,5 +53,15 @@ public class DetailActivity extends AppCompatActivity {
         RecyclerView recyclerViewSize = findViewById(R.id.sizeList); // Assuming colorList is the RecyclerView for size
         recyclerViewSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerViewSize.setAdapter(new SizeListAdapter(getApplicationContext(), sizes));  // Use SizeListAdapter for sizes
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ShoeListActivity.class);
+            startActivity(intent);
+        });
+
     }
 }

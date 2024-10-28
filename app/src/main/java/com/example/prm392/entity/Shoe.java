@@ -1,12 +1,33 @@
 package com.example.prm392.entity;
 
-public class Shoe {
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+
+import java.sql.Date;
+
+@Entity(tableName = "shoe")
+public class Shoe extends BaseEntity{
+    @ColumnInfo(name = "shoe_name", typeAffinity = ColumnInfo.TEXT)
     private String name;
+    @ColumnInfo(name = "price", typeAffinity = ColumnInfo.REAL) // REAL dùng cho số thập phân
     private double price;
+    @ColumnInfo(name = "price", typeAffinity = ColumnInfo.INTEGER)
     private int imageResource;
+    @ColumnInfo(name = "price", typeAffinity = ColumnInfo.TEXT)
     private String brand;  // New property for brand
 
-    public Shoe(String name, double price, int imageResource, String brand) {
+    @Ignore // Room sẽ bỏ qua constructor này
+    public Shoe(int id,String name, double price, int imageResource, String brand) {
+        super(id);
+        this.name = name;
+        this.price = price;
+        this.imageResource = imageResource;
+        this.brand = brand;
+    }
+
+    public Shoe(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String name, double price, int imageResource, String brand) {
+        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.name = name;
         this.price = price;
         this.imageResource = imageResource;
