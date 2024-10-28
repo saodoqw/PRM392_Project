@@ -77,6 +77,7 @@
             android:id="@+id/rbCreditCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Credit Card" />
 
         <RadioButton
@@ -122,11 +123,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Delivery Address"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/rgPaymentMethods"
-        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etExpirationDate" />
 
     <Button
         android:id="@+id/btnConfirmPayment"
