@@ -7,13 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent; // Import Intent
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392.CustomerDetailActivity;
 import com.example.prm392.R;
 import com.example.prm392.entity.Account;
-import com.example.prm392.entity.Customer;
 
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         holder.addressTextView.setText(customer.getAddress());
         //holder.customerImageView.setImageResource(customer.getImage());
 
-        holder.bind(customer);
+        holder.bind(customer, context);
     }
 
 
@@ -74,14 +75,21 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
             customerImageView = itemView.findViewById(R.id.cusImg);
         }
 
-        public void bind(Account customer) {
+        public void bind(Account customer, Context context) {
             itemView.setOnClickListener(v -> {
-                itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.grey));
-                Toast.makeText(itemView.getContext(), "Click on " + customer.getId(), Toast.LENGTH_SHORT).show();
-
-                itemView.postDelayed(() -> {
-                    itemView.setBackgroundColor(itemView.getContext().getResources().getColor(android.R.color.transparent));
-                }, 200); // 300ms
+                int customerId = (int)customer.getId();
+                if (customerId != -1) { // Ensure CustomerID is valid
+                    itemView.setBackgroundColor(itemView.getContext().getResources().getColor(R.color.grey));
+                    Toast.makeText(itemView.getContext(), "Click on " + customerId, Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, CustomerDetailActivity.class);
+                    intent.putExtra("CustomerID", customerId); // Ensure CustomerID is set
+                    context.startActivity(intent);
+                    itemView.postDelayed(() -> {
+                        itemView.setBackgroundColor(itemView.getContext().getResources().getColor(android.R.color.transparent));
+                    }, 200); // 300ms
+                } else {
+                    Toast.makeText(itemView.getContext(), "Invalid CustomerID", Toast.LENGTH_SHORT).show();
+                }
             });
         }
 

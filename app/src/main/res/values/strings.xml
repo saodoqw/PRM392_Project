@@ -24,4 +24,10 @@
     <string name="activity_description">Activity Description</string>
     <string name="checkout">CheckOut</string>
     <string name="customer">Customer</string>
+    <string name="no_customer_yet">No Customer yet</string>
+    <string name="custorme_name">Custorme_Name</string>
+    <string name="Username">Username:</string>
+    <string name="Phone">Phone:</string>
+    <string name="Adress">Address:</string>
+    <string name="create_at">Create At:</string>
 </resources>

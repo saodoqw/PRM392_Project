@@ -25,6 +25,9 @@ public abstract interface AccountDAO {
     @Query("SELECT * FROM account WHERE full_name = :username")
     Account checkUsername(String username);
 
+    @Query("SELECT * FROM account WHERE id = :id")
+    Account getAccountById(int id);
+
     @Query("SELECT * FROM account WHERE userRoleId = 2")
     List<Account> getAccountsUser();
 

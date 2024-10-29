@@ -1,7 +1,10 @@
 package com.example.prm392;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -12,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.entity.Account;
-import com.example.prm392.entity.Customer;
 import com.example.prm392.adapter.CustomerAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +76,12 @@ public class CustomerActivity extends AppCompatActivity {
             runOnUiThread(() -> {
                 customerAdapter.setCustomerList(filteredCustomerList);
                 customerAdapter.notifyDataSetChanged();
+                TextView noCustomerTextView = findViewById(R.id.noCustomerTextView);
+                if (filteredCustomerList.isEmpty()) {
+                    noCustomerTextView.setVisibility(View.VISIBLE);
+                } else {
+                    noCustomerTextView.setVisibility(View.GONE);
+                }
             });
         });
     }
