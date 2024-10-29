@@ -6,10 +6,14 @@ import androidx.room.Query;
 
 import com.example.prm392.entity.Brand;
 
+import java.util.List;
+
 @Dao
 public interface BrandDAO {
     @Query("SELECT * FROM brand WHERE brand_name = :brand")
     Brand getBrandByName(String brand);
     @Insert
     void addBrand(Brand brand);
+    @Query("SELECT brand_name FROM brand")
+    List<String> getAllBrand();
 }

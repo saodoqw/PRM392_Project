@@ -63,6 +63,7 @@ public class AddShoeActivity extends AppCompatActivity {
     private ImageAdapter imageAdapter;
     private List<Bitmap> selectedImages = new ArrayList<>();
     List<Size> sizes;
+    List<String> brands;
     private AppDatabase appDatabase;
 
     String statusAdd;
@@ -101,25 +102,23 @@ public class AddShoeActivity extends AppCompatActivity {
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);  // Cho phép chọn nhiều ảnh
             startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
-
-        //Handle brand
-        List<String> brands = new ArrayList<>();
-        brands.add("Nike");
-        brands.add("Adidas");
-        brands.add("Puma");
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        brandSpinner.setAdapter(spinnerAdapter);
-
-
         // Handle adding size and color stock entries
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Thao tác với database ở background thread
             sizes = appDatabase.sizeDao().getAllSizes();
+            brands = appDatabase.brandDao().getAllBrand();
+            runOnUiThread(() ->{
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                brandSpinner.setAdapter(spinnerAdapter);
+            });
         });
+
+
+
+
 
 
         // Handle shoe update
