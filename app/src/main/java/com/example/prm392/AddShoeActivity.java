@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.adapter.ImageAdapter;
 import com.example.prm392.entity.Color;
+import com.example.prm392.entity.ImageShoe;
 import com.example.prm392.entity.Product;
 import com.example.prm392.entity.ProductQuantity;
 import com.example.prm392.entity.Size;
@@ -64,6 +65,13 @@ public class AddShoeActivity extends AppCompatActivity {
     List<Size> sizes;
     private AppDatabase appDatabase;
 
+    String statusAdd;
+    void setStatus(String statusAdd){
+        this.statusAdd = statusAdd;
+    }
+    String getStatus(){
+        return statusAdd;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -280,8 +288,7 @@ public class AddShoeActivity extends AppCompatActivity {
 
     // Handle updating the shoe details
     private void updateShoe() {
-        AtomicReference<String> statusAdd = new AtomicReference<>("Shoe updated successfully!");
-
+        setStatus("Shoe is added successfully!");
         String name = shoeName.getText().toString();
         String price = priceEditText.getText().toString();
         String brand = brandSpinner.getSelectedItem().toString();
@@ -291,7 +298,10 @@ public class AddShoeActivity extends AppCompatActivity {
             Toast.makeText(this, "Please fill all the required fields.", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        if (selectedImages.isEmpty()) {
+            Toast.makeText(this, "Please select at least one image before adding the product.", Toast.LENGTH_SHORT).show();
+            return;  // Ngừng tiến trình nếu không có ảnh
+        }
         // Handle stock update by size and color
         for (StockItem item : stockList) {
             String size = item.sizeEditText.getText().toString();
@@ -304,6 +314,7 @@ public class AddShoeActivity extends AppCompatActivity {
             }
         }
 
+
         AtomicInteger productId = new AtomicInteger(0);
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
@@ -311,15 +322,15 @@ public class AddShoeActivity extends AppCompatActivity {
                 long brandId = appDatabase.brandDao().getBrandByName(brand).getId();
                 int x = appDatabase.productDao().lastProductId() + 1;
                 productId.set(x);
+                //add product
+                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description);
+                appDatabase.productDao().addProduct(product);
 
                 // Lưu các ảnh đã chọn vào Internal Storage trong cùng một tác vụ
                 for (Bitmap bitmap : selectedImages) {
                     saveImageToInternalStorage(bitmap, productId.get());
                 }
 
-                //add product
-                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description);
-                appDatabase.productDao().addProduct(product);
                 //add color of product
                 for (String colorName : colorNames) {
                     Color color = new Color(colorName, productId.get());
@@ -340,19 +351,20 @@ public class AddShoeActivity extends AppCompatActivity {
                     String stock = item.stockEditText.getText().toString();
                     ProductQuantity productQuantity = new ProductQuantity(productId.get(),sizeId,colorIds.get(colorCount),Integer.parseInt(stock));
                     appDatabase.productQuantityDAO().addProductQuantity(productQuantity);
-
                 }
+                //add url of product images
+
             } else {
-                //chuưa hoat dong
-                statusAdd.set("Tên sản phẩm đã tồn tại");
+                setStatus("Name of shoe existed!");
             }
+            runOnUiThread(()->{
+                Toast.makeText(this, getStatus(), Toast.LENGTH_SHORT).show();
+            });
         });
 
 
-        // Perform shoe update (database or API call)
-        Toast.makeText(this, statusAdd.get(), Toast.LENGTH_SHORT).show();
         // Finish activity or go back to previous screen
-        finish();
+//        finish();
     }
 
     private List<Bitmap> getImagesByProductId(int productId) {
@@ -389,6 +401,13 @@ public class AddShoeActivity extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);  // Lưu dưới dạng JPEG
             }
 
+            // Tạo đối tượng ImageShoe với đường dẫn ảnh đã lưu
+            ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(),productId);
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                appDatabase.imageShoeDao().addImageShoe(imageShoe);
+            });
+            // Lưu vào database hoặc danh sách nào đó
             Log.d("ImageSave", "Image saved at: " + file.getAbsolutePath());
 
         } catch (Exception e) {

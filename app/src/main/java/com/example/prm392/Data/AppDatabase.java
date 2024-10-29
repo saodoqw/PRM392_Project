@@ -19,7 +19,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {About.class, Account.class, Brand.class, Cart.class,
         Color.class, Comment.class, Coupon.class, CouponType.class,
         Order.class, OrderDetail.class, Policy.class, Product.class, Role.class, Size.class
-        , ImageShoe.class,ProductQuantity.class}
+        , ImageShoe.class, ProductQuantity.class}
         , version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -52,6 +52,12 @@ public abstract class AppDatabase extends RoomDatabase {
                                             Log.d("Database", "Inserted size: " + i); // In log để kiểm tra
                                             appDatabase.sizeDao().insert(size);
                                         }
+
+                                        //Chèn dữ liệu mặc định các brand
+                                        Brand brand1 = new Brand("Nike");
+                                        appDatabase.brandDao().addBrand(brand1);
+                                        Brand brand2 = new Brand("Adidas");
+                                        appDatabase.brandDao().addBrand(brand2);
                                     });
                                 }
                             })

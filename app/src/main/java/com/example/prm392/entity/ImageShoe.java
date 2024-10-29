@@ -17,27 +17,27 @@ import java.sql.Date;
         )
 )
 public class ImageShoe extends BaseEntity{
-    private int imageSrc;
+    private String  imageSrc;
     @ColumnInfo(index = true) //just add index = true
     private long productId;
 
-    public ImageShoe(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int imageSrc, long productId) {
+    public ImageShoe(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String imageSrc, long productId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.imageSrc = imageSrc;
         this.productId = productId;
     }
 
-    public ImageShoe(long id, int image, long productId) {
-        super(id);
+    public ImageShoe( String  image, long productId) {
+        super();
         this.imageSrc = image;
         this.productId = productId;
     }
 
-    public int getImageSrc() {
+    public String  getImageSrc() {
         return imageSrc;
     }
 
-    public void setImageSrc(int imageSrc) {
+    public void setImageSrc(String  imageSrc) {
         this.imageSrc = imageSrc;
     }
 

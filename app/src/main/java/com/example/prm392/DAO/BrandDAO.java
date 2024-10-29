@@ -1,6 +1,7 @@
 package com.example.prm392.DAO;
 
 import androidx.room.Dao;
+import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.prm392.entity.Brand;
@@ -9,4 +10,6 @@ import com.example.prm392.entity.Brand;
 public interface BrandDAO {
     @Query("SELECT * FROM brand WHERE brand_name = :brand")
     Brand getBrandByName(String brand);
+    @Insert
+    void addBrand(Brand brand);
 }
