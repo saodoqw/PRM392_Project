@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.quantityTextView.setText(String.valueOf(cartItem.getTotalQuantity()));
         holder.priceTextView.setText(String.valueOf(cartItem.product.getPrice()));
         holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity()*cartItem.product.getPrice()));
+       //holder.productImageView.setImageResource(cartItem.getImageProductSrc());
         holder.increaseButton.setOnClickListener(v -> {
             if (context instanceof CartActivity) {
                 ((CartActivity) context).increaseProductQuantity(cartItem);
@@ -61,7 +63,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     public static class CartViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, quantityTextView, priceTextView, totalPriceTextView;
         TextView increaseButton, decreaseButton;
-
+        ImageView productImageView;
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.titleTxt);
@@ -70,6 +72,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             totalPriceTextView = itemView.findViewById(R.id.totalEachItem);
             increaseButton = itemView.findViewById(R.id.plusCartItem);
             decreaseButton = itemView.findViewById(R.id.minusCartItem);
+            productImageView = itemView.findViewById(R.id.itemPic);
         }
     }
 }
