@@ -1,6 +1,7 @@
 package com.example.prm392.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.prm392.CartActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.MainActivity;
 import com.example.prm392.R;
@@ -53,7 +55,13 @@ public class LoginActivity extends AppCompatActivity {
             if (account != null) {
                 //Log success message
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show());
+                SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                int accountid = (int) account.getId();
+                editor.putInt("ACCOUNT_ID",accountid);
+                editor.apply();
                 // Change layout to activity_homePage.xml
+//                Intent intent = new Intent(LoginActivity.this, CartActivity.class); //Modify to navigate to home page
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class); //Modify to navigate to home page
                 startActivity(intent);
                 finish();

@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -126,8 +127,13 @@ public class CartActivity extends AppCompatActivity {
     }
     private void loadProductsInCart() {
         executorService.execute(() -> {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", MODE_PRIVATE);
+            int accountId = sharedPreferences.getInt("ACCOUNT_ID", -1);
+            if (accountId == -1) {
+                return;
+            }
             List<ProductInCartWithQuantity> pList = appDatabase.cartDao()
-                    .getProductsInCartGroupedByAccountId(1); // Get products in cart
+                    .getProductsInCartGroupedByAccountId(accountId); // Get products in cart
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (pList.isEmpty()) {
                     txtCartEmpty.setVisibility(View.VISIBLE);
