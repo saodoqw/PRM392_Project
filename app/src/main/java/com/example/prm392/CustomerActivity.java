@@ -9,18 +9,24 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Customer;
 import com.example.prm392.adapter.CustomerAdapter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class CustomerActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CustomerAdapter customerAdapter;
-    private List<Customer> customerList;
-    private List<Customer> filteredCustomerList;
-
+    private List<Account> customerList;
+    private List<Account> filteredCustomerList;
+    private AppDatabase appDatabase;
+    private ExecutorService executorService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,17 +38,10 @@ public class CustomerActivity extends AppCompatActivity {
             return insets;
         });
 
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        customerList = new ArrayList<>();
-        // Add some sample customers
-        customerList.add(new Customer(1, "John Doe", "john@example.com", "123 Main St"));
-        customerList.add(new Customer(2, "Jane Smith", "jane@example.com", "456 Elm St"));
-
-        filteredCustomerList = new ArrayList<>(customerList);
-        customerAdapter = new CustomerAdapter(filteredCustomerList);
-        recyclerView.setAdapter(customerAdapter);
+        appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
+        executorService = Executors.newSingleThreadExecutor(); // Initialize executorService
+        initCustomerList();
+        loadCustomers();
 
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -59,13 +58,33 @@ public class CustomerActivity extends AppCompatActivity {
         });
     }
 
+    private void initCustomerList() {
+        recyclerView = findViewById(R.id.cusList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customerAdapter = new CustomerAdapter( new ArrayList<>(),this);
+        recyclerView.setAdapter(customerAdapter);
+
+    }
+
+
+    private void loadCustomers() {
+        executorService.execute(() -> {
+            customerList = appDatabase.accountDao().getAccountsUser();
+            filteredCustomerList = new ArrayList<>(customerList);
+            runOnUiThread(() -> {
+                customerAdapter.setCustomerList(filteredCustomerList);
+                customerAdapter.notifyDataSetChanged();
+            });
+        });
+    }
+
     private void filter(String text) {
         filteredCustomerList.clear();
         if (text.isEmpty()) {
             filteredCustomerList.addAll(customerList);
         } else {
             filteredCustomerList.addAll(customerList.stream()
-                    .filter(customer -> customer.getName().toLowerCase().contains(text.toLowerCase()))
+                    .filter(customer -> customer.getUsername().toLowerCase().contains(text.toLowerCase()))
                     .collect(Collectors.toList()));
         }
         customerAdapter.notifyDataSetChanged();

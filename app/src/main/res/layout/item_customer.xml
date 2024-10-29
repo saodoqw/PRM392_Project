@@ -7,7 +7,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/cusImg"
         android:layout_width="70dp"
         android:layout_height="70dp"
         tools:srcCompat="@tools:sample/avatars" />
@@ -27,10 +27,10 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/customer_email"
+            android:id="@+id/customer_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/email"
+            android:text="@string/phone"
             android:textSize="14sp" />
     </LinearLayout>
 

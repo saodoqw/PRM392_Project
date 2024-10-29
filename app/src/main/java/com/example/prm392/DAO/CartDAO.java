@@ -14,19 +14,18 @@ import java.util.List;
 @Dao
 public interface CartDAO {
 
-    @Query("SELECT product.*, SUM(cart.quantity) as totalQuantity, SUM(cart.quantity * product.price) as totalPrice " +
-            "FROM product INNER JOIN cart ON product.id = cart.product_id " +
-            "WHERE cart.account_id = :accountId " +
-            "GROUP BY product.id")
-    List<ProductInCartWithQuantity> getProductsInCartGroupedByAccountId(long accountId);
-//    @Query("SELECT product.*, imageshoe.*, SUM(cart.quantity) as totalQuantity, SUM(cart.quantity * product.price) as totalPrice " +
-//            "FROM product " +
-//            "INNER JOIN cart ON product.id = cart.product_id " +
-//            "INNER JOIN imageshoe ON product.id = imageshoe.productId " +
+//    @Query("SELECT product.*, SUM(cart.quantity) as totalQuantity, SUM(cart.quantity * product.price) as totalPrice " +
+//            "FROM product INNER JOIN cart ON product.id = cart.product_id " +
 //            "WHERE cart.account_id = :accountId " +
-//            "GROUP BY product.id, imageshoe.id")
+//            "GROUP BY product.id")
 //    List<ProductInCartWithQuantity> getProductsInCartGroupedByAccountId(long accountId);
-
+    @Query("SELECT product.*, imageshoe.*, SUM(cart.quantity) as totalQuantity, SUM(cart.quantity * product.price) as totalPrice, imageshoe.imageSrc as imageProductSrc " +
+            "FROM product " +
+            "INNER JOIN cart ON product.id = cart.product_id " +
+            "INNER JOIN imageshoe ON product.id = imageshoe.productId " +
+            "WHERE cart.account_id = :accountId " +
+            "GROUP BY product.id, imageshoe.id")
+    List<ProductInCartWithQuantity> getProductsInCartGroupedByAccountId(long accountId);
     @Query("DELETE FROM cart WHERE account_id = :accountId")
     void deleteCartsByAccountId(long accountId);
     @Insert

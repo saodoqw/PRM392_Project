@@ -9,13 +9,14 @@ public class ProductInCartWithQuantity {
     public Product product;
     public int totalQuantity;
     public double totalPrice;
+    public String imageProductSrc;
 
-    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice) {
+    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, String imageProductSrc) {
         this.product = product;
         this.totalQuantity = totalQuantity;
-        this.totalPrice = totalPrice; // Room sẽ tự động gán giá trị này
+        this.totalPrice = totalPrice;
+        this.imageProductSrc = imageProductSrc;
     }
-
 
     public double getTotalPrice() {
         return totalPrice;
@@ -39,5 +40,13 @@ public class ProductInCartWithQuantity {
 
     public void setProduct(Product product) {
         this.product = product;
+    }
+
+    public String getImageProductSrc() {
+        return imageProductSrc;
+    }
+
+    public void setImageProductSrc(String imageProductSrc) {
+        this.imageProductSrc = imageProductSrc;
     }
 }
