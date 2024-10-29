@@ -142,11 +142,11 @@ public class AddShoeActivity extends AppCompatActivity {
     private void addNewColor() {
         // Tạo AlertDialog để yêu cầu người dùng nhập tên màu
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Thêm Màu Mới");
+        builder.setTitle("Add new color");
 
         // Tạo EditText cho người dùng nhập tên màu
         final EditText input = new EditText(this);
-        input.setHint("Nhập tên màu...");
+        input.setHint("Enter color...");
         input.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -154,7 +154,7 @@ public class AddShoeActivity extends AppCompatActivity {
         builder.setView(input);
 
         // Xử lý sự kiện khi nhấn nút "Thêm"
-        builder.setPositiveButton("Thêm", (dialog, which) -> {
+        builder.setPositiveButton("Add", (dialog, which) -> {
             String newColorName = input.getText().toString().trim();
 
             if (!newColorName.isEmpty()) {
@@ -164,12 +164,12 @@ public class AddShoeActivity extends AppCompatActivity {
                 addSizeFields(newColorName);
                 Toast.makeText(this, "Màu mới đã được thêm!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Tên màu không được để trống.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Color is not empty!", Toast.LENGTH_SHORT).show();
             }
         });
 
         // Nút hủy bỏ
-        builder.setNegativeButton("Hủy", (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
 
         // Hiển thị AlertDialog
         builder.show();
@@ -179,8 +179,10 @@ public class AddShoeActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            // Reset selectedImages list nếu có ảnh được chọn
+            selectedImages.clear();  // Xóa dữ liệu cũ
+
             if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
                 for (int i = 0; i < count; i++) {
@@ -193,6 +195,8 @@ public class AddShoeActivity extends AppCompatActivity {
             }
 
             imageAdapter.notifyDataSetChanged();  // Cập nhật RecyclerView
+        } else {
+            Toast.makeText(this, "No images selected.", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -258,7 +262,7 @@ public class AddShoeActivity extends AppCompatActivity {
     private void addSizeFields(String colorName) {
         // Tạo một tiêu đề cho màu mới để hiển thị
         TextView colorTitle = new TextView(this);
-        colorTitle.setText("Màu: " + colorName);
+        colorTitle.setText("Color: " + colorName);
         colorTitle.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
@@ -363,24 +367,24 @@ public class AddShoeActivity extends AppCompatActivity {
 
 
         // Finish activity or go back to previous screen
-//        finish();
+        finish();
     }
 
-    private List<Bitmap> getImagesByProductId(int productId) {
-        List<Bitmap> productImages = new ArrayList<>();
-        File productDir = new File(getFilesDir(), "product_" + productId);
-
-        if (productDir.exists()) {
-            File[] files = productDir.listFiles();
-            if (files != null) {
-                for (File file : files) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                    productImages.add(bitmap);
-                }
-            }
-        }
-        return productImages;
-    }
+//    private List<Bitmap> getImagesByProductId(int productId) {
+//        List<Bitmap> productImages = new ArrayList<>();
+//        File productDir = new File(getFilesDir(), "product_" + productId);
+//
+//        if (productDir.exists()) {
+//            File[] files = productDir.listFiles();
+//            if (files != null) {
+//                for (File file : files) {
+//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+//                    productImages.add(bitmap);
+//                }
+//            }
+//        }
+//        return productImages;
+//    }
 
     //ham luu vao InternalStorage
     private void saveImageToInternalStorage(Bitmap bitmap, int productId) {

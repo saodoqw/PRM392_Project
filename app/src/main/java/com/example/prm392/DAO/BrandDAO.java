@@ -16,4 +16,6 @@ public interface BrandDAO {
     void addBrand(Brand brand);
     @Query("SELECT brand_name FROM brand")
     List<String> getAllBrand();
+    @Query("SELECT brand_name FROM brand WHERE id = :brandId")
+    String getBrandNameById(long brandId);
 }

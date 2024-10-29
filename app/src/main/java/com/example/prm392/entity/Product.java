@@ -33,7 +33,8 @@ public class Product extends BaseEntity{
         this.brandId = brandId;
         this.description = description;
     }
-
+    public Product() {
+    }
     public String getProductName() {
         return productName;
     }
