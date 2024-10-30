@@ -36,6 +36,15 @@ public class Order extends BaseEntity {
         this.accountId = accountId;
     }
 
+//    public Order(long id, Date orderDate, int totalAmount, String status, int invoice, int accountId) {
+//        super(id);
+//        this.orderDate = orderDate;
+//        this.totalAmount = totalAmount;
+//        this.status = status;
+//        this.invoice = invoice;
+//        this.accountId = accountId;
+//    }
+
     public Date getOrderDate() {
         return orderDate;
     }
