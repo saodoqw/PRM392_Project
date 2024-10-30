@@ -33,14 +33,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     appDatabase = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class,
                                     DATABASE_NAME)
-                            .fallbackToDestructiveMigration() // Tùy chọn nếu bạn muốn xóa dữ liệu khi có thay đổi schema
+                            .fallbackToDestructiveMigration() // delete all data when version is changed
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Thêm dữ liệu mặc định khi database được tạo lần đầu tiên
+                                    // Add default role for user
                                     Executors.newSingleThreadExecutor().execute(() -> {
-                                        // Chèn dữ liệu mặc định cho các role
+                                        // Set default role for user
                                         Role roleAdmin = new Role(0, RoleName.ADMIN);
                                         Role roleUser = new Role(0, RoleName.USER);
                                         appDatabase.roleDao().insert(roleAdmin);
@@ -52,8 +52,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                             Log.d("Database", "Inserted size: " + i); // In log để kiểm tra
                                             appDatabase.sizeDao().insert(size);
                                         }
-
-                                        //Chèn dữ liệu mặc định các brand
+                                        //Add default brand
                                         Brand brand1 = new Brand("Nike");
                                         appDatabase.brandDao().addBrand(brand1);
                                         Brand brand2 = new Brand("Adidas");
