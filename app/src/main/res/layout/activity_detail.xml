@@ -168,7 +168,7 @@
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 android:background="@color/purple"
-                android:text="Buy now" />
+                android:text="Add to cart" />
 
             <ImageButton
                 android:id="@+id/cartBtn"

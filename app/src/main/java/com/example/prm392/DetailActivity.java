@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +36,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class DetailActivity extends AppCompatActivity {
+    private int selectedColorId = 0;
+    private int selectedSizeId = 0;
     Product product;
     List<Size> sizes;
     List<Color> colors = new ArrayList<Color>();
@@ -75,6 +79,8 @@ public class DetailActivity extends AppCompatActivity {
             List<Bitmap> bitmapList = loadProductImages();  // Hàm này sẽ lấy danh sách ảnh
             //color list
             ColorListAdapter colorAdapter = new ColorListAdapter(getApplicationContext(),colors, selectedColor -> {
+                // Lưu lại màu đã chọn
+                this.selectedColorId = selectedColor;
                 // Khi màu được chọn, lọc danh sách size tương ứng từ kho
                 getAvailableSizesForColor(selectedColor,productId);
             });
@@ -87,7 +93,10 @@ public class DetailActivity extends AppCompatActivity {
                 recyclerViewColor.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewColor.setAdapter(colorAdapter);
                 //size list
-                sizeListAdapter = new SizeListAdapter(getApplicationContext(), sizes);
+                sizeListAdapter = new SizeListAdapter(getApplicationContext(), sizes, selectedSize -> {
+                    // Lưu lại size đã chọn
+                    this.selectedSizeId = selectedSize;
+                });
                 recyclerViewSize.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
                 recyclerViewSize.setAdapter(sizeListAdapter);
 
@@ -105,6 +114,17 @@ public class DetailActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> {
             finish();
         });
+        Button addToCartBtn = findViewById(R.id.addToCartBtn);
+
+        // Khi người dùng nhấn nút "Buy Now"
+        addToCartBtn.setOnClickListener(v -> {
+            if (selectedColorId != 0 && selectedSizeId != 0) {
+                Toast.makeText(this, "Color: " + selectedColorId + ", Size: " + selectedSizeId, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Please select both color and size!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -121,7 +141,10 @@ public class DetailActivity extends AppCompatActivity {
                 sizes.add(appDatabase.sizeDao().getSizeBySizeId(sizeId));
             }
             runOnUiThread(()->{
-                sizeListAdapter = new SizeListAdapter(getApplicationContext(), sizes);
+                sizeListAdapter = new SizeListAdapter(getApplicationContext(), sizes, selectedSize -> {
+                    // Lưu lại size đã chọn
+                    this.selectedSizeId = selectedSize;
+                });
                 recyclerViewSize.setAdapter(sizeListAdapter); // Gán adapter cho RecyclerView
             });
         });
