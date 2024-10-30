@@ -16,4 +16,6 @@ public interface SizeDAO {
 
     @Query("SELECT * FROM Size")
     List<Size> getAllSizes();
+    @Query("SELECT * FROM Size where id = :sizeId")
+    Size getSizeBySizeId(int sizeId);
 }

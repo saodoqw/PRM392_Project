@@ -7,20 +7,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+//import androidx.annotation.Size;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.R;
-import com.example.prm392.entity.Color;
+import com.example.prm392.entity.Size;
 
 import java.util.List;
 
 public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeListViewHolder> {
 
     private Context context;
-    private List<Integer> sizes;
+    private List<Size> sizes;
     private int selectedPosition = RecyclerView.NO_POSITION; // Initial no selection
 
-    public SizeListAdapter(Context context, List<Integer> sizes) {
+    public SizeListAdapter(Context context, List<Size> sizes) {
         this.context = context;
         this.sizes = sizes;
     }
@@ -29,12 +30,13 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeLi
     public SizeListAdapter.SizeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.viewholder_size, parent,false);
 
-        return new SizeListViewHolder(view);    }
+        return new SizeListViewHolder(view);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull SizeListAdapter.SizeListViewHolder holder, int position) {
-        int size = sizes.get(position);
-        holder.sizetxt.setText("" + size);
+        Size size = sizes.get(position);
+        holder.sizetxt.setText("" + (int)size.getSize());
 
         // Check if the current position matches the selected position
         if (holder.getAdapterPosition() == selectedPosition) {

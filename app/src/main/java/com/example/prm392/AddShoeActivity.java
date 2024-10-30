@@ -42,8 +42,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-
-
 public class AddShoeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -67,12 +65,15 @@ public class AddShoeActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
 
     String statusAdd;
-    void setStatus(String statusAdd){
+
+    void setStatus(String statusAdd) {
         this.statusAdd = statusAdd;
     }
-    String getStatus(){
+
+    String getStatus() {
         return statusAdd;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,16 +110,12 @@ public class AddShoeActivity extends AppCompatActivity {
             // Thao tác với database ở background thread
             sizes = appDatabase.sizeDao().getAllSizes();
             brands = appDatabase.brandDao().getAllBrand();
-            runOnUiThread(() ->{
+            runOnUiThread(() -> {
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 brandSpinner.setAdapter(spinnerAdapter);
             });
         });
-
-
-
-
 
 
         // Handle shoe update
@@ -133,8 +130,7 @@ public class AddShoeActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(AddShoeActivity.this, ShoeListAdminActivity.class);
-            startActivity(intent);
+            finish();
         });
 
     }
@@ -344,20 +340,20 @@ public class AddShoeActivity extends AppCompatActivity {
                     Color color = new Color(colorName, productId.get());
                     appDatabase.colorDao().addColor(color);
                 }
-                List<Long> colorIds =  appDatabase.colorDao().getColorIdByProductId(productId.get());
+                List<Long> colorIds = appDatabase.colorDao().getColorIdByProductId(productId.get());
 
 
                 //add quantity of each size of each color of product
                 int sizeId = 0;
                 int colorCount = 0;
                 for (StockItem item : stockList) {
-                    if(sizeId == 11){
+                    if (sizeId == 11) {
                         sizeId = 0;
                         colorCount++;
                     }
                     sizeId++;
                     String stock = item.stockEditText.getText().toString();
-                    ProductQuantity productQuantity = new ProductQuantity(productId.get(),sizeId,colorIds.get(colorCount),Integer.parseInt(stock));
+                    ProductQuantity productQuantity = new ProductQuantity(productId.get(), sizeId, colorIds.get(colorCount), Integer.parseInt(stock));
                     appDatabase.productQuantityDAO().addProductQuantity(productQuantity);
                 }
                 //add url of product images
@@ -365,7 +361,7 @@ public class AddShoeActivity extends AppCompatActivity {
             } else {
                 setStatus("Name of shoe existed!");
             }
-            runOnUiThread(()->{
+            runOnUiThread(() -> {
                 Toast.makeText(this, getStatus(), Toast.LENGTH_SHORT).show();
             });
         });
@@ -395,7 +391,7 @@ public class AddShoeActivity extends AppCompatActivity {
             }
 
             // Tạo đối tượng ImageShoe với đường dẫn ảnh đã lưu
-            ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(),productId);
+            ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(), productId);
             Executor executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
                 appDatabase.imageShoeDao().addImageShoe(imageShoe);
