@@ -77,7 +77,12 @@ public class UpdateShoeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_shoe);
-        productId = 1;
+
+        Intent intentGetId = getIntent();
+        if(intentGetId!=null){
+            productId = (int)intentGetId.getLongExtra("productId",-1);
+        }
+
 
         // Initialize UI elements
         shoeName = findViewById(R.id.edit_shoe_name);
@@ -171,8 +176,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(UpdateShoeActivity.this, ShoeListActivity.class);
-            startActivity(intent);
+            finish();
         });
     }
 
