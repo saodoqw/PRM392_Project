@@ -31,18 +31,24 @@ public abstract class AppDatabase extends RoomDatabase {
                     appDatabase = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class,
                                     DATABASE_NAME)
-                            .fallbackToDestructiveMigration() // Tùy chọn nếu bạn muốn xóa dữ liệu khi có thay đổi schema
+                            .fallbackToDestructiveMigration() // delete all data when version is changed
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Thêm dữ liệu mặc định khi database được tạo lần đầu tiên
+                                    // Add default role for user
                                     Executors.newSingleThreadExecutor().execute(() -> {
-                                        // Chèn dữ liệu mặc định cho các role
+                                        // Set default role for user
                                         Role roleAdmin = new Role(0, RoleName.ADMIN);
                                         Role roleUser = new Role(0, RoleName.USER);
                                         appDatabase.roleDao().insert(roleAdmin);
                                         appDatabase.roleDao().insert(roleUser);
+
+                                        //Add default brand
+                                        Brand brand = new Brand(0, null, null, null, "admin", "admin", null, "Adidas");
+                                        Brand brand1 = new Brand(0, null, null, null, "admin", "admin", null, "Nike");
+                                        appDatabase.brandDao().insert(brand);
+                                        appDatabase.brandDao().insert(brand1);
                                     });
                                 }
                             })

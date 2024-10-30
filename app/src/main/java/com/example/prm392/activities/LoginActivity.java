@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                 //Log success message
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show());
                 // Change layout to activity_homePage.xml
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class); //Modify to navigate to home page
+                Intent intent = new Intent(LoginActivity.this, HomePageActivity.class); //Modify to navigate to home page
                 startActivity(intent);
                 finish();
             } else {

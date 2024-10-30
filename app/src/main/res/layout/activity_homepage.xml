@@ -288,33 +288,6 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:id="@+id/wishList"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/wishlist"
-                        app:srcCompat="@drawable/wishlist" />
-
-                    <TextView
-                        android:id="@+id/wishListText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/wishlist"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        tools:ignore="SmallSp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.2"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
                         android:id="@+id/order"
                         android:layout_width="22dp"
                         android:layout_height="22dp"

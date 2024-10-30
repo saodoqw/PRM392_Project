@@ -38,5 +38,8 @@ public class CartActivity extends AppCompatActivity {
 //        cart.addItem(new CartItem(1, "Product 1", 2, 10.0));
 //        cart.addItem(new CartItem(2, "Product 2", 1, 20.0));
 //        cartAdapter.notifyDataSetChanged();
+
+        //get back button
+        findViewById(R.id.backBtn).setOnClickListener(view -> finish());
     }
 }
