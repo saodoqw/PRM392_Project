@@ -14,4 +14,8 @@ public interface ImageShoeDAO {
     void addImageShoe(ImageShoe imageShoe);
     @Query("SELECT imageSrc FROM ImageShoe WHERE productId = :i")
     List<String> getImagesById(int i);
+    @Query("SELECT imageSrc FROM ImageShoe WHERE productId = :i ORDER BY id ASC LIMIT 1")
+    String getFirstImageByProductId(int i);
+    @Query("DELETE FROM ImageShoe WHERE productId = :productId")
+    void deleteImagesByProductId(int productId);
 }

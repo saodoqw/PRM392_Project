@@ -333,6 +333,11 @@ public class AddShoeActivity extends AppCompatActivity {
                 for (Bitmap bitmap : selectedImages) {
                     saveImageToInternalStorage(bitmap, productId.get());
                 }
+                //set first image of product
+                String srcFirstImage = appDatabase.imageShoeDao().getFirstImageByProductId(productId.get());
+                product.setImageSrc(srcFirstImage);
+                appDatabase.productDao().updateProduct(product);
+
 
                 //add color of product
                 for (String colorName : colorNames) {
@@ -370,21 +375,6 @@ public class AddShoeActivity extends AppCompatActivity {
         finish();
     }
 
-//    private List<Bitmap> getImagesByProductId(int productId) {
-//        List<Bitmap> productImages = new ArrayList<>();
-//        File productDir = new File(getFilesDir(), "product_" + productId);
-//
-//        if (productDir.exists()) {
-//            File[] files = productDir.listFiles();
-//            if (files != null) {
-//                for (File file : files) {
-//                    Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-//                    productImages.add(bitmap);
-//                }
-//            }
-//        }
-//        return productImages;
-//    }
 
     //ham luu vao InternalStorage
     private void saveImageToInternalStorage(Bitmap bitmap, int productId) {

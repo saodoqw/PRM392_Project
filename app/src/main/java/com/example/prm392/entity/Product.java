@@ -24,6 +24,8 @@ public class Product extends BaseEntity{
     private long brandId;
 
     private String description;
+    private String imageSrc;  // Đường dẫn ảnh đầu tiên
+
 
     public Product(long id, String productName
             , double price, long brandId, String description) {
@@ -35,6 +37,15 @@ public class Product extends BaseEntity{
     }
     public Product() {
     }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
+    }
+
     public String getProductName() {
         return productName;
     }

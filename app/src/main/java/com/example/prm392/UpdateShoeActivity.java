@@ -77,7 +77,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_shoe);
-        productId = 8;
+        productId = 1;
 
         // Initialize UI elements
         shoeName = findViewById(R.id.edit_shoe_name);
@@ -368,7 +368,6 @@ public class UpdateShoeActivity extends AppCompatActivity {
             productToUpdate.setDescription(description);
             Brand brand = appDatabase.brandDao().getBrandByName(brandName);
             productToUpdate.setBrandId(brand.getId());
-            appDatabase.productDao().updateProduct(productToUpdate);
 
             // Xoa thu muc chua anh cu
             File productDir = new File(getFilesDir(), "product_" + productId);
@@ -380,11 +379,18 @@ public class UpdateShoeActivity extends AppCompatActivity {
             }
             // Xóa thư mục sau khi đã xóa hết tệp
             productDir.delete();
+            //xoa anh cu
+            appDatabase.imageShoeDao().deleteImagesByProductId(productId);;
 
             // Lưu các ảnh đã chọn vào Internal Storage trong cùng một tác vụ
             for (Bitmap bitmap : selectedImages) {
                 saveImageToInternalStorage(bitmap, productId);
             }
+            //set first image of product
+            String srcFirstImage = appDatabase.imageShoeDao().getFirstImageByProductId(productId);
+            productToUpdate.setImageSrc(srcFirstImage);
+            appDatabase.productDao().updateProduct(productToUpdate);
+
 
             //xoa các mau va quantity cua san pham do
             appDatabase.colorDao().deleteColorByProductId(productId);;
