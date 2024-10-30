@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.prm392.CartActivity;
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.MainActivity;
 import com.example.prm392.R;
 import com.example.prm392.entity.Account;
 
@@ -57,8 +55,8 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show());
                 SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                int accountid = (int) account.getId();
-                editor.putInt("ACCOUNT_ID",accountid);
+                int accountId = (int) account.getId();
+                editor.putInt("ACCOUNT_ID",accountId);
                 editor.apply();
                 // Change layout to activity_homePage.xml
 //                Intent intent = new Intent(LoginActivity.this, CartActivity.class); //Modify to navigate to home page

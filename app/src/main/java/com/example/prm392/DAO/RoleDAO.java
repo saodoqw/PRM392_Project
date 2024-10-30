@@ -14,4 +14,7 @@ import com.example.prm392.entity.Role;
 public interface RoleDAO {
     @Insert
     void insert(Role roleAdmin);
+
+    @Query("SELECT * FROM role WHERE id = :id")
+    Role getRoleById(long id);
 }

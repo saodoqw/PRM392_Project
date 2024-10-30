@@ -25,10 +25,10 @@
     <string name="checkout">CheckOut</string>
     <string name="customer">Customer</string>
     <string name="no_customer_yet">No Customer yet</string>
-    <string name="custorme_name">Custorme_Name</string>
+    <string name="custorme_name">Customer_Name</string>
     <string name="Username">Username:</string>
     <string name="Phone">Phone:</string>
-    <string name="Adress">Address:</string>
+    <string name="Address">Address:</string>
     <string name="create_at">Create At:</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="see_all">See all</string>
@@ -40,4 +40,7 @@
     <string name="profile">Profile</string>
     <string name="priceIcon">$-</string>
     <string name="brand_image">Brand Image</string>
+    <string name="action_back">Action back</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="Role">Role:</string>
 </resources>
