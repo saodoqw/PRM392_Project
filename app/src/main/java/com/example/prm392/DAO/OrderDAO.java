@@ -7,6 +7,10 @@ import androidx.room.Query;
 import com.example.prm392.entity.Order;
 
 import java.util.List;
+import androidx.room.Insert;
+
+import com.example.prm392.entity.Order;
+import com.example.prm392.entity.OrderDetail;
 
 @Dao
 public interface OrderDAO {
@@ -18,4 +22,7 @@ public interface OrderDAO {
 
     @Query("UPDATE orders SET status = :status WHERE id = :orderId")
     void updateOrderStatus(long orderId, String status);
+    @Insert
+    long insertOrder(Order order);
+
 }

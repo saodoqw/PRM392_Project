@@ -39,6 +39,10 @@ public abstract class BaseEntity {
         this.id = id;
     }
 
+    public BaseEntity() {
+
+    }
+
     public long getId() {
         return id;
     }

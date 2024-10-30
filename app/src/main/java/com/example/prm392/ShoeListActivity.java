@@ -1,6 +1,7 @@
 package com.example.prm392;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
@@ -59,11 +61,11 @@ public class ShoeListActivity extends AppCompatActivity {
 
         // Create a list of shoes
         shoeList = new ArrayList<>();
-        shoeList.add(new Shoe("Nike Air Max", 120.0, R.drawable.nike_air_max, "Nike"));
-        shoeList.add(new Shoe("Adidas Ultraboost", 150.0, R.drawable.adidas_ultraboost, "Adidas"));
-        shoeList.add(new Shoe("Puma RS-X", 120.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma RS-X", 110.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma A", 20.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(1,"Nike Air Max", 120.0, R.drawable.nike_air_max, "Nike"));
+        shoeList.add(new Shoe(2,"Adidas Ultraboost", 150.0, R.drawable.adidas_ultraboost, "Adidas"));
+        shoeList.add(new Shoe(3,"Puma RS-X", 120.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(4,"Puma RS-X", 110.0, R.drawable.puma_rsx, "Puma"));
+        shoeList.add(new Shoe(5,"Puma A", 20.0, R.drawable.puma_rsx, "Puma"));
 
         // Set up the adapter
         adapter = new ShoeListAdapter(this, shoeList);
@@ -135,6 +137,17 @@ public class ShoeListActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     // Method to apply all filters

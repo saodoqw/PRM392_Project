@@ -7,6 +7,13 @@
     android:orientation="vertical"
     android:background="@drawable/grey_bg">
 
+    <TextView
+        android:id="@+id/shoe_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This is a id for shoe"
+        android:visibility="gone" />
+
     <!-- Image of the shoe -->
     <ImageView
         android:id="@+id/shoe_image"

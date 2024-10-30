@@ -1,6 +1,8 @@
 package com.example.prm392.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,23 +12,27 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.entity.Product;
 import com.example.prm392.entity.Shoe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdapter.ShoeViewHolder> {
 
     private Context context;
-    private List<Shoe> shoeList;
-    private List<Shoe> filteredShoeList;
+    private List<Product> productList;
+    private List<Product> filteredProductList;
 
-    public ShoeListAdminAdapter(Context context, List<Shoe> shoeList) {
+    public ShoeListAdminAdapter(Context context, List<Product> productList) {
         this.context = context;
-        this.shoeList = shoeList;
-        this.filteredShoeList = new ArrayList<>(shoeList);
+        this.productList = productList;
+        this.filteredProductList = new ArrayList<>(productList);
     }
 
     @NonNull
@@ -38,21 +44,21 @@ public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdap
 
     @Override
     public void onBindViewHolder(@NonNull ShoeViewHolder holder, int position) {
-        Shoe shoe = filteredShoeList.get(position);
-        holder.shoeName.setText(shoe.getName());
-        holder.shoePrice.setText("$" + String.valueOf(shoe.getPrice()));
-        holder.shoeImage.setImageResource(shoe.getImageResource());
+        Product product = filteredProductList.get(position);
+        holder.shoeName.setText(product.getProductName());
+        holder.shoePrice.setText("$" + String.valueOf(product.getPrice()));
+        holder.shoeImage.setImageBitmap(BitmapFactory.decodeFile(product.getImageSrc()));
     }
 
     @Override
     public int getItemCount() {
-        return filteredShoeList.size();
+        return filteredProductList.size();
     }
 
     // Method to update the list
-    public void updateList(List<Shoe> newList) {
-        filteredShoeList.clear();
-        filteredShoeList.addAll(newList);
+    public void updateList(List<Product> newList) {
+        filteredProductList.clear();
+        filteredProductList.addAll(newList);
         notifyDataSetChanged();
     }
 
@@ -68,5 +74,6 @@ public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdap
             shoePrice = itemView.findViewById(R.id.shoe_price);
         }
     }
+
 }
 

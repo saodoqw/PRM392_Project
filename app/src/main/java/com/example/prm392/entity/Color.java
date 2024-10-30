@@ -1,23 +1,46 @@
 package com.example.prm392.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 
 import java.sql.Date;
 
-@Entity(tableName = "color")
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(
+        tableName = "color",
+        foreignKeys = @ForeignKey(
+                entity = Product.class,
+                parentColumns = "id",
+                childColumns = "productId",
+                onDelete = ForeignKey.CASCADE
+        )
+)
 public class Color extends BaseEntity{
     @ColumnInfo(name = "color", typeAffinity = ColumnInfo.TEXT)
     private String color;
+    @ColumnInfo(index = true) //just add index = true
+    private long productId;
 
-    public Color(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String color) {
-        super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
+//    public Color(long id, String color, long productId) {
+//        super(id);
+//        this.color = color;
+//        this.productId = productId;
+//    }
+
+    public Color(String color, long productId) {
+        super();
         this.color = color;
+        this.productId = productId;
     }
-    @Ignore // Room sẽ bỏ qua constructor này
-    public Color(long id,String color) {
-        super(id);
-        this.color = color;
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
     public String getColor() {
@@ -28,3 +51,6 @@ public class Color extends BaseEntity{
         this.color = color;
     }
 }
+
+
+

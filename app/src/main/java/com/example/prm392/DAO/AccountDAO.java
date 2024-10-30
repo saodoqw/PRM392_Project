@@ -8,6 +8,8 @@ import androidx.room.Transaction;
 import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Relations.UserWithOrdersPoliciesCartsComments;
 
+import java.util.List;
+
 @Dao
 public abstract interface AccountDAO {
     @Query("SELECT * FROM account WHERE full_name = :username AND password = :password")
@@ -22,4 +24,11 @@ public abstract interface AccountDAO {
 
     @Query("SELECT * FROM account WHERE full_name = :username")
     Account checkUsername(String username);
+
+    @Query("SELECT * FROM account WHERE id = :id")
+    Account getAccountById(int id);
+
+    @Query("SELECT * FROM account WHERE userRoleId = 2")
+    List<Account> getAccountsUser();
+
 }

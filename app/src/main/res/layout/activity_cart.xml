@@ -61,7 +61,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button2"
+            android:id="@+id/btnCheckout"
             style="@android:style/Widget.Button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -78,12 +78,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="16dp"
+            android:layout_marginTop="60dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/taxTxt"
+                android:id="@+id/promotionTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$-"
@@ -94,11 +95,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView9" />
 
-            <TextView
-                android:id="@+id/deliveryTxt"
+            <EditText
+                android:id="@+id/couponTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$-"
+                android:hint="Counpon code"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -133,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Fee Delivery"
+                android:text="Coupon"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -143,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Total Tax"
+                android:text="Discount"
                 android:textColor="@color/white"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -156,7 +157,7 @@
                 android:background="#F0E3E3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/taxTxt" />
+                app:layout_constraintTop_toBottomOf="@+id/promotionTxt" />
 
             <TextView
                 android:id="@+id/textView13"
@@ -179,6 +180,15 @@
                 app:layout_constraintBottom_toBottomOf="@+id/textView13"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/textView13" />
+
+            <Button
+                android:id="@+id/applyCouponBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Apply"
+                app:layout_constraintBottom_toTopOf="@+id/view"
+                app:layout_constraintEnd_toStartOf="@+id/couponTxt"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,8 +5,8 @@
     android:orientation="horizontal"
     android:layout_marginBottom="8dp">
 
-    <EditText
-        android:id="@+id/edit_size"
+    <TextView
+        android:id="@+id/txt_size"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Size"
