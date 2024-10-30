@@ -11,25 +11,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.UpdateShoeActivity;
 import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdapter.ShoeViewHolder> {
 
     private Context context;
-    private List<Product> productList;
+//    private List<Product> productList;
     private List<Product> filteredProductList;
 
     public ShoeListAdminAdapter(Context context, List<Product> productList) {
         this.context = context;
-        this.productList = productList;
+//        this.productList = productList;
         this.filteredProductList = new ArrayList<>(productList);
     }
 
@@ -53,8 +57,30 @@ public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdap
             context.startActivity(intent);
         });
         holder.delete.setOnClickListener(v->{
-            //delete
-        });
+            // Tạo một AlertDialog
+            new AlertDialog.Builder(context)
+                    .setTitle("ARE YOU SURE?")
+                    .setMessage("Do you really want to delete this item?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Xóa item ở đây
+                        int positionDelte = holder.getAdapterPosition(); // Lấy vị trí của item
+                        if (positionDelte != RecyclerView.NO_POSITION) {
+                            // Gọi phương thức để xóa item từ danh sách dữ liệu
+                            filteredProductList.remove(positionDelte); // Giả sử sizes là danh sách dữ liệu
+                            notifyItemRemoved(positionDelte); // Thông báo xóa item
+
+                            AppDatabase appDatabase = AppDatabase.getAppDatabase(context);
+                            Executor executor = Executors.newSingleThreadExecutor();
+                            executor.execute(() -> {
+                                appDatabase.productDao().deleteProduct(product);
+                            });
+                        }
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        dialog.dismiss(); // Đóng hộp thoại nếu chọn "No"
+                    })
+                    .show(); // Hiển thị hộp thoại
+             });
     }
 
 
