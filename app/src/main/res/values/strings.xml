@@ -25,11 +25,17 @@
     <string name="checkout">CheckOut</string>
     <string name="customer">Customer</string>
     <string name="no_customer_yet">No Customer yet</string>
-    <string name="custorme_name">Custorme_Name</string>
+    <string name="custorme_name">Customer_Name</string>
     <string name="Username">Username:</string>
     <string name="Phone">Phone:</string>
-    <string name="Adress">Address:</string>
+    <string name="Address">Address:</string>
     <string name="create_at">Create At:</string>
+    <string name="change_shipping_address">Change shipping address</string>
+    <string name="update_status">Update Status</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="order_date">Order Date:</string>
+    <string name="shipping_address">Shipping address</string>
+    <string name="click_detail_to_see_more">Click \'Detail\' to see more</string>
     <string name="welcome_back">Welcome Back</string>
     <string name="see_all">See all</string>
     <string name="notification">notification</string>
@@ -40,4 +46,7 @@
     <string name="profile">Profile</string>
     <string name="priceIcon">$-</string>
     <string name="brand_image">Brand Image</string>
+    <string name="action_back">Action back</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="Role">Role:</string>
 </resources>

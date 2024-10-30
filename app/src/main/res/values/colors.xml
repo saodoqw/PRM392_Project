@@ -8,8 +8,8 @@
     <color name="lightGreen">#C3FF83</color>
     <color name="lightRed">#F85757</color>
     <color name="lightYellow">#FFED8B</color>
-
-
+    <color name="red">#CC0000</color>
+    <color name="mainColor">#4A2890</color>
 
 
 </resources>

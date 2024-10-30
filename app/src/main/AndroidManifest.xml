@@ -22,6 +22,18 @@
         android:theme="@style/Theme.PRM392"
         tools:targetApi="31">
         <activity
+            android:name=".activities.UpdateOrderStatusActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditShippingDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.OrderDetailActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.OrderListActivity"
+            android:exported="true" />
+        <activity
             android:name=".UpdateShoeActivity"
             android:exported="true" />
         <activity
@@ -53,6 +65,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -64,6 +77,8 @@
             android:exported="true" />
         <activity
             android:name=".activities.HomePageActivity"
+            android:exported="true" />
+        <activity android:name=".activities.ProfileActivity"
             android:exported="true" />
     </application>
 

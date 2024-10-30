@@ -89,8 +89,8 @@ public class HomePageActivity extends AppCompatActivity {
         });
         profile.setOnClickListener(view -> {
             //Navigate to profile page
-//            Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
+            startActivity(intent);
         });
         cart.setOnClickListener(view -> {
             //Navigate to cart page

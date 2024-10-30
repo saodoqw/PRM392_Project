@@ -6,6 +6,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import com.example.prm392.entity.Account;
+import com.example.prm392.entity.Relations.RoleWithUsers;
 import com.example.prm392.entity.Relations.UserWithOrdersPoliciesCartsComments;
 
 import java.util.List;
@@ -30,5 +31,4 @@ public abstract interface AccountDAO {
 
     @Query("SELECT * FROM account WHERE userRoleId = 2")
     List<Account> getAccountsUser();
-
 }
