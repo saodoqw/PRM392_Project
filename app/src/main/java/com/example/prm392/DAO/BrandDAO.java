@@ -18,4 +18,6 @@ public interface BrandDAO {
     List<String> getAllBrand();
     @Query("SELECT brand_name FROM brand WHERE id = :brandId")
     String getBrandNameById(long brandId);
+    @Query("SELECT * FROM Brand")
+    List<Brand> getAll();
 }

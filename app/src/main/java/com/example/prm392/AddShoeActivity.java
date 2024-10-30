@@ -42,8 +42,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-
-
 public class AddShoeActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -67,12 +65,15 @@ public class AddShoeActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
 
     String statusAdd;
-    void setStatus(String statusAdd){
+
+    void setStatus(String statusAdd) {
         this.statusAdd = statusAdd;
     }
-    String getStatus(){
+
+    String getStatus() {
         return statusAdd;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,16 +110,12 @@ public class AddShoeActivity extends AppCompatActivity {
             // Thao tác với database ở background thread
             sizes = appDatabase.sizeDao().getAllSizes();
             brands = appDatabase.brandDao().getAllBrand();
-            runOnUiThread(() ->{
+            runOnUiThread(() -> {
                 ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
                 spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 brandSpinner.setAdapter(spinnerAdapter);
             });
         });
-
-
-
-
 
 
         // Handle shoe update
@@ -133,8 +130,7 @@ public class AddShoeActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(AddShoeActivity.this, ShoeListAdminActivity.class);
-            startActivity(intent);
+            finish();
         });
 
     }
@@ -159,7 +155,6 @@ public class AddShoeActivity extends AppCompatActivity {
 
             if (!newColorName.isEmpty()) {
                 // Thêm màu mới vào danh sách
-//                colors.add(new Color(colors.size() + 1, newColorName));
                 colorNames.add(newColorName);
                 addSizeFields(newColorName);
                 Toast.makeText(this, "Màu mới đã được thêm!", Toast.LENGTH_SHORT).show();
@@ -258,19 +253,55 @@ public class AddShoeActivity extends AppCompatActivity {
     }
 
 
-    // Thêm các size cho từng màu cụ thể
+    // Thêm các size cho màu cụ thể
     private void addSizeFields(String colorName) {
+        // Tạo một LinearLayout để chứa TextView và Button
+        LinearLayout colorLayout = new LinearLayout(this);
+        colorLayout.setOrientation(LinearLayout.VERTICAL); // Đặt chiều dọc cho layout
+        colorLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        LinearLayout headLayout = new LinearLayout(this);
+        headLayout.setOrientation(LinearLayout.HORIZONTAL); // Đặt chiều dọc cho layout
+        headLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
         // Tạo một tiêu đề cho màu mới để hiển thị
         TextView colorTitle = new TextView(this);
         colorTitle.setText("Color: " + colorName);
         colorTitle.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                0, // Chiều rộng là 0 để sử dụng layout_weight
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                4 // Tỉ lệ chiều rộng cho phép TextView chiếm không gian còn lại
         ));
         colorTitle.setTextSize(18);
         colorTitle.setPadding(0, 16, 0, 8);
-        stockContainer.addView(colorTitle);
 
+
+        // Tạo Button xóa
+        Button deleteButton = new Button(this);
+        deleteButton.setText("Remove"); // Hoặc bạn có thể sử dụng biểu tượng
+        deleteButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, // Chiều rộng sẽ tự động điều chỉnh
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1 // Tỉ lệ chiều rộng cho phép Button chiếm không gian
+        ));
+
+        // Thêm sự kiện cho nút xóa
+        deleteButton.setOnClickListener(v -> {
+            // Xóa màu và tất cả các size liên quan
+            stockContainer.removeView(colorLayout); // Xóa toàn bộ colorLayout
+            colorNames.remove(colorName);
+        });
+
+        // Thêm TextView và Button vào LinearLayout
+        headLayout.addView(colorTitle);
+        headLayout.addView(deleteButton);
+        colorLayout.addView(headLayout);
+        // Thêm các size cho màu này
         for (Size size : sizes) {
             View sizeColorView = getLayoutInflater().inflate(R.layout.size_color_stock_item, null);
 
@@ -279,15 +310,19 @@ public class AddShoeActivity extends AppCompatActivity {
             EditText stockEditText = sizeColorView.findViewById(R.id.edit_stock);
 
             sizeTextView.setText((int) size.getSize() + "");
-            stockEditText.setText("0"); // Default quantity
+            stockEditText.setText("0"); // Giá trị mặc định
 
-            // Thêm view vào container chính
-            stockContainer.addView(sizeColorView);
+            // Thêm view vào colorLayout (thay vì stockContainer)
+            colorLayout.addView(sizeColorView);
 
             // Lưu thông tin size và stock vào danh sách tạm thời
             stockList.add(new StockItem(sizeTextView, stockEditText));
         }
+
+        // Thêm LinearLayout vào stockContainer
+        stockContainer.addView(colorLayout);
     }
+
 
     // Handle updating the shoe details
     private void updateShoe() {
@@ -326,7 +361,7 @@ public class AddShoeActivity extends AppCompatActivity {
                 int x = appDatabase.productDao().lastProductId() + 1;
                 productId.set(x);
                 //add product
-                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description);
+                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description,selectedImages.get(0).toString());
                 appDatabase.productDao().addProduct(product);
 
                 // Lưu các ảnh đã chọn vào Internal Storage trong cùng một tác vụ
@@ -344,20 +379,20 @@ public class AddShoeActivity extends AppCompatActivity {
                     Color color = new Color(colorName, productId.get());
                     appDatabase.colorDao().addColor(color);
                 }
-                List<Long> colorIds =  appDatabase.colorDao().getColorIdByProductId(productId.get());
+                List<Long> colorIds = appDatabase.colorDao().getColorIdByProductId(productId.get());
 
 
                 //add quantity of each size of each color of product
                 int sizeId = 0;
                 int colorCount = 0;
                 for (StockItem item : stockList) {
-                    if(sizeId == 11){
+                    if (sizeId == 11) {
                         sizeId = 0;
                         colorCount++;
                     }
                     sizeId++;
                     String stock = item.stockEditText.getText().toString();
-                    ProductQuantity productQuantity = new ProductQuantity(productId.get(),sizeId,colorIds.get(colorCount),Integer.parseInt(stock));
+                    ProductQuantity productQuantity = new ProductQuantity(productId.get(), sizeId, colorIds.get(colorCount), Integer.parseInt(stock));
                     appDatabase.productQuantityDAO().addProductQuantity(productQuantity);
                 }
                 //add url of product images
@@ -365,7 +400,7 @@ public class AddShoeActivity extends AppCompatActivity {
             } else {
                 setStatus("Name of shoe existed!");
             }
-            runOnUiThread(()->{
+            runOnUiThread(() -> {
                 Toast.makeText(this, getStatus(), Toast.LENGTH_SHORT).show();
             });
         });
@@ -395,7 +430,7 @@ public class AddShoeActivity extends AppCompatActivity {
             }
 
             // Tạo đối tượng ImageShoe với đường dẫn ảnh đã lưu
-            ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(),productId);
+            ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(), productId);
             Executor executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
                 appDatabase.imageShoeDao().addImageShoe(imageShoe);

@@ -33,14 +33,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     appDatabase = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class,
                                     DATABASE_NAME)
-                            .fallbackToDestructiveMigration() // Tùy chọn nếu bạn muốn xóa dữ liệu khi có thay đổi schema
+                            .fallbackToDestructiveMigration() // delete all data when version is changed
                             .addCallback(new RoomDatabase.Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Thêm dữ liệu mặc định khi database được tạo lần đầu tiên
+                                    // Add default role for user
                                     Executors.newSingleThreadExecutor().execute(() -> {
-                                        // Chèn dữ liệu mặc định cho các role
+                                        // Set default role for user
                                         Role roleAdmin = new Role(0, RoleName.ADMIN);
                                         Role roleUser = new Role(0, RoleName.USER);
                                         appDatabase.roleDao().insert(roleAdmin);
@@ -52,12 +52,25 @@ public abstract class AppDatabase extends RoomDatabase {
                                             Log.d("Database", "Inserted size: " + i); // In log để kiểm tra
                                             appDatabase.sizeDao().insert(size);
                                         }
-
-                                        //Chèn dữ liệu mặc định các brand
+                                        //Add default brand
                                         Brand brand1 = new Brand("Nike");
                                         appDatabase.brandDao().addBrand(brand1);
                                         Brand brand2 = new Brand("Adidas");
                                         appDatabase.brandDao().addBrand(brand2);
+                                        Brand brand3 = new Brand("Puma");
+                                        appDatabase.brandDao().addBrand(brand3);
+                                        Brand brand4 = new Brand("Vans");
+                                        appDatabase.brandDao().addBrand(brand4);
+                                        Brand brand5 = new Brand("Converse");
+                                        appDatabase.brandDao().addBrand(brand5);
+                                        Brand brand6 = new Brand("Reebok");
+                                        appDatabase.brandDao().addBrand(brand6);
+                                        Brand brand7 = new Brand("New Balance");
+                                        appDatabase.brandDao().addBrand(brand7);
+                                        Brand brand8 = new Brand("Gucci");
+                                        appDatabase.brandDao().addBrand(brand8);
+                                        Brand brand9 = new Brand("LV");
+                                        appDatabase.brandDao().addBrand(brand9);
                                     });
                                 }
                             })

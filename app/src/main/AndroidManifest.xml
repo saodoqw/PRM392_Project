@@ -75,6 +75,9 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:exported="true" />
+        <activity
+            android:name=".activities.HomePageActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

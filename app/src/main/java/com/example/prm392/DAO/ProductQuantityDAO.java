@@ -15,5 +15,6 @@ public interface ProductQuantityDAO {
 
     @Query("SELECT * from product_quantity where productId = :productId")
     List<ProductQuantity> getProductQuantityById(int productId);
-
+    @Query("SELECT sizeId from product_quantity where productId = :productId and colorId = :selectedColor and quantity != 0")
+    List<Integer> getProductQuantityByProductIdAndColorId(int productId, int selectedColor);
 }

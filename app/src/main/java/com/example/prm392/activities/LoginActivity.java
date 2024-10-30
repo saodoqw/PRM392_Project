@@ -64,8 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.apply();
                 // Change layout to activity_homePage.xml
 //                Intent intent = new Intent(LoginActivity.this, CartActivity.class); //Modify to navigate to home page
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class); //Modify to navigate to home page
-                Intent intent = new Intent(LoginActivity.this, OrderListActivity.class); //Modify to navigate to home page
+                Intent intent = new Intent(LoginActivity.this, HomePageActivity.class); //Modify to navigate to home page
                 startActivity(intent);
                 finish();
             } else {
