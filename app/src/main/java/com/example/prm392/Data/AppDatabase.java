@@ -1,6 +1,7 @@
 package com.example.prm392.Data;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -17,7 +18,8 @@ import java.util.concurrent.Executors;
 
 @Database(entities = {About.class, Account.class, Brand.class, Cart.class,
         Color.class, Comment.class, Coupon.class, CouponType.class,
-        Order.class, OrderDetail.class, Policy.class, Product.class, Role.class, Size.class}
+        Order.class, OrderDetail.class, Policy.class, Product.class, Role.class, Size.class
+        , ImageShoe.class, ProductQuantity.class}
         , version = 1, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
@@ -44,11 +46,17 @@ public abstract class AppDatabase extends RoomDatabase {
                                         appDatabase.roleDao().insert(roleAdmin);
                                         appDatabase.roleDao().insert(roleUser);
 
-                                        //Add default brand
+                                        //Chèn dữ liệu mặc định cho các size
+                                        for (int i = 35; i <= 45; i++) {
+                                            Size size = new Size(0, i);
+                                            Log.d("Database", "Inserted size: " + i); // In log để kiểm tra
+                                            appDatabase.sizeDao().insert(size);
+                                        }
+                                                                                //Add default brand
                                         Brand brand = new Brand(0, null, null, null, "admin", "admin", null, "Adidas");
                                         Brand brand1 = new Brand(0, null, null, null, "admin", "admin", null, "Nike");
-                                        appDatabase.brandDao().insert(brand);
-                                        appDatabase.brandDao().insert(brand1);
+                                        appDatabase.brandDao().addBrand(brand);
+                                        appDatabase.brandDao().addBrand(brand1);
                                     });
                                 }
                             })
@@ -87,4 +95,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RoleDAO roleDao();
 
     public abstract SizeDAO sizeDao();
+
+    public abstract ImageShoeDAO imageShoeDao();
+
+    public abstract ProductQuantityDAO productQuantityDAO();
 }

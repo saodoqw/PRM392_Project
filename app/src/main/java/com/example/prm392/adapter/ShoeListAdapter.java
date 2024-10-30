@@ -1,10 +1,11 @@
 package com.example.prm392.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,20 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.R;
-import com.example.prm392.entity.Shoe;
+import com.example.prm392.entity.Product;
+import com.example.prm392.DetailActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class ShoeListAdapter extends RecyclerView.Adapter<ShoeListAdapter.ShoeViewHolder> {
 
     private Context context;
-    private List<Shoe> shoeList;
-    private List<Shoe> filteredShoeList;
+    private List<Product> shoeList;
+    private List<Product> filteredShoeList;
 
-    public ShoeListAdapter(Context context, List<Shoe> shoeList) {
+    public ShoeListAdapter(Context context, List<Product> shoeList) {
         this.context = context;
         this.shoeList = shoeList;
         this.filteredShoeList = new ArrayList<>(shoeList);
@@ -40,10 +41,17 @@ public class ShoeListAdapter extends RecyclerView.Adapter<ShoeListAdapter.ShoeVi
 
     @Override
     public void onBindViewHolder(@NonNull ShoeViewHolder holder, int position) {
-        Shoe shoe = filteredShoeList.get(position);
-        holder.shoeName.setText(shoe.getName());
+        Product shoe = filteredShoeList.get(position);
+        holder.shoeName.setText(shoe.getProductName());
         holder.shoePrice.setText("$" + String.valueOf(shoe.getPrice()));
-        holder.shoeImage.setImageResource(shoe.getImageResource());
+        holder.shoeImage.setImageBitmap(BitmapFactory.decodeFile(shoe.getImageSrc()));
+        // Gán sự kiện click vào itemView
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(context, DetailActivity.class);
+            // Truyền thông tin sản phẩm qua Intent
+            intent.putExtra("productId", shoe.getId());
+            context.startActivity(intent);
+        });
     }
 
     @Override
@@ -52,7 +60,7 @@ public class ShoeListAdapter extends RecyclerView.Adapter<ShoeListAdapter.ShoeVi
     }
 
     // Method to update the list
-    public void updateList(List<Shoe> newList) {
+    public void updateList(List<Product> newList) {
         filteredShoeList.clear();
         filteredShoeList.addAll(newList);
         notifyDataSetChanged();

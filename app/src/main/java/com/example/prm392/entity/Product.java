@@ -2,24 +2,48 @@ package com.example.prm392.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 
-@Entity(tableName = "product")
+
+@Entity(
+        tableName = "product",
+        foreignKeys = @ForeignKey(
+                entity = Brand.class,                // Bảng cha (Brand)
+                parentColumns = "id",           // Cột khóa chính trong bảng Brand
+                childColumns = "brandId",            // Cột khóa ngoại trong bảng Product
+                onDelete = ForeignKey.CASCADE        // Xóa sản phẩm nếu brand bị xóa
+        )
+)
 public class Product extends BaseEntity{
-    @ColumnInfo(name = "product_name", typeAffinity = ColumnInfo.TEXT)
+    @ColumnInfo(name = "productName")
     private String productName;
-    @ColumnInfo(name = "image", typeAffinity = ColumnInfo.TEXT)
-    private String image;
-    @ColumnInfo(name = "price", typeAffinity = ColumnInfo.TEXT)
+
+    @ColumnInfo(name = "price")
     private double price;
-    @ColumnInfo(name = "brand_id", typeAffinity = ColumnInfo.TEXT)
+    @ColumnInfo(index = true) //just add index = true
     private long brandId;
 
-    public Product(long id, String productName, String image, double price, long brandId) {
+    private String description;
+    private String imageSrc;  // Đường dẫn ảnh đầu tiên
+
+
+    public Product(long id, String productName
+            , double price, long brandId, String description) {
         super(id);
         this.productName = productName;
-        this.image = image;
         this.price = price;
         this.brandId = brandId;
+        this.description = description;
+    }
+    public Product() {
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(String imageSrc) {
+        this.imageSrc = imageSrc;
     }
 
     public String getProductName() {
@@ -28,14 +52,6 @@ public class Product extends BaseEntity{
 
     public void setProductName(String productName) {
         this.productName = productName;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public double getPrice() {
@@ -52,5 +68,13 @@ public class Product extends BaseEntity{
 
     public void setBrandId(long brandId) {
         this.brandId = brandId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

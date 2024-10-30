@@ -1,23 +1,26 @@
 package com.example.prm392;
 
+import android.media.Image;
 import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.prm392.adapter.ActivityAdapter;
-import com.example.prm392.entity.Activity;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.entity.Account;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CustomerDetailActivity extends AppCompatActivity {
-    private RecyclerView activityRecyclerView;
-    private ActivityAdapter activityAdapter;
-    private List<Activity> activityList;
-
+    private int CustomerID;
+    private AppDatabase appDatabase;
+    private ExecutorService executorService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,24 +31,34 @@ public class CustomerDetailActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
+        executorService = Executors.newSingleThreadExecutor();
+        CustomerID = getIntent().getIntExtra("CustomerID", -1); // Ensure CustomerID is retrieved
+        if(CustomerID != -1){
+            loadCustomerDetail();
+        }
+        ImageView backBtn = findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> {
+            finish();
+        });
+    }
 
-        activityRecyclerView = findViewById(R.id.activity_customer_detail);
-        activityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    private void loadCustomerDetail() {
+        executorService.execute(() -> {
+            Account customer = appDatabase.accountDao().getAccountById((int)CustomerID);
+            runOnUiThread(() -> {
+                TextView txtName = findViewById(R.id.username);
+                TextView txtPhone = findViewById(R.id.phone);
+                TextView txtAdress = findViewById(R.id.address);
+                TextView txtCreateAte = findViewById(R.id.CreateAt);
+                txtName.setText(customer.getUsername());
+                txtPhone.setText(customer.getPhone());
+                txtAdress.setText(customer.getAddress());
+                txtCreateAte.setText(customer.getCreatedAt().toString());
+                ImageView img = findViewById(R.id.customerImg);
+//                img.setImageResource(customer.getImage());
+            });
+        });
 
-        activityList = new ArrayList<>();
-        // Add some sample activities
-        activityList.add(new Activity("Activity 1", "Description for Activity 1"));
-        activityList.add(new Activity("Activity 2", "Description for Activity 2"));
-        activityList.add(new Activity("Activity 3", "Description for Activity 3"));
-        activityList.add(new Activity("Activity 4", "Description for Activity 4"));
-        activityList.add(new Activity("Activity 5", "Description for Activity 5"));
-        activityList.add(new Activity("Activity 6", "Description for Activity 6"));
-        activityList.add(new Activity("Activity 7", "Description for Activity 7"));
-        activityList.add(new Activity("Activity 8", "Description for Activity 8"));
-        activityList.add(new Activity("Activity 9", "Description for Activity 9"));
-        activityList.add(new Activity("Activity 10", "Description for Activity 10"));
-
-        activityAdapter = new ActivityAdapter(activityList);
-        activityRecyclerView.setAdapter(activityAdapter);
     }
 }

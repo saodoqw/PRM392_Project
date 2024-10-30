@@ -1,16 +1,16 @@
 package com.example.prm392;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -18,14 +18,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm392.R;
+import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.adapter.ShoeListAdapter;
-import com.example.prm392.entity.Shoe;
+import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class ShoeListActivity extends AppCompatActivity {
 
@@ -35,16 +37,38 @@ public class ShoeListActivity extends AppCompatActivity {
     private String selectedPriceOption = "Price";  // Default to "Price"
     private String searchQuery = "";  // Default to an empty string (no search)
 
-    private List<Shoe> shoeList;
-
+    private List<Product> productList;
+    private AppDatabase appDatabase;
+    List<String> brands = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoe_list);
 
+
+        Spinner brandSpinner = findViewById(R.id.brand_spinner);
         // Set up RecyclerView
         RecyclerView recyclerView = findViewById(R.id.shoe_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            //Get a list of shoes
+            productList = appDatabase.productDao().getAllProducts();
+            brands.addAll(appDatabase.brandDao().getAllBrand());
+            runOnUiThread(() -> {
+                // Set up the adapter
+                adapter = new ShoeListAdapter(this, productList);
+                recyclerView.setAdapter(adapter);
+
+                //Set up brands spinner
+                ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                brandSpinner.setAdapter(spinnerAdapter);
+            });
+        });
 
         //turn off keyboard when dont use
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -56,44 +80,6 @@ public class ShoeListActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Create a list of shoes
-        shoeList = new ArrayList<>();
-        shoeList.add(new Shoe("Nike Air Max", 120.0, R.drawable.nike_air_max, "Nike"));
-        shoeList.add(new Shoe("Adidas Ultraboost", 150.0, R.drawable.adidas_ultraboost, "Adidas"));
-        shoeList.add(new Shoe("Puma RS-X", 120.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma RS-X", 110.0, R.drawable.puma_rsx, "Puma"));
-        shoeList.add(new Shoe("Puma A", 20.0, R.drawable.puma_rsx, "Puma"));
-
-        // Set up the adapter
-        adapter = new ShoeListAdapter(this, shoeList);
-        recyclerView.setAdapter(adapter);
-
-        // Set up the Spinner for brand filter
-        Spinner brandSpinner = findViewById(R.id.brand_spinner);
-        List<String> brands = new ArrayList<>();
-        brands.add("All");  // Option to show all shoes
-        brands.add("Nike");
-        brands.add("Adidas");
-        brands.add("Puma");
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, brands);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        brandSpinner.setAdapter(spinnerAdapter);
-
-        // Brand filter selection
-        brandSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedBrand = brands.get(position);  // Update selected brand
-                applyFilters();  // Apply all filters
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-
         // Set up price sort filter
         Spinner priceSortSpinner = findViewById(R.id.price_sort_spinner);
         List<String> priceOptions = new ArrayList<>();
@@ -135,42 +121,67 @@ public class ShoeListActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
+        //setup default brand
+        brands.add("All");
+        // Handle data
+
+
+        // Brand filter selection
+        brandSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedBrand = brands.get(position);  // Update selected brand
+                applyFilters();  // Apply all filters
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+        //Handle back button
+        // Tìm ImageView với id backBtn
+        ImageView backBtn = findViewById(R.id.backBtn);
+        // Gán sự kiện OnClickListener
+        backBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListActivity.this, MainActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     // Method to apply all filters
     private void applyFilters() {
-        List<Shoe> filteredList = new ArrayList<>();
-
+        List<Product> filteredList = new ArrayList<>();
         // Filter by brand
-        for (Shoe shoe : shoeList) {
-            if (selectedBrand.equals("All") || shoe.getBrand().equalsIgnoreCase(selectedBrand)) {
-                if (shoe.getName().toLowerCase().contains(searchQuery.toLowerCase())) {
-                    filteredList.add(shoe);
+        for (Product product : productList) {
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                String brandOfProduct = appDatabase.brandDao().getBrandNameById(product.getBrandId());
+                if (selectedBrand.equals("All") || brandOfProduct.equalsIgnoreCase(selectedBrand)) {
+                    if (product.getProductName().toLowerCase().contains(searchQuery.toLowerCase())) {
+                        filteredList.add(product);
+                    }
                 }
-            }
-        }
-
-        // Sort by price
-        if (selectedPriceOption.equals("Ascending")) {
-            Collections.sort(filteredList, new Comparator<Shoe>() {
-                @Override
-                public int compare(Shoe s1, Shoe s2) {
-                    return Double.compare(s1.getPrice(), s2.getPrice());
-                }
-            });
-        } else if (selectedPriceOption.equals("Descending")) {
-            Collections.sort(filteredList, new Comparator<Shoe>() {
-                @Override
-                public int compare(Shoe s1, Shoe s2) {
-                    return Double.compare(s2.getPrice(), s1.getPrice());
-                }
+                runOnUiThread(() -> {
+                    // Sắp xếp danh sách theo giá
+                    sortByPrice(filteredList);
+                    adapter.updateList(filteredList);
+                });
             });
         }
-
-        // Update the adapter with the filtered and sorted list
-        adapter.updateList(filteredList);
     }
 
+    // Hàm sắp xếp danh sách theo giá
+    private void sortByPrice(List<Product> productList) {
+        if (selectedPriceOption.equals("Ascending")) {
+            Collections.sort(productList, Comparator.comparingDouble(Product::getPrice));
+        } else if (selectedPriceOption.equals("Descending")) {
+            Collections.sort(productList, (s1, s2) -> Double.compare(s2.getPrice(), s1.getPrice()));
+        }
+    }
 
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
