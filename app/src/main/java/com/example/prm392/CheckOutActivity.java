@@ -18,8 +18,10 @@ import com.example.prm392.entity.Coupon;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 import com.example.prm392.entity.Order;
 import com.example.prm392.entity.OrderDetail;
+import com.example.prm392.entity.ProductQuantity;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -50,6 +52,7 @@ public class CheckOutActivity extends AppCompatActivity {
         etExpirationDate = findViewById(R.id.etExpirationDate);
         etAddress = findViewById(R.id.etAddress);
         btnConfirmPayment = findViewById(R.id.btnConfirmPayment);
+        List<ProductInCartWithQuantity> cartItems = new ArrayList<>();
         couponId = getIntent().getLongExtra("COUPON_ID", 1);
 
         // Retrieve the total coupon value and total amount from the Intent
@@ -84,11 +87,32 @@ public class CheckOutActivity extends AppCompatActivity {
         btnConfirmPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                handleQuantity(cartItems);
                 processPayment();
             }
         });
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         executorService = Executors.newSingleThreadExecutor(); // Initialize executorService
+        executorService.execute(() -> {
+            cartItems.addAll(appDatabase.cartDao().getProductsInCartGroupedByAccountId(AccountId));
+        });
+    }
+
+    private void handleQuantity(List<ProductInCartWithQuantity> cartItems) {
+        for (ProductInCartWithQuantity cartItem : cartItems) {
+            executorService.execute(() -> {
+                int quantity = getQuantity(cartItem);
+                updateQuantity(cartItem, quantity);
+            });
+        }
+    }
+
+    private int getQuantity(ProductInCartWithQuantity cartItem) {
+        return appDatabase.productQuantityDAO().getQuantity(cartItem.product.getId(), cartItem.size, cartItem.color);
+    }
+
+    private void updateQuantity(ProductInCartWithQuantity cartItem, int quantity) {
+        appDatabase.productQuantityDAO().updateQuantity(cartItem.product.getId(), cartItem.size, cartItem.color, quantity - cartItem.totalQuantity);
     }
 
     private void processPayment() {
@@ -122,7 +146,7 @@ public class CheckOutActivity extends AppCompatActivity {
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
             addOrder();
             addOrderDetail();
-            if(couponId != null && couponId != 1){
+            if (couponId != null && couponId != 1) {
                 addUsageCount();
             }
             addUsageCount();
@@ -142,7 +166,8 @@ public class CheckOutActivity extends AppCompatActivity {
                     appDatabase.couponDao().updateCoupon(coupon);
                 }
             }
-        });    }
+        });
+    }
 
     private void addOrder() {
         CountDownLatch latch = new CountDownLatch(1);
@@ -151,7 +176,7 @@ public class CheckOutActivity extends AppCompatActivity {
             double totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0.0);
             Date date = new Date(System.currentTimeMillis());
             Order order = new Order(0, date, null, null, null, null, null,
-                    date, (int) totalAmount, "Pending", 0, AccountId,etAddress.getText().toString());
+                    date, (int) totalAmount, "Pending", 0, AccountId, etAddress.getText().toString());
             orderId.set(appDatabase.orderDao().insertOrder(order));
             latch.countDown();
         });
@@ -172,7 +197,7 @@ public class CheckOutActivity extends AppCompatActivity {
             for (ProductInCartWithQuantity cartItem : cartItems) {
 
                 OrderDetail orderDetail = new OrderDetail(0, null, null, null, null, null, null,
-                        cartItem.totalQuantity, (int) cartItem.product.getPrice(), orderId.get(), cartItem.product.getId(), couponId );
+                        cartItem.totalQuantity, (int) cartItem.product.getPrice(), orderId.get(), cartItem.product.getId(), couponId);
                 appDatabase.orderDetailDao().insertOrderDetail(orderDetail);
             }
         }

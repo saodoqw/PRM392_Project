@@ -50,7 +50,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView txtTotal;
     private TextView txtDiscount;
     private Long coupponId;
-
+    List<ProductInCartWithQuantity> pList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,18 +86,51 @@ public class CartActivity extends AppCompatActivity {
                 Toast.makeText(CartActivity.this, "Your cart is empty", Toast.LENGTH_SHORT).show();
                 return;
             }
-            double totalAmount = Double.parseDouble(txtTotal.getText().toString().replace("$", ""));
-            Intent intent = new Intent(CartActivity.this, CheckOutActivity.class);
-            if (coupponId != null && coupponId != 0) {
-                intent.putExtra("COUPON_ID", coupponId);
-            }
-            intent.putExtra("TOTAL_AMOUNT", totalAmount);
-            startActivity(intent);
+            checkQuantity(isAvailable -> {
+                if (isAvailable) {
+                    double totalAmount = Double.parseDouble(txtTotal.getText().toString().replace("$", ""));
+                    Intent intent = new Intent(CartActivity.this, CheckOutActivity.class);
+                    if (coupponId != null && coupponId != 0) {
+                        intent.putExtra("COUPON_ID", coupponId);
+                    }
+                    intent.putExtra("TOTAL_AMOUNT", totalAmount);
+                    startActivity(intent);
+                }
+            });
         });
         LocalBroadcastManager.getInstance(this).registerReceiver(cartUpdateReceiver,
                 new IntentFilter("com.example.prm392.CART_UPDATED"));
     }
+    public interface QuantityCheckCallback {
+        void onQuantityCheckResult(boolean isAvailable);
+    }
+    private void checkQuantity(QuantityCheckCallback callback) {
+        executorService.execute(() -> {
+            boolean isAvailable = true;
+            for (ProductInCartWithQuantity product : pList) {
+                String productName = product.product.getProductName();
+                String size = getSize(product.size);
+                String color = getColor(product.color);
+                int availableQuantity = appDatabase.cartDao().getAvailableQuantity(product.product.getId(), product.size, product.color);
+                if (availableQuantity < product.getTotalQuantity()) {
+                    isAvailable = false;
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        Toast.makeText(this, "Sorry, " + productName + " with size " + size + " and color " + color + " is out of stock", Toast.LENGTH_SHORT).show();
+                    });
+                    break;
+                }
+            }
+            boolean finalIsAvailable = isAvailable;
+            new Handler(Looper.getMainLooper()).post(() -> callback.onQuantityCheckResult(finalIsAvailable));
+        });
+    }
+    String getColor(long colorId) {
+        return appDatabase.colorDao().getColorById(colorId).getColor();
+    }
 
+    String getSize(long sizeId) {
+        return String.valueOf(appDatabase.sizeDao().getSizeBySizeId((int) sizeId).getSize());
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -142,7 +175,7 @@ public class CartActivity extends AppCompatActivity {
             if (accountId == -1) {
                 return;
             }
-            List<ProductInCartWithQuantity> pList = appDatabase.cartDao()
+             pList = appDatabase.cartDao()
                     .getProductsInCartGroupedByAccountId(1); // Get products in cart
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (pList.isEmpty()) {
