@@ -17,13 +17,20 @@ import java.util.List;
 
 public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeListViewHolder> {
 
+    private String selectedColor;
+    private String selectedSize;
     private Context context;
     private List<Size> sizes;
     private int selectedPosition = RecyclerView.NO_POSITION; // Initial no selection
+    private OnSizeClickListener listener;
+    public interface OnSizeClickListener {
+        void onSizeClick(int sizeId);
+    }
 
-    public SizeListAdapter(Context context, List<Size> sizes) {
+    public SizeListAdapter(Context context, List<Size> sizes, SizeListAdapter.OnSizeClickListener listener) {
         this.context = context;
         this.sizes = sizes;
+        this.listener = listener;
     }
     @NonNull
     @Override
@@ -56,6 +63,8 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeLi
             notifyItemChanged(selectedPosition); // Notify previous selected item to remove the border
             selectedPosition = currentPosition;
             notifyItemChanged(selectedPosition); // Notify new selected item to add the border
+
+            listener.onSizeClick((int)size.getId());
         });
     }
 
