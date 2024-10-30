@@ -9,9 +9,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.prm392.CartActivity;
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.MainActivity;
 import com.example.prm392.R;
 import com.example.prm392.entity.Account;
 
