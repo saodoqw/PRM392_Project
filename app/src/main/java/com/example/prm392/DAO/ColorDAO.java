@@ -14,4 +14,8 @@ public interface ColorDAO {
     void addColor(Color color);
     @Query("SELECT id FROM Color where productId = :i")
     List<Long> getColorIdByProductId(int i);
+    @Query("SELECT * FROM Color where productId = :i")
+    List<Color> getColorsById(int i);
+    @Query("DELETE FROM Color WHERE productId = :productId")
+    void deleteColorByProductId(int productId);
 }
