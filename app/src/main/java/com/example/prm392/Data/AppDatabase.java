@@ -58,6 +58,20 @@ public abstract class AppDatabase extends RoomDatabase {
                                         appDatabase.brandDao().addBrand(brand1);
                                         Brand brand2 = new Brand("Adidas");
                                         appDatabase.brandDao().addBrand(brand2);
+                                        Brand brand3 = new Brand("Puma");
+                                        appDatabase.brandDao().addBrand(brand3);
+                                        Brand brand4 = new Brand("Vans");
+                                        appDatabase.brandDao().addBrand(brand4);
+                                        Brand brand5 = new Brand("Converse");
+                                        appDatabase.brandDao().addBrand(brand5);
+                                        Brand brand6 = new Brand("Reebok");
+                                        appDatabase.brandDao().addBrand(brand6);
+                                        Brand brand7 = new Brand("New Balance");
+                                        appDatabase.brandDao().addBrand(brand7);
+                                        Brand brand8 = new Brand("Gucci");
+                                        appDatabase.brandDao().addBrand(brand8);
+                                        Brand brand9 = new Brand("LV");
+                                        appDatabase.brandDao().addBrand(brand9);
                                     });
                                 }
                             })
