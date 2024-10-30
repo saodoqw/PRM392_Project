@@ -44,7 +44,11 @@ public class ShoeListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoe_list);
-
+        ImageView cartBtn = findViewById(R.id.cartBtn);
+        cartBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListActivity.this, CartActivity.class);
+            startActivity(intent);
+        });
 
         Spinner brandSpinner = findViewById(R.id.brand_spinner);
         // Set up RecyclerView

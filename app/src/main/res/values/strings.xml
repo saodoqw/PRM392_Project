@@ -49,4 +49,6 @@
     <string name="action_back">Action back</string>
     <string name="profile_image">Profile Image</string>
     <string name="Role">Role:</string>
+    <string name="color">Color</string>
+    <string name="size">Size</string>
 </resources>

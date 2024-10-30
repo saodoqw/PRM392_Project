@@ -9,6 +9,9 @@ public class ProductInCartWithQuantity {
     public Product product;
     public int totalQuantity;
     public double totalPrice;
+    public long color;
+    public long size;
+
 //    public String imageProductSrc;
 
 //    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, String imageProductSrc) {
@@ -17,10 +20,29 @@ public class ProductInCartWithQuantity {
 //        this.totalPrice = totalPrice;
 //        this.imageProductSrc = imageProductSrc;
 //    }
-    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice) {
+
+    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, long color, long size) {
         this.product = product;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
+        this.color = color;
+        this.size = size;
+    }
+
+    public long getColor() {
+        return color;
+    }
+
+    public void setColor(long color) {
+        this.color = color;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public double getTotalPrice() {

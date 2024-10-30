@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,11 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.prm392.DAO.CartDAO;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.adapter.ColorListAdapter;
 import com.example.prm392.adapter.ImagePagerAdapter;
 import com.example.prm392.adapter.SizeListAdapter;
+import com.example.prm392.entity.Cart;
 import com.example.prm392.entity.Color;
+import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 import com.example.prm392.entity.Product;
 import com.example.prm392.entity.ProductQuantity;
 import com.example.prm392.entity.Size;
@@ -47,6 +51,7 @@ public class DetailActivity extends AppCompatActivity {
     //Get Product id
     int productId;
     private SizeListAdapter sizeListAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +69,11 @@ public class DetailActivity extends AppCompatActivity {
         TextView price = findViewById(R.id.txt_price);
         RecyclerView recyclerViewSize = findViewById(R.id.sizeList);
         ViewPager2 images = findViewById(R.id.vp_images);
-
+        ImageButton cartBtn = findViewById(R.id.cartBtn);
+        cartBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, CartActivity.class);
+            startActivity(intent);
+        });
         Intent intentGetId = getIntent();
         if (intentGetId != null) {
             productId = (int) intentGetId.getLongExtra("productId", -1);
@@ -78,11 +87,11 @@ public class DetailActivity extends AppCompatActivity {
             sizes = appDatabase.sizeDao().getAllSizes();
             List<Bitmap> bitmapList = loadProductImages();  // Hàm này sẽ lấy danh sách ảnh
             //color list
-            ColorListAdapter colorAdapter = new ColorListAdapter(getApplicationContext(),colors, selectedColor -> {
+            ColorListAdapter colorAdapter = new ColorListAdapter(getApplicationContext(), colors, selectedColor -> {
                 // Lưu lại màu đã chọn
                 this.selectedColorId = selectedColor;
                 // Khi màu được chọn, lọc danh sách size tương ứng từ kho
-                getAvailableSizesForColor(selectedColor,productId);
+                getAvailableSizesForColor(selectedColor, productId);
             });
             runOnUiThread(() -> {
                 productName.setText(product.getProductName());
@@ -115,16 +124,32 @@ public class DetailActivity extends AppCompatActivity {
             finish();
         });
         Button addToCartBtn = findViewById(R.id.addToCartBtn);
-
         // Khi người dùng nhấn nút "Buy Now"
         addToCartBtn.setOnClickListener(v -> {
             if (selectedColorId != 0 && selectedSizeId != 0) {
                 Toast.makeText(this, "Color: " + selectedColorId + ", Size: " + selectedSizeId, Toast.LENGTH_SHORT).show();
+
+                addProductToCart(appDatabase.cartDao(), productId, 1, 1, selectedSizeId, selectedColorId);
             } else {
                 Toast.makeText(this, "Please select both color and size!", Toast.LENGTH_SHORT).show();
             }
         });
 
+
+    }
+
+    public void addProductToCart(CartDAO cartDAO, long productId, long accountId, int quantity, long sizeId, long colorId) {
+        Executor executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            int availableQuantity = cartDAO.getAvailableQuantity(productId, sizeId, colorId);
+            if (availableQuantity >= quantity) {
+                Cart newCart = new Cart(0, null, null, null, null, null, null, quantity, productId, accountId, colorId, sizeId);
+                cartDAO.insertCart(newCart);
+            } else {
+                // Handle the case where the quantity is not sufficient
+                System.out.println("Not enough quantity available");
+            }
+        });
 
     }
 
@@ -136,11 +161,11 @@ public class DetailActivity extends AppCompatActivity {
         Executor executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             List<Integer> sizeIds;
-            sizeIds = appDatabase.productQuantityDAO().getProductQuantityByProductIdAndColorId(productId,selectedColor);
-            for (int sizeId : sizeIds){
+            sizeIds = appDatabase.productQuantityDAO().getProductQuantityByProductIdAndColorId(productId, selectedColor);
+            for (int sizeId : sizeIds) {
                 sizes.add(appDatabase.sizeDao().getSizeBySizeId(sizeId));
             }
-            runOnUiThread(()->{
+            runOnUiThread(() -> {
                 sizeListAdapter = new SizeListAdapter(getApplicationContext(), sizes, selectedSize -> {
                     // Lưu lại size đã chọn
                     this.selectedSizeId = selectedSize;

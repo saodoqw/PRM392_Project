@@ -11,6 +11,7 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +77,10 @@ public class CartActivity extends AppCompatActivity {
         btnApplyCoupon.setOnClickListener(v -> {
             applyCoupon();
         });
-
+         ImageView backBtn= findViewById(R.id.backBtn);
+        backBtn.setOnClickListener(v -> {
+            finish();
+        });
         btnCheckout.setOnClickListener(v -> {
             if (cartAdapter.getItemCount() == 0) {
                 Toast.makeText(CartActivity.this, "Your cart is empty", Toast.LENGTH_SHORT).show();
@@ -119,7 +123,7 @@ public class CartActivity extends AppCompatActivity {
     private void initViewCart() {
         cartRecyclerView = findViewById(R.id.ViewCart);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cartAdapter = new CartAdapter(this, new ArrayList<>()); // Initialize Adapter with an empty list
+        cartAdapter = new CartAdapter(this, new ArrayList<>(), appDatabase, executorService); // Initialize Adapter with an empty list
         cartRecyclerView.setAdapter(cartAdapter);
     }
 
@@ -160,9 +164,9 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    public void increaseProductQuantity(ProductInCartWithQuantity product) {
+    public void increaseProductQuantity(ProductInCartWithQuantity Product) {
         executorService.execute(() -> {
-            Cart cartItem = appDatabase.cartDao().getCartItemByProductId(product.product.getId());
+            Cart cartItem = appDatabase.cartDao().getCartItemByProductIdSizeColor(Product.product.getId(),Product.size,Product.color);
             if (cartItem != null) {
                 cartItem.setQuantity(cartItem.getQuantity() + 1);
                 appDatabase.cartDao().updateCart(cartItem);
@@ -172,9 +176,9 @@ public class CartActivity extends AppCompatActivity {
     }
 
 
-    public void decreaseProductQuantity(ProductInCartWithQuantity product) {
+    public void decreaseProductQuantity(ProductInCartWithQuantity Product) {
         executorService.execute(() -> {
-            Cart cartItem = appDatabase.cartDao().getCartItemByProductId(product.product.getId());
+            Cart cartItem = appDatabase.cartDao().getCartItemByProductIdSizeColor(Product.product.getId(),Product.size,Product.color);
             if (cartItem != null && cartItem.getQuantity() > 1) {
                 cartItem.setQuantity(cartItem.getQuantity() - 1);
                 appDatabase.cartDao().updateCart(cartItem);

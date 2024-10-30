@@ -20,4 +20,6 @@ public interface ColorDAO {
     void deleteColorByProductId(int productId);
     @Query("DELETE FROM Color WHERE color = :colorName")
     void deleteColorByColorName(String colorName);
+    @Query("SELECT * FROM Color WHERE id = :id")
+    Color getColorById(long id);
 }
