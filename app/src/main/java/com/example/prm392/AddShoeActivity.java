@@ -322,7 +322,7 @@ public class AddShoeActivity extends AppCompatActivity {
                 int x = appDatabase.productDao().lastProductId() + 1;
                 productId.set(x);
                 //add product
-                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description);
+                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description,selectedImages.get(0).toString());
                 appDatabase.productDao().addProduct(product);
 
                 // Lưu các ảnh đã chọn vào Internal Storage trong cùng một tác vụ

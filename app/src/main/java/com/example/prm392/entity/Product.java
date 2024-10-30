@@ -28,12 +28,13 @@ public class Product extends BaseEntity{
 
 
     public Product(long id, String productName
-            , double price, long brandId, String description) {
+            , double price, long brandId, String description, String imageSrc) {
         super(id);
         this.productName = productName;
         this.price = price;
         this.brandId = brandId;
         this.description = description;
+        this.imageSrc = imageSrc;
     }
     public Product() {
     }

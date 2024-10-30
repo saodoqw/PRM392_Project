@@ -52,11 +52,18 @@ public abstract class AppDatabase extends RoomDatabase {
                                             Log.d("Database", "Inserted size: " + i); // In log để kiểm tra
                                             appDatabase.sizeDao().insert(size);
                                         }
-                                                                                //Add default brand
-                                        Brand brand = new Brand(0, null, null, null, "admin", "admin", null, "Adidas");
-                                        Brand brand1 = new Brand(0, null, null, null, "admin", "admin", null, "Nike");
+                                        //Add default brand
+                                        Brand brand = new Brand("Adidas");
+                                        Brand brand1 = new Brand("Nike");
                                         appDatabase.brandDao().addBrand(brand);
                                         appDatabase.brandDao().addBrand(brand1);
+                                        //Add default product
+                                        Product product = new Product(0, "Adidas Ultra Boost", 200, 1, "Adidas Ultra Boost", "adidas_ultraboost.png");
+                                        Product product1 = new Product(0, "Nike Air Max", 150, 2, "Nike Air Max", "nike_air_max.png");
+                                        Product product2 = new Product(0, "Puma Rsx", 300, 1, "Puma Rsx", "puma_rsx.png");
+                                        appDatabase.productDao().addProduct(product);
+                                        appDatabase.productDao().addProduct(product1);
+                                        appDatabase.productDao().addProduct(product2);
                                     });
                                 }
                             })

@@ -40,12 +40,10 @@ public class HomePageBrandAdapter extends RecyclerView.Adapter<HomePageBrandAdap
     }
 
     static class BrandViewHolder extends RecyclerView.ViewHolder {
-        ImageView brandImage;
         TextView brandName;
 
         public BrandViewHolder(@NonNull View itemView) {
             super(itemView);
-            brandImage = itemView.findViewById(R.id.brandImage);
             brandName = itemView.findViewById(R.id.brandName);
         }
     }
