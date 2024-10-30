@@ -22,7 +22,10 @@ public interface OrderDAO {
 
     @Query("UPDATE orders SET status = :status WHERE id = :orderId")
     void updateOrderStatus(long orderId, String status);
+
     @Insert
     long insertOrder(Order order);
 
+    @Query("UPDATE orders SET shipping_address = :newAddress WHERE id = :orderId")
+    void updateShippingAddress(long orderId, String newAddress);
 }

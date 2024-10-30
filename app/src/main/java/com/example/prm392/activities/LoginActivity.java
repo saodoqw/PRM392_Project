@@ -58,11 +58,14 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 int accountid = (int) account.getId();
+                int roleid = (int) account.getUserRoleId();
                 editor.putInt("ACCOUNT_ID",accountid);
+                editor.putInt("ROLE_ID", roleid);
                 editor.apply();
                 // Change layout to activity_homePage.xml
 //                Intent intent = new Intent(LoginActivity.this, CartActivity.class); //Modify to navigate to home page
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class); //Modify to navigate to home page
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class); //Modify to navigate to home page
+                Intent intent = new Intent(LoginActivity.this, OrderListActivity.class); //Modify to navigate to home page
                 startActivity(intent);
                 finish();
             } else {

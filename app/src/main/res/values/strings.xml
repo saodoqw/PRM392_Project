@@ -30,4 +30,10 @@
     <string name="Phone">Phone:</string>
     <string name="Adress">Address:</string>
     <string name="create_at">Create At:</string>
+    <string name="change_shipping_address">Change shipping address</string>
+    <string name="update_status">Update Status</string>
+    <string name="cancel_order">Cancel Order</string>
+    <string name="order_date">Order Date:</string>
+    <string name="shipping_address">Shipping address</string>
+    <string name="click_detail_to_see_more">Click \'Detail\' to see more</string>
 </resources>

@@ -44,15 +44,6 @@ public class OrderDetail extends BaseEntity{
         this.couponId = couponId;
     }
 
-//    public OrderDetail(long id, int quantity, int unitPrice, long orderId, long productId, long couponId) {
-//        super(id);
-//        this.quantity = quantity;
-//        this.unitPrice = unitPrice;
-//        this.orderId = orderId;
-//        this.productId = productId;
-//        this.couponId = couponId;
-//    }
-
     public int getQuantity() {
         return quantity;
     }

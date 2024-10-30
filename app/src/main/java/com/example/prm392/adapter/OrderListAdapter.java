@@ -3,6 +3,7 @@ package com.example.prm392.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,9 @@ import com.example.prm392.entity.Order;
 import com.example.prm392.entity.OrderDetail;
 import com.example.prm392.entity.Product;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,13 +41,20 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("login", Context.MODE_PRIVATE);
+        int roleId = sharedPreferences.getInt("ROLE_ID", -1);
+        int accountId = sharedPreferences.getInt("ACCOUNT_ID", -1);
+
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.viewholder_order_item, parent, false);
         }
 
         Order order = getItem(position);
 
-        // Bind dữ liệu với các View
+        if (roleId == 2 && order.getAccountId() != accountId) {
+            return new View(context);
+        }
+
         TextView name = convertView.findViewById(R.id.name);
         TextView orderStatus = convertView.findViewById(R.id.order_status);
         TextView orderDate = convertView.findViewById(R.id.order_date);
@@ -66,7 +76,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
                             totalProduct += detail.getQuantity();
                         }
 
-//                        setProductDetail(orderDetails, name);
+                        setProductDetail(orderDetails, name, productImg);
 
                         amount.setText("x" + orderDetails.get(0).getQuantity());
                         unitPrice.setText("đ" + orderDetails.get(0).getUnitPrice());
@@ -77,8 +87,9 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
 
 
         orderStatus.setText("Status: " + order.getStatus());
-        orderDate.setText("Order Date: " + order.getOrderDate());
-        productImg.setImageResource(R.drawable.ic_launcher_background);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String formattedDate = dateFormat.format(order.getOrderDate());
+        orderDate.setText("Order Date: " + formattedDate);
 
         detailButton.setOnClickListener(v -> {
             Intent intent = new Intent(context, OrderDetailActivity.class);
@@ -94,21 +105,24 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         this.orders.addAll(orders);
     }
 
-//    public void setProductDetail(List<OrderDetail> orderDetails, TextView name) {
-//        ExecutorService executor = Executors.newSingleThreadExecutor();
-//
-//        executor.execute(() -> {
-//            long productId = orderDetails.get(0).getProductId();
-//            Product product = appDatabase.productDao().getProductById(productId);
-//
-//            ((Activity) context).runOnUiThread(() -> {
-//                if (product != null) {
-//                    name.setText(product.getProductName());
-////                                    Glide.with(this).load(product.getImageUrl()).into(productImg);
-//                } else {
-//                    Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
-//                }
-//            });
-//        });
-//    }
+    public void setProductDetail(List<OrderDetail> orderDetails, TextView name, ImageView productImg) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.execute(() -> {
+            long productId = orderDetails.get(0).getProductId();
+            Product product = appDatabase.productDao().getProductById((int) productId);
+
+
+            ((Activity) context).runOnUiThread(() -> {
+                if (product != null) {
+                    name.setText(product.getProductName());
+//                    String imageName = product.getImageSrc();
+//                    int imageResource = getImageResource(imageName);
+//                    productImg.setImageResource(imageResource);
+                } else {
+                    Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
+                }
+            });
+        });
+    }
 }

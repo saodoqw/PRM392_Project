@@ -2,6 +2,7 @@ package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -40,27 +41,28 @@ public class OrderListActivity extends AppCompatActivity {
         });
 
         ListView listView = findViewById(R.id.detail_item_list);
-
         loadOrders(listView);
+
+        ImageView backButton = findViewById(R.id.backBtn);
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderListActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void loadOrders(ListView listView) {
-        // Tạo adapter chỉ một lần và gán cho ListView
         OrderListAdapter adapter = new OrderListAdapter(OrderListActivity.this, new ArrayList<>(), appDatabase);
         listView.setAdapter(adapter);
 
-        // Quan sát LiveData từ UI thread
         appDatabase.orderDao().getAllOrders().observe(this, orders -> {
             if (orders != null) {
-                // Cập nhật dữ liệu cho adapter
                 adapter.setOrders(orders);
-                adapter.notifyDataSetChanged();  // Thông báo rằng dữ liệu đã thay đổi
+                adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(OrderListActivity.this, "Không có đơn hàng nào", Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 
 
 }

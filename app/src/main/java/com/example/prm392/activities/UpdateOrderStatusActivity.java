@@ -1,8 +1,10 @@
 package com.example.prm392.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class UpdateOrderStatusActivity extends AppCompatActivity {
         RadioButton processingRadio = findViewById(R.id.rdb_processing);
         RadioButton completedRadio = findViewById(R.id.rdb_completed);
         RadioButton shippingRadio = findViewById(R.id.rdb_shipping);
+        ImageView backButton = findViewById(R.id.backBtn);
 
         long orderId = getIntent().getLongExtra("orderId", -1);
 
@@ -81,6 +84,12 @@ public class UpdateOrderStatusActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Please select order status", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderDetailActivity.class);
+            intent.putExtra("orderId", orderId);
+            startActivity(intent);
         });
 
     }

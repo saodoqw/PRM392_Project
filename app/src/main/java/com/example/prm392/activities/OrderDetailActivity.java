@@ -2,11 +2,13 @@ package com.example.prm392.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.adapter.OrderDetailAdapter;
+import com.example.prm392.entity.Account;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class OrderDetailActivity extends AppCompatActivity {
 
@@ -40,10 +48,19 @@ public class OrderDetailActivity extends AppCompatActivity {
             return insets;
         });
 
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        int userRoleId = sharedPreferences.getInt("ROLE_ID", -1);
+
         ListView listView = findViewById(R.id.detail_item_list);
         Button updateButton = findViewById(R.id.btn_update);
         Button cancelButton = findViewById(R.id.btn_cancel);
+        Button changeAddressButton = findViewById(R.id.btn_change_address);
         TextView status = findViewById(R.id.status);
+        TextView orderDate = findViewById(R.id.order_date);
+        TextView address = findViewById(R.id.address);
+        TextView username = findViewById(R.id.username);
+        TextView phone = findViewById(R.id.phone);
+        ImageView backButton = findViewById(R.id.backBtn);
         long orderId = getIntent().getLongExtra("orderId", -1);
 
         if (orderId != -1) {
@@ -51,7 +68,7 @@ public class OrderDetailActivity extends AppCompatActivity {
                     .getOrderDetailByOrderId(orderId)
                     .observe(this, details -> {
                         if (details != null) {
-                            OrderDetailAdapter adapter = new OrderDetailAdapter(this, details);
+                            OrderDetailAdapter adapter = new OrderDetailAdapter(this, details, appDatabase);
                             listView.setAdapter(adapter);
                         } else {
                             Toast.makeText(this, "Không có dữ liệu cho đơn hàng", Toast.LENGTH_SHORT).show();
@@ -59,29 +76,58 @@ public class OrderDetailActivity extends AppCompatActivity {
                     });
             appDatabase.orderDao().getOrderById(orderId)
                             .observe(this, order -> {
-                                String orderStatus = order.getStatus();
-                                if (orderStatus != null) {
-                                    status.setText("Order is " + orderStatus);
+                                int userId = order.getAccountId();
+                                ExecutorService executor = Executors.newSingleThreadExecutor();
+                                executor.execute(() -> {
+                                    Account user = appDatabase.accountDao().getAccountById(userId);
 
-                                    status.setBackgroundColor(Color.TRANSPARENT);
+                                    runOnUiThread(() -> {
+                                        if (user != null) {
+                                            username.setText(user.getUsername());
+                                            phone.setText(user.getPhone());
+                                        } else {
+                                            Toast.makeText(this, "Không tìm thấy tài khoản", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                });
+
+                                String orderStatus = order.getStatus();
+                                status.setText("Order is " + orderStatus);
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                String formattedDate = dateFormat.format(order.getOrderDate());
+                                orderDate.setText("Order Date: " + formattedDate);
+                                address.setText(order.getShippingAddress());
+
+                                if (orderStatus != null) {
                                     switch (orderStatus) {
                                         case "Completed":
                                             updateButton.setVisibility(View.GONE);
                                             cancelButton.setVisibility(View.GONE);
+                                            changeAddressButton.setVisibility(View.GONE);
                                             status.setBackgroundColor(0xFF33CC99);
                                             break;
                                         case "Cancelled":
                                             updateButton.setVisibility(View.GONE);
                                             cancelButton.setVisibility(View.GONE);
+                                            changeAddressButton.setVisibility(View.GONE);
                                             status.setBackgroundColor(0xFFCC0000);
                                             break;
-                                        default:
+                                        case "Pending":
+                                            if (userRoleId == 1) {
+                                                updateButton.setVisibility(View.VISIBLE);
+                                                changeAddressButton.setVisibility(View.GONE);
+                                                cancelButton.setVisibility(View.GONE);
+                                            } else if (userRoleId == 2) {
+                                                changeAddressButton.setVisibility(View.VISIBLE);
+                                                updateButton.setVisibility(View.GONE);
+                                            }
                                             status.setBackgroundColor(0xFFFF6600);
-                                            updateButton.setOnClickListener(v -> {
-                                                Intent intent = new Intent(this, UpdateOrderStatusActivity.class);
-                                                intent.putExtra("orderId", orderId);
-                                                startActivity(intent);
-                                            });
+                                            break;
+                                        case "Processing":
+                                            cancelButton.setVisibility(View.GONE);
+                                            changeAddressButton.setVisibility(View.GONE);
+                                            updateButton.setVisibility(View.VISIBLE);
+                                            status.setBackgroundColor(0xFFFF6600);
                                             break;
                                     }
                                 }
@@ -90,6 +136,23 @@ public class OrderDetailActivity extends AppCompatActivity {
             Toast.makeText(this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
             finish();
         }
+
+        changeAddressButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, EditShippingDetailActivity.class);
+            intent.putExtra("orderId", orderId);
+            startActivity(intent);
+        });
+
+        updateButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UpdateOrderStatusActivity.class);
+            intent.putExtra("orderId", orderId);
+            startActivity(intent);
+        });
+
+        backButton.setOnClickListener(v -> {
+            Intent intent = new Intent(this, OrderListActivity.class);
+            startActivity(intent);
+        });
 
         cancelOrder(cancelButton, updateButton, status, orderId);
 
