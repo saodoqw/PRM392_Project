@@ -26,14 +26,17 @@ public class Order extends BaseEntity {
     private int invoice;
     @ColumnInfo(name = "account_id", index = true)
     private int accountId;
+    @ColumnInfo(name = "shipping_address", typeAffinity = ColumnInfo.TEXT)
+    private String shippingAddress;
 
-    public Order(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, Date orderDate, int totalAmount, String status, int invoice, int accountId) {
+    public Order(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, Date orderDate, int totalAmount, String status, int invoice, int accountId, String shippingAddress) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
         this.status = status;
         this.invoice = invoice;
         this.accountId = accountId;
+        this.shippingAddress = shippingAddress;
     }
 
     public Date getOrderDate() {
@@ -74,5 +77,13 @@ public class Order extends BaseEntity {
 
     public void setAccountId(int accountId) {
         this.accountId = accountId;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 }

@@ -55,8 +55,10 @@ public class LoginActivity extends AppCompatActivity {
                 runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Login successful", Toast.LENGTH_SHORT).show());
                 SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                int accountId = (int) account.getId();
-                editor.putInt("ACCOUNT_ID",accountId);
+                int accountid = (int) account.getId();
+                int roleid = (int) account.getUserRoleId();
+                editor.putInt("ACCOUNT_ID",accountid);
+                editor.putInt("ROLE_ID", roleid);
                 editor.apply();
                 // Change layout to activity_homePage.xml
 //                Intent intent = new Intent(LoginActivity.this, CartActivity.class); //Modify to navigate to home page
