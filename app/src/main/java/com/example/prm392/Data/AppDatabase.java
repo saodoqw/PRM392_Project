@@ -53,17 +53,24 @@ public abstract class AppDatabase extends RoomDatabase {
                                             appDatabase.sizeDao().insert(size);
                                         }
                                         //Add default brand
-                                        Brand brand = new Brand("Adidas");
                                         Brand brand1 = new Brand("Nike");
-                                        appDatabase.brandDao().addBrand(brand);
                                         appDatabase.brandDao().addBrand(brand1);
-                                        //Add default product
-                                        Product product = new Product(0, "Adidas Ultra Boost", 200, 1, "Adidas Ultra Boost", "adidas_ultraboost.png");
-                                        Product product1 = new Product(0, "Nike Air Max", 150, 2, "Nike Air Max", "nike_air_max.png");
-                                        Product product2 = new Product(0, "Puma Rsx", 300, 1, "Puma Rsx", "puma_rsx.png");
-                                        appDatabase.productDao().addProduct(product);
-                                        appDatabase.productDao().addProduct(product1);
-                                        appDatabase.productDao().addProduct(product2);
+                                        Brand brand2 = new Brand("Adidas");
+                                        appDatabase.brandDao().addBrand(brand2);
+                                        Brand brand3 = new Brand("Puma");
+                                        appDatabase.brandDao().addBrand(brand3);
+                                        Brand brand4 = new Brand("Vans");
+                                        appDatabase.brandDao().addBrand(brand4);
+                                        Brand brand5 = new Brand("Converse");
+                                        appDatabase.brandDao().addBrand(brand5);
+                                        Brand brand6 = new Brand("Reebok");
+                                        appDatabase.brandDao().addBrand(brand6);
+                                        Brand brand7 = new Brand("New Balance");
+                                        appDatabase.brandDao().addBrand(brand7);
+                                        Brand brand8 = new Brand("Gucci");
+                                        appDatabase.brandDao().addBrand(brand8);
+                                        Brand brand9 = new Brand("LV");
+                                        appDatabase.brandDao().addBrand(brand9);
                                     });
                                 }
                             })

@@ -1,6 +1,7 @@
 package com.example.prm392.DAO;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -23,4 +24,6 @@ public interface ProductDAO {
     void updateProduct(Product product);
     @Query("SELECT * FROM product")
     List<Product> getAllProducts();
+    @Delete
+    void deleteProduct(Product product);
 }

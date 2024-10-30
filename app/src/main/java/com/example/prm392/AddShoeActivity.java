@@ -155,7 +155,6 @@ public class AddShoeActivity extends AppCompatActivity {
 
             if (!newColorName.isEmpty()) {
                 // Thêm màu mới vào danh sách
-//                colors.add(new Color(colors.size() + 1, newColorName));
                 colorNames.add(newColorName);
                 addSizeFields(newColorName);
                 Toast.makeText(this, "Màu mới đã được thêm!", Toast.LENGTH_SHORT).show();
@@ -254,19 +253,55 @@ public class AddShoeActivity extends AppCompatActivity {
     }
 
 
-    // Thêm các size cho từng màu cụ thể
+    // Thêm các size cho màu cụ thể
     private void addSizeFields(String colorName) {
+        // Tạo một LinearLayout để chứa TextView và Button
+        LinearLayout colorLayout = new LinearLayout(this);
+        colorLayout.setOrientation(LinearLayout.VERTICAL); // Đặt chiều dọc cho layout
+        colorLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
+
+        LinearLayout headLayout = new LinearLayout(this);
+        headLayout.setOrientation(LinearLayout.HORIZONTAL); // Đặt chiều dọc cho layout
+        headLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+        ));
         // Tạo một tiêu đề cho màu mới để hiển thị
         TextView colorTitle = new TextView(this);
         colorTitle.setText("Color: " + colorName);
         colorTitle.setLayoutParams(new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                0, // Chiều rộng là 0 để sử dụng layout_weight
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                4 // Tỉ lệ chiều rộng cho phép TextView chiếm không gian còn lại
         ));
         colorTitle.setTextSize(18);
         colorTitle.setPadding(0, 16, 0, 8);
-        stockContainer.addView(colorTitle);
 
+
+        // Tạo Button xóa
+        Button deleteButton = new Button(this);
+        deleteButton.setText("Remove"); // Hoặc bạn có thể sử dụng biểu tượng
+        deleteButton.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, // Chiều rộng sẽ tự động điều chỉnh
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1 // Tỉ lệ chiều rộng cho phép Button chiếm không gian
+        ));
+
+        // Thêm sự kiện cho nút xóa
+        deleteButton.setOnClickListener(v -> {
+            // Xóa màu và tất cả các size liên quan
+            stockContainer.removeView(colorLayout); // Xóa toàn bộ colorLayout
+            colorNames.remove(colorName);
+        });
+
+        // Thêm TextView và Button vào LinearLayout
+        headLayout.addView(colorTitle);
+        headLayout.addView(deleteButton);
+        colorLayout.addView(headLayout);
+        // Thêm các size cho màu này
         for (Size size : sizes) {
             View sizeColorView = getLayoutInflater().inflate(R.layout.size_color_stock_item, null);
 
@@ -275,15 +310,19 @@ public class AddShoeActivity extends AppCompatActivity {
             EditText stockEditText = sizeColorView.findViewById(R.id.edit_stock);
 
             sizeTextView.setText((int) size.getSize() + "");
-            stockEditText.setText("0"); // Default quantity
+            stockEditText.setText("0"); // Giá trị mặc định
 
-            // Thêm view vào container chính
-            stockContainer.addView(sizeColorView);
+            // Thêm view vào colorLayout (thay vì stockContainer)
+            colorLayout.addView(sizeColorView);
 
             // Lưu thông tin size và stock vào danh sách tạm thời
             stockList.add(new StockItem(sizeTextView, stockEditText));
         }
+
+        // Thêm LinearLayout vào stockContainer
+        stockContainer.addView(colorLayout);
     }
+
 
     // Handle updating the shoe details
     private void updateShoe() {
