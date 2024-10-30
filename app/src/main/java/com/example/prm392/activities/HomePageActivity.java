@@ -66,13 +66,6 @@ public class HomePageActivity extends AppCompatActivity {
         //get all product from database
         Executors.newSingleThreadExecutor().execute(() -> {
             products.addAll(appDatabase.productDao().getAllProducts());
-            //Convert product image from string to int
-            for (Product product : products) {
-                product.setImageSrc(String.valueOf(getResources()
-                        .getIdentifier(product.getImageSrc()
-                                        .substring(0, product.getImageSrc().lastIndexOf('.')),
-                                "drawable", getPackageName())));
-            }
         });
         //set adapter for viewpager
         HomePageRecommendAdapter recommendAdapter = new HomePageRecommendAdapter(products);
