@@ -99,6 +99,7 @@ public class CartActivity extends AppCompatActivity {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(cartUpdateReceiver);
     }
+
     private final BroadcastReceiver cartUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -106,18 +107,22 @@ public class CartActivity extends AppCompatActivity {
 
         }
     };
+
     private void disableApplyButton(Button button) {
         new Handler(Looper.getMainLooper()).post(() -> button.setEnabled(false));
     }
+
     private void enableApplyButton(Button button) {
         new Handler(Looper.getMainLooper()).post(() -> button.setEnabled(true));
     }
+
     private void initViewCart() {
         cartRecyclerView = findViewById(R.id.ViewCart);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cartAdapter = new CartAdapter(this, new ArrayList<>()); // Initialize Adapter with an empty list
         cartRecyclerView.setAdapter(cartAdapter);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -125,6 +130,7 @@ public class CartActivity extends AppCompatActivity {
             loadProductsInCart();
         }
     }
+
     private void loadProductsInCart() {
         executorService.execute(() -> {
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", MODE_PRIVATE);
@@ -133,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
             List<ProductInCartWithQuantity> pList = appDatabase.cartDao()
-                    .getProductsInCartGroupedByAccountId(accountId); // Get products in cart
+                    .getProductsInCartGroupedByAccountId(1); // Get products in cart
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (pList.isEmpty()) {
                     txtCartEmpty.setVisibility(View.VISIBLE);
@@ -164,7 +170,6 @@ public class CartActivity extends AppCompatActivity {
             loadProductsInCart();
         });
     }
-
 
 
     public void decreaseProductQuantity(ProductInCartWithQuantity product) {
@@ -204,43 +209,47 @@ public class CartActivity extends AppCompatActivity {
             for (Coupon coupon : coupons) {
                 System.out.println("Database Coupon Code: " + coupon.getCouponCode());
                 if (coupon.getCouponCode().equals(enteredCouponCode)) {
-                    isCouponValid = true;
-                    java.util.Date currentDate = new java.sql.Date(System.currentTimeMillis());
-                    int errorDisplayDuration = 2000;
+                    if (coupon.getId() == 1) {
 
-                    if (coupon.getStartDate().after(currentDate) && coupon.getEndDate().before(currentDate)) {
+                    } else {
+                        isCouponValid = true;
+                        java.util.Date currentDate = new java.sql.Date(System.currentTimeMillis());
+                        int errorDisplayDuration = 2000;
+
+                        if (coupon.getStartDate().after(currentDate) && coupon.getEndDate().before(currentDate)) {
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                eCoupon.setError("Coupon is expired");
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
+                            });
+                            return;
+                        }
+                        if (coupon.getUsageCount() >= coupon.getUsageLimit()) {
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                eCoupon.setError("Coupon usage limit reached");
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
+                            });
+                            return;
+                        }
+                        double minOrderValue = coupon.getMinOrderValue();
+                        System.out.println("Minimum order value from DB: " + minOrderValue);
+                        if (Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", "")) < minOrderValue && coupon.getMaxOrderValue() > Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", ""))) {
+                            new Handler(Looper.getMainLooper()).post(() -> {
+                                eCoupon.setError("Minimum order value is " + minOrderValue + " and maximum order value is " + coupon.getMaxOrderValue());
+                                new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
+                            });
+                            return;
+                        }
                         new Handler(Looper.getMainLooper()).post(() -> {
-                            eCoupon.setError("Coupon is expired");
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
+                            coupponId = coupon.getId();
+                            discount = coupon.getDiscountValue();
+                            txtDiscount.setText(String.format("$%.2f", discount));
+                            double subtotal = Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", ""));
+                            double newTotal = subtotal - discount;
+                            txtTotal.setText(String.format("$%.2f", newTotal));
+                            disableApplyButton(findViewById(R.id.applyCouponBtn)); // Disable the button here
                         });
-                        return;
+                        break;
                     }
-                    if (coupon.getUsageCount() >= coupon.getUsageLimit()) {
-                        new Handler(Looper.getMainLooper()).post(() -> {
-                            eCoupon.setError("Coupon usage limit reached");
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
-                        });
-                        return;
-                    }
-                    double minOrderValue = coupon.getMinOrderValue();
-                    System.out.println("Minimum order value from DB: " + minOrderValue);
-                    if (Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", "")) < minOrderValue && coupon.getMaxOrderValue() > Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", ""))) {
-                        new Handler(Looper.getMainLooper()).post(() -> {
-                            eCoupon.setError("Minimum order value is " + minOrderValue + " and maximum order value is " + coupon.getMaxOrderValue());
-                            new Handler(Looper.getMainLooper()).postDelayed(() -> eCoupon.setError(null), errorDisplayDuration);
-                        });
-                        return;
-                    }
-                    new Handler(Looper.getMainLooper()).post(() -> {
-                        coupponId=coupon.getId();
-                        discount = coupon.getDiscountValue();
-                        txtDiscount.setText(String.format("$%.2f", discount));
-                        double subtotal = Double.parseDouble(txtSubTotalPrice.getText().toString().replace("$", ""));
-                        double newTotal = subtotal - discount;
-                        txtTotal.setText(String.format("$%.2f", newTotal));
-                        disableApplyButton(findViewById(R.id.applyCouponBtn)); // Disable the button here
-                    });
-                    break;
                 }
             }
 

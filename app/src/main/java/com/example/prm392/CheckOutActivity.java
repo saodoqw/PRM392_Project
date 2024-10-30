@@ -84,54 +84,54 @@ public class CheckOutActivity extends AppCompatActivity {
         btnConfirmPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                processPayment();
+                processPayment();
             }
         });
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         executorService = Executors.newSingleThreadExecutor(); // Initialize executorService
     }
 
-//    private void processPayment() {
-//        int selectedPaymentMethodId = rgPaymentMethods.getCheckedRadioButtonId();
-//        if (selectedPaymentMethodId == -1) {
-//            Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        if (selectedPaymentMethodId == R.id.rbCreditCard) {
-//            String cardNumber = etCardNumber.getText().toString();
-//            String cardholderName = etCardholderName.getText().toString();
-//            String expirationDate = etExpirationDate.getText().toString();
-//            String address = etAddress.getText().toString();
-//            if (cardNumber.isEmpty() || cardholderName.isEmpty() || expirationDate.isEmpty() || address.isEmpty()) {
-//                Toast.makeText(this, "Please fill in all payment information", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        } else if (selectedPaymentMethodId == R.id.rbDirect) {
-//            String address = etAddress.getText().toString();
-//            if (address.isEmpty()) {
-//                Toast.makeText(this, "Please fill in the delivery address", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
-//
-//        // Process the payment (this is a placeholder, actual implementation will vary)
-//        boolean paymentSuccess = true; // Assume payment is successful
-//
-//        if (paymentSuccess) {
-//            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
-//            addOrder();
-//            addOrderDetail();
-//            if(couponId != null && couponId != 1){
-//                addUsageCount();
-//            }
-//            addUsageCount();
-//            deleteCart();
-//        } else {
-//            Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
-//            finish();
-//        }
-//    }
+    private void processPayment() {
+        int selectedPaymentMethodId = rgPaymentMethods.getCheckedRadioButtonId();
+        if (selectedPaymentMethodId == -1) {
+            Toast.makeText(this, "Please select a payment method", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (selectedPaymentMethodId == R.id.rbCreditCard) {
+            String cardNumber = etCardNumber.getText().toString();
+            String cardholderName = etCardholderName.getText().toString();
+            String expirationDate = etExpirationDate.getText().toString();
+            String address = etAddress.getText().toString();
+            if (cardNumber.isEmpty() || cardholderName.isEmpty() || expirationDate.isEmpty() || address.isEmpty()) {
+                Toast.makeText(this, "Please fill in all payment information", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } else if (selectedPaymentMethodId == R.id.rbDirect) {
+            String address = etAddress.getText().toString();
+            if (address.isEmpty()) {
+                Toast.makeText(this, "Please fill in the delivery address", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        // Process the payment (this is a placeholder, actual implementation will vary)
+        boolean paymentSuccess = true; // Assume payment is successful
+
+        if (paymentSuccess) {
+            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+            addOrder();
+            addOrderDetail();
+            if(couponId != null && couponId != 1){
+                addUsageCount();
+            }
+            addUsageCount();
+            deleteCart();
+        } else {
+            Toast.makeText(this, "Payment Failed", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
 
     private void addUsageCount() {
         executorService.execute(() -> {
@@ -144,27 +144,27 @@ public class CheckOutActivity extends AppCompatActivity {
             }
         });    }
 
-//    private void addOrder() {
-//        CountDownLatch latch = new CountDownLatch(1);
-//
-//        executorService.execute(() -> {
-//            double totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0.0);
-//            Date date = new Date(System.currentTimeMillis());
-//            Order order = new Order(0, date, null, null, null, null, null,
-//                    date, (int) totalAmount, "Pending", 0, AccountId);
-//            orderId.set(appDatabase.orderDao().insertOrder(order));
-//            latch.countDown();
-//        });
-//
-//        executorService.execute(() -> {
-//            try {
-//                latch.await();
-//                addOrderDetail();
-//            } catch (InterruptedException e) {
-//                Thread.currentThread().interrupt();
-//            }
-//        });
-//    }
+    private void addOrder() {
+        CountDownLatch latch = new CountDownLatch(1);
+
+        executorService.execute(() -> {
+            double totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0.0);
+            Date date = new Date(System.currentTimeMillis());
+            Order order = new Order(0, date, null, null, null, null, null,
+                    date, (int) totalAmount, "Pending", 0, AccountId,etAddress.getText().toString());
+            orderId.set(appDatabase.orderDao().insertOrder(order));
+            latch.countDown();
+        });
+
+        executorService.execute(() -> {
+            try {
+                latch.await();
+                addOrderDetail();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+    }
 
     private void addOrderDetail() {
         if (orderId.get() != null && orderId.get() > 0) {

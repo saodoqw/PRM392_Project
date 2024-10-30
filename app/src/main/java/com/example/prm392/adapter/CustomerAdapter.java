@@ -45,7 +45,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         holder.nameTextView.setText(customer.getUsername());
         holder.phoneTextView.setText(customer.getPhone());
         holder.addressTextView.setText(customer.getAddress());
-        //holder.customerImageView.setImageResource(customer.getImage());
+        holder.customerImageView.setImageResource(R.drawable.user_profile);
 
         holder.bind(customer, context);
     }

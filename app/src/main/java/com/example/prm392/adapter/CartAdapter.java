@@ -42,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.quantityTextView.setText(String.valueOf(cartItem.getTotalQuantity()));
         holder.priceTextView.setText(String.valueOf(cartItem.product.getPrice()));
         holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity()*cartItem.product.getPrice()));
-//       holder.productImageView.setImageResource((cartItem.getImageProductSrc());
+//       holder.productImageView.setImageResource(cartItem.product.getImageSrc());
         holder.increaseButton.setOnClickListener(v -> {
             if (context instanceof CartActivity) {
                 ((CartActivity) context).increaseProductQuantity(cartItem);
