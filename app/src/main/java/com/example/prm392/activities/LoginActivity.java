@@ -39,6 +39,11 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
         });
         //Set click listener for forgot password button
+        Button forgotPasswordButton = findViewById(R.id.forgotPassword);
+        forgotPasswordButton.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void handleLogin(String username, String password) {

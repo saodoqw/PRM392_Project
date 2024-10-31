@@ -15,6 +15,7 @@ import com.example.prm392.entity.*;
 import com.example.prm392.entity.Enums.RoleName;
 
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.concurrent.Executors;
 
 @Database(entities = {About.class, Account.class, Brand.class, Cart.class,
@@ -39,7 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Add default role for user
+                                    // Add default data
                                     Executors.newSingleThreadExecutor().execute(() -> {
                                         // Set default role for user
                                         Role roleAdmin = new Role(0, RoleName.ADMIN);
@@ -77,14 +78,20 @@ public abstract class AppDatabase extends RoomDatabase {
                                         appDatabase.couponTypeDao().addCouponType(couponType1);
                                         CouponType couponType2 = new CouponType(2,"Discount");
                                         appDatabase.couponTypeDao().addCouponType(couponType2);
-                                        Coupon coupon1 = new Coupon(1, new Date(System.currentTimeMillis()),  new Date(System.currentTimeMillis()), null,"admin",
+                                        Coupon coupon1 = new Coupon(1, (System.currentTimeMillis()),  (System.currentTimeMillis()), null,"admin",
                                                 "admin", null, "",  1,0,0, 0,  new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 86400000L), 0, 0,  true );
 
-                                        Coupon coupon2 = new Coupon(2, new Date(System.currentTimeMillis()),  new Date(System.currentTimeMillis()), null,"admin",
+                                        Coupon coupon2 = new Coupon(2, (System.currentTimeMillis()),  (System.currentTimeMillis()), null,"admin",
                                                 "admin", null, "SAVE10",  2,10,100, 1000,  new Date(System.currentTimeMillis()), new Date(System.currentTimeMillis() + 86400000L), 0, 0,  true );
 
                                         appDatabase.couponDao().addCoupon(coupon1);
                                         appDatabase.couponDao().addCoupon(coupon2);
+
+                                        //Default admin account
+                                        Account account = new Account(0, System.currentTimeMillis(),null,
+                                                null,null,null,null,
+                                                "admin","admin","123456789","Address",null,1);
+                                        appDatabase.accountDao().insert(account);
                                     });
                                 }
                             })

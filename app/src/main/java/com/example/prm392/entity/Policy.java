@@ -21,7 +21,7 @@ public class Policy extends BaseEntity {
     @ColumnInfo(name = "account_id", index = true)
     private long accountId;
 
-    public Policy(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String content, long accountId) {
+    public Policy(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, String content, long accountId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.content = content;
         this.accountId = accountId;

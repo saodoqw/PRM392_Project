@@ -1,6 +1,7 @@
 package com.example.prm392.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.example.prm392.ShoeListActivity;
 import com.example.prm392.adapter.HomePageAdapter;
 import com.example.prm392.adapter.HomePageBrandAdapter;
 import com.example.prm392.adapter.HomePageRecommendAdapter;
+import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Brand;
 import com.example.prm392.entity.Product;
 
@@ -31,10 +33,20 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_homepage);
         //Initialize Room database
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
-        //Set content view for homepage
-        setContentView(R.layout.activity_homepage);
+        //Set content for user name
+        TextView userName = findViewById(R.id.userName);
+        //Get id from share preference
+        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
+        int accountId = sharedPreferences.getInt("ACCOUNT_ID", 0);
+        //Get account from database
+        Executors.newSingleThreadExecutor().execute(() -> {
+             Account user = appDatabase.accountDao().getAccountById(accountId);
+            //Set user name for textview after getting data
+            runOnUiThread(() -> userName.setText(user.getUsername()));
+        });
         //set image for imageviewSlider
         ViewPager2 viewPager = findViewById(R.id.viewPageSlider);
 
