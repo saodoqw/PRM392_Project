@@ -49,4 +49,9 @@
     <string name="action_back">Action back</string>
     <string name="profile_image">Profile Image</string>
     <string name="Role">Role:</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="has_account_already">Has account already?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="new_password">New Password</string>
+    <string name="re_password">Re-Password</string>
 </resources>

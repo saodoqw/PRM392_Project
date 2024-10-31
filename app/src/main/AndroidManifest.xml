@@ -80,6 +80,10 @@
             android:exported="true" />
         <activity android:name=".activities.ProfileActivity"
             android:exported="true" />
+        <activity android:name=".activities.ForgotPasswordActivity"
+            android:exported="true" />
+        <activity android:name=".activities.ResetPasswordActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
