@@ -31,4 +31,7 @@ public abstract interface AccountDAO {
 
     @Query("SELECT * FROM account WHERE userRoleId = 2")
     List<Account> getAccountsUser();
+
+    @Query("SELECT * FROM account WHERE phone = :phone")
+    Account checkPhone(String phone);
 }
