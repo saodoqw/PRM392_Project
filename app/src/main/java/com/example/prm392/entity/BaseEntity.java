@@ -3,8 +3,6 @@ package com.example.prm392.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
-
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
@@ -13,11 +11,11 @@ public abstract class BaseEntity {
     @ColumnInfo(name = "id")
     private long id;
     @ColumnInfo(name = "created_at", defaultValue = "CURRENT_TIMESTAMP")
-    private Date createdAt;
+    private Long createdAt;
     @ColumnInfo(name = "updated_at")
-    private Date updatedAt;
+    private Long updatedAt;
     @ColumnInfo(name = "deleted_at")
-    private Date deletedAt;
+    private Long deletedAt;
     @ColumnInfo(name = "created_by")
     private String createdBy;
     @ColumnInfo(name = "updated_by")
@@ -25,7 +23,7 @@ public abstract class BaseEntity {
     @ColumnInfo(name = "deleted_by")
     private String deletedBy;
 
-    public BaseEntity(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy) {
+    public BaseEntity(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -51,27 +49,27 @@ public abstract class BaseEntity {
         this.id = id;
     }
 
-    public Date getCreatedAt() {
+    public Long getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Long getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Long updatedAt) {
         this.updatedAt = updatedAt;
     }
 
-    public Date getDeletedAt() {
+    public Long getDeletedAt() {
         return deletedAt;
     }
 
-    public void setDeletedAt(Date deletedAt) {
+    public void setDeletedAt(Long deletedAt) {
         this.deletedAt = deletedAt;
     }
 

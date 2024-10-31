@@ -60,7 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
                 //Show error message
                 runOnUiThread(() -> Toast.makeText(RegisterActivity.this, "Username already exists", Toast.LENGTH_SHORT).show());
             } else {
-                account = new Account(0, new Date(System.currentTimeMillis()), null,
+                account = new Account(0, System.currentTimeMillis(), null,
                         null, "System", null, null, username, password, phone,
                         address, null, 2);
                 try {

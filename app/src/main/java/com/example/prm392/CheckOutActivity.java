@@ -174,9 +174,8 @@ public class CheckOutActivity extends AppCompatActivity {
 
         executorService.execute(() -> {
             double totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0.0);
-            Date date = new Date(System.currentTimeMillis());
-            Order order = new Order(0, date, null, null, null, null, null,
-                    date, (int) totalAmount, "Pending", 0, AccountId, etAddress.getText().toString());
+            Order order = new Order(0, System.currentTimeMillis(), null, null, null, null, null,
+                    System.currentTimeMillis(), (int) totalAmount, "Pending", 0, AccountId, etAddress.getText().toString());
             orderId.set(appDatabase.orderDao().insertOrder(order));
             latch.countDown();
         });

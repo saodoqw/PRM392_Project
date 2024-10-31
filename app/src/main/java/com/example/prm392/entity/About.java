@@ -12,7 +12,7 @@ public class About extends BaseEntity{
     @ColumnInfo(name = "image", typeAffinity = ColumnInfo.TEXT)
     private String image;
 
-    public About(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String content, String image) {
+    public About(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, String content, String image) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.content = content;
         this.image = image;

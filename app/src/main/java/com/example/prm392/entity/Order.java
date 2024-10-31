@@ -17,7 +17,7 @@ import java.sql.Date;
         })
 public class Order extends BaseEntity {
     @ColumnInfo(name = "order_date", defaultValue = "CURRENT_TIMESTAMP")
-    private Date orderDate;
+    private Long orderDate;
     @ColumnInfo(name = "total_amount", typeAffinity = ColumnInfo.INTEGER)
     private int totalAmount;
     @ColumnInfo(name = "status", typeAffinity = ColumnInfo.TEXT)
@@ -29,7 +29,7 @@ public class Order extends BaseEntity {
     @ColumnInfo(name = "shipping_address", typeAffinity = ColumnInfo.TEXT)
     private String shippingAddress;
 
-    public Order(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, Date orderDate, int totalAmount, String status, int invoice, int accountId, String shippingAddress) {
+    public Order(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, Long orderDate, int totalAmount, String status, int invoice, int accountId, String shippingAddress) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.orderDate = orderDate;
         this.totalAmount = totalAmount;
@@ -39,11 +39,11 @@ public class Order extends BaseEntity {
         this.shippingAddress = shippingAddress;
     }
 
-    public Date getOrderDate() {
+    public Long getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(Long orderDate) {
         this.orderDate = orderDate;
     }
 

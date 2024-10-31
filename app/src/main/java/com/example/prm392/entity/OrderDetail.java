@@ -35,7 +35,7 @@ public class OrderDetail extends BaseEntity{
     @ColumnInfo(name = "coupon_id", index = true)
     private long couponId;
 
-    public OrderDetail(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, int unitPrice, long orderId, long productId, long couponId) {
+    public OrderDetail(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, int unitPrice, long orderId, long productId, long couponId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.quantity = quantity;
         this.unitPrice = unitPrice;

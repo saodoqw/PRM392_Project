@@ -28,7 +28,7 @@ public class Comment extends BaseEntity{
     @ColumnInfo(name = "account_id", index = true)
     private long accountId;
 
-    public Comment(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String content, long productId, long accountId) {
+    public Comment(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, String content, long productId, long accountId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.content = content;
         this.productId = productId;

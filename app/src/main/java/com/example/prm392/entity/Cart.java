@@ -30,7 +30,7 @@ public class Cart extends BaseEntity {
     private long color;
     private long size;
 
-    public Cart(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, long productId, long accountId, long color, long size) {
+    public Cart(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, long productId, long accountId, long color, long size) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.quantity = quantity;
         this.productId = productId;
