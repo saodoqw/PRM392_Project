@@ -51,6 +51,8 @@ public class CustomerDetailActivity extends AppCompatActivity {
                 TextView txtPhone = findViewById(R.id.phone);
                 TextView txtAdress = findViewById(R.id.address);
                 TextView txtCreateAte = findViewById(R.id.CreateAt);
+                TextView txtName1 = findViewById(R.id.textview);
+                txtName1.setText(customer.getUsername());
                 txtName.setText(customer.getUsername());
                 txtPhone.setText(customer.getPhone());
                 txtAdress.setText(customer.getAddress());

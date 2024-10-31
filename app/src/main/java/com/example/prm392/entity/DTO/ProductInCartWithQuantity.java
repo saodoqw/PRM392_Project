@@ -9,13 +9,40 @@ public class ProductInCartWithQuantity {
     public Product product;
     public int totalQuantity;
     public double totalPrice;
-    public String imageProductSrc;
+    public long color;
+    public long size;
 
-    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, String imageProductSrc) {
+//    public String imageProductSrc;
+
+//    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, String imageProductSrc) {
+//        this.product = product;
+//        this.totalQuantity = totalQuantity;
+//        this.totalPrice = totalPrice;
+//        this.imageProductSrc = imageProductSrc;
+//    }
+
+    public ProductInCartWithQuantity(Product product, int totalQuantity, double totalPrice, long color, long size) {
         this.product = product;
         this.totalQuantity = totalQuantity;
         this.totalPrice = totalPrice;
-        this.imageProductSrc = imageProductSrc;
+        this.color = color;
+        this.size = size;
+    }
+
+    public long getColor() {
+        return color;
+    }
+
+    public void setColor(long color) {
+        this.color = color;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
     }
 
     public double getTotalPrice() {
@@ -42,11 +69,11 @@ public class ProductInCartWithQuantity {
         this.product = product;
     }
 
-    public String getImageProductSrc() {
-        return imageProductSrc;
-    }
-
-    public void setImageProductSrc(String imageProductSrc) {
-        this.imageProductSrc = imageProductSrc;
-    }
+//    public String getImageProductSrc() {
+//        return imageProductSrc;
+//    }
+//
+//    public void setImageProductSrc(String imageProductSrc) {
+//        this.imageProductSrc = imageProductSrc;
+//    }
 }

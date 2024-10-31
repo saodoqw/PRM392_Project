@@ -10,18 +10,25 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.CartActivity;
+import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private Context context;
     private List<ProductInCartWithQuantity> cartItems;
+    private AppDatabase appDatabase;
+    private ExecutorService executorService;
 
-    public CartAdapter(Context context, List<ProductInCartWithQuantity> cartItems) {
+    public CartAdapter(Context context, List<ProductInCartWithQuantity> cartItems, AppDatabase appDatabase, ExecutorService executorService) {
         this.context = context;
         this.cartItems = cartItems;
+        this.appDatabase = appDatabase;
+        this.executorService = executorService;
     }
 
     public void setCartItems(List<ProductInCartWithQuantity> cartItems) {
@@ -41,12 +48,21 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.nameTextView.setText(cartItem.product.getProductName());
         holder.quantityTextView.setText(String.valueOf(cartItem.getTotalQuantity()));
         holder.priceTextView.setText(String.valueOf(cartItem.product.getPrice()));
-        holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity()*cartItem.product.getPrice()));
-//       holder.productImageView.setImageResource((cartItem.getImageProductSrc());
+        holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity() * cartItem.product.getPrice()));
+        // holder.productImageView.setImageResource(cartItem.product.getImageSrc());
+
+        executorService.execute(() -> {
+            String color = getColor(cartItem.getColor());
+            String size = getSize(cartItem.getSize());
+            holder.colorTextView.post(() -> holder.colorTextView.setText(color));
+            holder.sizeTextView.post(() -> holder.sizeTextView.setText(size));
+        });
+
         holder.increaseButton.setOnClickListener(v -> {
             if (context instanceof CartActivity) {
                 ((CartActivity) context).increaseProductQuantity(cartItem);
-            }        });
+            }
+        });
 
         holder.decreaseButton.setOnClickListener(v -> {
             if (context instanceof CartActivity) {
@@ -55,15 +71,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         });
     }
 
+    String getColor(long colorId) {
+        return appDatabase.colorDao().getColorById(colorId).getColor();
+    }
+
+    String getSize(long sizeId) {
+        return String.valueOf(appDatabase.sizeDao().getSizeBySizeId((int) sizeId).getSize());
+    }
+
     @Override
     public int getItemCount() {
         return cartItems.size();
     }
 
     public static class CartViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, quantityTextView, priceTextView, totalPriceTextView;
+        TextView nameTextView, quantityTextView, priceTextView, totalPriceTextView, colorTextView, sizeTextView;
         TextView increaseButton, decreaseButton;
         ImageView productImageView;
+
         public CartViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.titleTxt);
@@ -73,6 +98,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             increaseButton = itemView.findViewById(R.id.plusCartItem);
             decreaseButton = itemView.findViewById(R.id.minusCartItem);
             productImageView = itemView.findViewById(R.id.itemPic);
+            colorTextView = itemView.findViewById(R.id.txtColor);
+            sizeTextView = itemView.findViewById(R.id.txt_size);
         }
     }
 }
