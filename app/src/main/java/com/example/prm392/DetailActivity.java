@@ -1,6 +1,7 @@
 package com.example.prm392;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -128,8 +129,12 @@ public class DetailActivity extends AppCompatActivity {
         addToCartBtn.setOnClickListener(v -> {
             if (selectedColorId != 0 && selectedSizeId != 0) {
                 Toast.makeText(this, "Color: " + selectedColorId + ", Size: " + selectedSizeId, Toast.LENGTH_SHORT).show();
-
-                addProductToCart(appDatabase.cartDao(), productId, 1, 1, selectedSizeId, selectedColorId);
+                SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", MODE_PRIVATE);
+                int accountId = sharedPreferences.getInt("ACCOUNT_ID", -1);
+                if (accountId == -1) {
+                    return;
+                }
+                addProductToCart(appDatabase.cartDao(), productId, accountId, 1, selectedSizeId, selectedColorId);
             } else {
                 Toast.makeText(this, "Please select both color and size!", Toast.LENGTH_SHORT).show();
             }

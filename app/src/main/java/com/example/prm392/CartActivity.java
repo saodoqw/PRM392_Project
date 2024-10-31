@@ -176,7 +176,7 @@ public class CartActivity extends AppCompatActivity {
                 return;
             }
              pList = appDatabase.cartDao()
-                    .getProductsInCartGroupedByAccountId(1); // Get products in cart
+                    .getProductsInCartGroupedByAccountId(accountId); // Get products in cart
             new Handler(Looper.getMainLooper()).post(() -> {
                 if (pList.isEmpty()) {
                     txtCartEmpty.setVisibility(View.VISIBLE);
