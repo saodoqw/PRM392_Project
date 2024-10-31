@@ -32,16 +32,22 @@ public class OrderDetail extends BaseEntity{
     private long orderId;
     @ColumnInfo(name = "product_id", index = true)
     private long productId;
+    @ColumnInfo(name = "size_id", index = true)
+    private long sizeId;
+    @ColumnInfo(name = "color_id", index = true)
+    private long colorId;
     @ColumnInfo(name = "coupon_id", index = true)
     private long couponId;
 
-    public OrderDetail(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, int unitPrice, long orderId, long productId, long couponId) {
+    public OrderDetail(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, int quantity, int unitPrice, long orderId, long productId, long couponId, long sizeId, long colorId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.quantity = quantity;
         this.unitPrice = unitPrice;
         this.orderId = orderId;
         this.productId = productId;
         this.couponId = couponId;
+        this.sizeId = sizeId;
+        this.colorId = colorId;
     }
 
     public int getQuantity() {
@@ -82,5 +88,17 @@ public class OrderDetail extends BaseEntity{
 
     public void setCouponId(long couponId) {
         this.couponId = couponId;
+    }
+
+    public long getSizeId() { return sizeId; }
+
+    public void setSizeId(long sizeId) { this.sizeId = sizeId; }
+
+    public long getColorId() {
+        return colorId;
+    }
+
+    public void setColorId(long colorId) {
+        this.colorId = colorId;
     }
 }

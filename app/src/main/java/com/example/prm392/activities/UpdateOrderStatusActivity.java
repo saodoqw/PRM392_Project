@@ -90,6 +90,7 @@ public class UpdateOrderStatusActivity extends AppCompatActivity {
             Intent intent = new Intent(this, OrderDetailActivity.class);
             intent.putExtra("orderId", orderId);
             startActivity(intent);
+            finish();
         });
 
     }

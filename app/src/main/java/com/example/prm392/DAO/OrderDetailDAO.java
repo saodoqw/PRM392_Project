@@ -22,4 +22,5 @@ public interface OrderDetailDAO {
 
     @Insert
     void insertOrderDetail(OrderDetail orderDetail);
+
 }

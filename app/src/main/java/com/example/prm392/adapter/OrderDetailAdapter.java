@@ -22,8 +22,11 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.activities.OrderDetailActivity;
+import com.example.prm392.entity.Brand;
+import com.example.prm392.entity.Color;
 import com.example.prm392.entity.OrderDetail;
 import com.example.prm392.entity.Product;
+import com.example.prm392.entity.Size;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -50,12 +53,15 @@ public class OrderDetailAdapter extends ArrayAdapter<OrderDetail> {
 
         TextView name = convertView.findViewById(R.id.name);
         ImageView productImg = convertView.findViewById(R.id.product_img);
+        TextView brand = convertView.findViewById(R.id.brand);
+        TextView color = convertView.findViewById(R.id.color);
+        TextView size = convertView.findViewById(R.id.size);
         TextView amount = convertView.findViewById(R.id.amount);
         TextView unitPrice = convertView.findViewById(R.id.unit_price);
         TextView totalPrice = convertView.findViewById(R.id.total_price);
         TextView finalPrice = convertView.findViewById(R.id.final_price);
 
-        setProductDetail(detail, name, productImg);
+        setProductDetail(detail, name, productImg, brand, color, size);
         amount.setText("x" + detail.getQuantity());
         unitPrice.setText("đ" + detail.getUnitPrice());
         int total = detail.getQuantity() * detail.getUnitPrice();
@@ -65,12 +71,18 @@ public class OrderDetailAdapter extends ArrayAdapter<OrderDetail> {
         return convertView;
     }
 
-    public void setProductDetail(OrderDetail orderDetails, TextView name, ImageView productImg) {
+    public void setProductDetail(OrderDetail orderDetails, TextView name, ImageView productImg, TextView brand, TextView color, TextView size) {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
             long productId = orderDetails.getProductId();
+            long sizeID = orderDetails.getSizeId();
+            long colorId = orderDetails.getColorId();
             Product product = appDatabase.productDao().getProductById((int) productId);
+            long brandId = product.getBrandId();
+            String brandName = appDatabase.brandDao().getBrandNameById(brandId);
+            Size shoeSize = appDatabase.sizeDao().getSizeBySizeId((int) sizeID);
+            Color shoeColor = appDatabase.colorDao().getColorById((int) colorId);
 
             ((Activity) context).runOnUiThread(() -> {
                 if (product != null) {
@@ -78,6 +90,9 @@ public class OrderDetailAdapter extends ArrayAdapter<OrderDetail> {
 //                    String imageName = product.getImageSrc();
 //                    int imageResource = getImageResource(imageName);
 //                    productImg.setImageResource(imageResource);
+                    brand.setText(brandName);
+                    color.setText(shoeColor.getColor());
+                    size.setText(String.valueOf(shoeSize.getSize()));
                 } else {
                     Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
                 }

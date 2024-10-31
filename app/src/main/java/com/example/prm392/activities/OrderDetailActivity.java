@@ -141,17 +141,20 @@ public class OrderDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditShippingDetailActivity.class);
             intent.putExtra("orderId", orderId);
             startActivity(intent);
+            finish();
         });
 
         updateButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, UpdateOrderStatusActivity.class);
             intent.putExtra("orderId", orderId);
             startActivity(intent);
+            finish();
         });
 
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, OrderListActivity.class);
             startActivity(intent);
+            finish();
         });
 
         cancelOrder(cancelButton, updateButton, status, orderId);

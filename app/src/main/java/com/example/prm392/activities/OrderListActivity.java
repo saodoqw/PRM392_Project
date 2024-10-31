@@ -47,6 +47,7 @@ public class OrderListActivity extends AppCompatActivity {
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, OrderListActivity.class);
             startActivity(intent);
+            finish();
         });
     }
 

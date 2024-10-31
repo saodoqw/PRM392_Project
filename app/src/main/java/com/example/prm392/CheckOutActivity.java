@@ -195,9 +195,11 @@ public class CheckOutActivity extends AppCompatActivity {
         if (orderId.get() != null && orderId.get() > 0) {
             List<ProductInCartWithQuantity> cartItems = appDatabase.cartDao().getProductsInCartGroupedByAccountId(AccountId);
             for (ProductInCartWithQuantity cartItem : cartItems) {
+                long sizeId = cartItem.size;
+                long colorId = cartItem.color;
 
                 OrderDetail orderDetail = new OrderDetail(0, null, null, null, null, null, null,
-                        cartItem.totalQuantity, (int) cartItem.product.getPrice(), orderId.get(), cartItem.product.getId(), couponId);
+                        cartItem.totalQuantity, (int) cartItem.product.getPrice(), orderId.get(), cartItem.product.getId(), couponId, sizeId, colorId);
                 appDatabase.orderDetailDao().insertOrderDetail(orderDetail);
             }
         }

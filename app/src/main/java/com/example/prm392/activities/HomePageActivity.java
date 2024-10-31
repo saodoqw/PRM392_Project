@@ -99,8 +99,8 @@ public class HomePageActivity extends AppCompatActivity {
         });
         order.setOnClickListener(view -> {
             //Navigate to order page
-//            Intent intent = new Intent(HomePageActivity.this, OrderActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
+            startActivity(intent);
         });
         //Set click listener for see all recommend textview
         seeAllRecommend.setOnClickListener(view -> {
