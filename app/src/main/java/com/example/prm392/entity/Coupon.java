@@ -38,7 +38,7 @@ public class Coupon extends BaseEntity{
     @ColumnInfo(name = "status", typeAffinity = ColumnInfo.INTEGER)
     private boolean status;
 
-    public Coupon(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String couponCode, long discountId, int discountValue, int minOrderValue, int maxOrderValue, Date startDate, Date endDate, int usageLimit, int usageCount, boolean status) {
+    public Coupon(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, String couponCode, long discountId, int discountValue, int minOrderValue, int maxOrderValue, Date startDate, Date endDate, int usageLimit, int usageCount, boolean status) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.couponCode = couponCode;
         this.discountId = discountId;

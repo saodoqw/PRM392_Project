@@ -56,4 +56,6 @@
     <string name="re_password">Re-Password</string>
     <string name="color">Color</string>
     <string name="size">Size</string>
+    <string name="image_of_customer">Image of customer</string>
+    <string name="join_at">Join At:</string>
 </resources>

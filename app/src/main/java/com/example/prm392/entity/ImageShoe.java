@@ -21,7 +21,7 @@ public class ImageShoe extends BaseEntity{
     @ColumnInfo(index = true) //just add index = true
     private long productId;
 
-    public ImageShoe(long id, Date createdAt, Date updatedAt, Date deletedAt, String createdBy, String updatedBy, String deletedBy, String imageSrc, long productId) {
+    public ImageShoe(long id, Long createdAt, Long updatedAt, Long deletedAt, String createdBy, String updatedBy, String deletedBy, String imageSrc, long productId) {
         super(id, createdAt, updatedAt, deletedAt, createdBy, updatedBy, deletedBy);
         this.imageSrc = imageSrc;
         this.productId = productId;
