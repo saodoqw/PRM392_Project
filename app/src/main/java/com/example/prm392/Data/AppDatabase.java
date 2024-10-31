@@ -39,7 +39,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                     super.onCreate(db);
-                                    // Add default role for user
+                                    // Add default data
                                     Executors.newSingleThreadExecutor().execute(() -> {
                                         // Set default role for user
                                         Role roleAdmin = new Role(0, RoleName.ADMIN);
@@ -85,6 +85,12 @@ public abstract class AppDatabase extends RoomDatabase {
 
                                         appDatabase.couponDao().addCoupon(coupon1);
                                         appDatabase.couponDao().addCoupon(coupon2);
+
+                                        //Default admin account
+                                        Account account = new Account(0,null,null,
+                                                null,null,null,null,
+                                                "admin","admin","123456789","Address",null,1);
+                                        appDatabase.accountDao().insert(account);
                                     });
                                 }
                             })
