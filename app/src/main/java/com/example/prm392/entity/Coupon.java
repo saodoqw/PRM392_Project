@@ -16,7 +16,7 @@ import java.sql.Date;
                         onDelete = CASCADE)
         }
 )
-public class Coupon extends BaseEntity{
+public class    Coupon extends BaseEntity{
     @ColumnInfo(name = "coupon_code", typeAffinity = ColumnInfo.TEXT)
     private String couponCode;
     @ColumnInfo(name = "discount_id", index = true)

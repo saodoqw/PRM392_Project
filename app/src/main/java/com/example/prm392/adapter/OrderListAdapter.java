@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +120,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             long sizeID = orderDetails.get(0).getSizeId();
             long colorId = orderDetails.get(0).getColorId();
             long brandId = product.getBrandId();
+            String image = appDatabase.imageShoeDao().getFirstImageByProductId((int) productId);
             String brandName = appDatabase.brandDao().getBrandNameById(brandId);
             Size shoeSize = appDatabase.sizeDao().getSizeBySizeId((int) sizeID);
             Color shoeColor = appDatabase.colorDao().getColorById((int) colorId);
@@ -127,12 +129,11 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
             ((Activity) context).runOnUiThread(() -> {
                 if (product != null) {
                     name.setText(product.getProductName());
-//                    String imageName = product.getImageSrc();
-//                    int imageResource = getImageResource(imageName);
-//                    productImg.setImageResource(imageResource);
+                    productImg.setImageBitmap(BitmapFactory.decodeFile(image));
                     brand.setText(brandName);
                     color.setText(shoeColor.getColor());
                     size.setText(String.valueOf(shoeSize.getSize()));
+
                 } else {
                     Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
                 }

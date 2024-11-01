@@ -239,7 +239,7 @@
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/explorer"
+                        android:contentDescription="@string/policy"
                         app:srcCompat="@android:drawable/ic_menu_compass" />
 
                     <TextView
@@ -247,7 +247,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/explorer"
+                        android:text="@string/policy"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="10sp"

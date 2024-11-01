@@ -117,14 +117,18 @@ public class OrderDetailActivity extends AppCompatActivity {
                                                 updateButton.setVisibility(View.VISIBLE);
                                                 changeAddressButton.setVisibility(View.GONE);
                                                 cancelButton.setVisibility(View.GONE);
-                                            } else if (userRoleId == 2) {
+                                            } else {
                                                 changeAddressButton.setVisibility(View.VISIBLE);
                                                 updateButton.setVisibility(View.GONE);
                                             }
                                             status.setBackgroundColor(0xFFFF6600);
                                             break;
                                         case "Processing":
-                                            cancelButton.setVisibility(View.GONE);
+                                            if (userRoleId == 1) {
+                                                cancelButton.setVisibility(View.VISIBLE);
+                                            } else {
+                                                cancelButton.setVisibility(View.GONE);
+                                            }
                                             changeAddressButton.setVisibility(View.GONE);
                                             updateButton.setVisibility(View.VISIBLE);
                                             status.setBackgroundColor(0xFFFF6600);

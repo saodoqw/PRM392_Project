@@ -92,6 +92,12 @@ public abstract class AppDatabase extends RoomDatabase {
                                                 null,null,null,null,
                                                 "admin","admin","123456789","Address",null,1);
                                         appDatabase.accountDao().insert(account);
+
+                                        // Policy
+                                        Policy policy1 = new Policy(0, null, null, null, null, null, null, "Yêu cầu đổi mật khẩu mỗi 90 ngày.", 1);
+                                        Policy policy2 = new Policy(0, null, null, null, null, null, null, "Chỉ quản trị viên mới có quyền hủy đơn hàng sau khi đã xác nhận.", 1);
+                                        appDatabase.policyDao().insert(policy1);
+                                        appDatabase.policyDao().insert(policy2);
                                     });
                                 }
                             })

@@ -45,7 +45,7 @@ public class OrderListActivity extends AppCompatActivity {
 
         ImageView backButton = findViewById(R.id.backBtn);
         backButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, OrderListActivity.class);
+            Intent intent = new Intent(this, HomePageActivity.class);
             startActivity(intent);
             finish();
         });

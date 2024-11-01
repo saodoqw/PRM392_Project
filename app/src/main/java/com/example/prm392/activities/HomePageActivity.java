@@ -95,8 +95,8 @@ public class HomePageActivity extends AppCompatActivity {
 
         //Set click listener for each imageview
         discovery.setOnClickListener(view -> {
-            //Navigate to home page
-            Intent intent = new Intent(HomePageActivity.this, HomePageActivity.class);
+            //Navigate to policy
+            Intent intent = new Intent(HomePageActivity.this, PolicyActivity.class);
             startActivity(intent);
         });
         profile.setOnClickListener(view -> {
