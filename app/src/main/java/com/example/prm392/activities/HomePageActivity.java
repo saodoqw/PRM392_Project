@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.prm392.CartActivity;
+import com.example.prm392.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.ShoeListActivity;
@@ -33,6 +34,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_homepage);
         //Initialize Room database
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
@@ -41,12 +43,22 @@ public class HomePageActivity extends AppCompatActivity {
         //Get id from share preference
         SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
         int accountId = sharedPreferences.getInt("ACCOUNT_ID", 0);
+
         //Get account from database
         Executors.newSingleThreadExecutor().execute(() -> {
              Account user = appDatabase.accountDao().getAccountById(accountId);
             //Set user name for textview after getting data
             runOnUiThread(() -> userName.setText(user.getUsername()));
+            if (user.getUserRoleId()==1) {
+                ImageView btnToLisCustomer = findViewById(R.id.imageView6);
+                btnToLisCustomer.setVisibility(ImageView.VISIBLE);
+                btnToLisCustomer.setOnClickListener(view -> {
+                    Intent intent = new Intent(HomePageActivity.this, CustomerActivity.class);
+                    startActivity(intent);
+                });
+            }
         });
+
         //set image for imageviewSlider
         ViewPager2 viewPager = findViewById(R.id.viewPageSlider);
 

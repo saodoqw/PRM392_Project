@@ -2,6 +2,7 @@ package com.example.prm392;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -39,7 +40,8 @@ public class CustomerActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        ImageView back = findViewById(R.id.backBtn);
+        back.setOnClickListener(v -> finish());
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         executorService = Executors.newSingleThreadExecutor(); // Initialize executorService
         initCustomerList();
