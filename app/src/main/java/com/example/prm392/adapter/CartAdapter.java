@@ -50,7 +50,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.quantityTextView.setText(String.valueOf(cartItem.getTotalQuantity()));
         holder.priceTextView.setText(String.valueOf(cartItem.product.getPrice()));
         holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity() * cartItem.product.getPrice()));
-        holder.productImageView.setImageBitmap(BitmapFactory.decodeFile(cartItem.product.getImageSrc()));
+        if(cartItem.product.getImageSrc() != null){
+            holder.productImageView.setImageBitmap(BitmapFactory.decodeFile(cartItem.product.getImageSrc()));
+        }
 
         executorService.execute(() -> {
             String color = getColor(cartItem.getColor());
