@@ -1,5 +1,6 @@
 package com.example.prm392;
 
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Bundle;
 import android.widget.ImageView;
@@ -58,8 +59,11 @@ public class CustomerDetailActivity extends AppCompatActivity {
                 txtAdress.setText(customer.getAddress());
                 txtCreateAte.setText(customer.getCreatedAt().toString());
                 ImageView img = findViewById(R.id.customerImg);
-//                img.setImageResource(customer.getImage());
-            });
+                if (customer.getImage() != null) {
+                    img.setImageBitmap(BitmapFactory.decodeFile(customer.getImage()));
+                } else {
+                    img.setImageResource(R.drawable.user_profile);
+                }            });
         });
 
     }

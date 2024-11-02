@@ -1,6 +1,7 @@
 package com.example.prm392.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.quantityTextView.setText(String.valueOf(cartItem.getTotalQuantity()));
         holder.priceTextView.setText(String.valueOf(cartItem.product.getPrice()));
         holder.totalPriceTextView.setText(String.valueOf(cartItem.getTotalQuantity() * cartItem.product.getPrice()));
-        // holder.productImageView.setImageResource(cartItem.product.getImageSrc());
+        holder.productImageView.setImageBitmap(BitmapFactory.decodeFile(cartItem.product.getImageSrc()));
 
         executorService.execute(() -> {
             String color = getColor(cartItem.getColor());

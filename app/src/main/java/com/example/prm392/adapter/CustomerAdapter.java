@@ -1,6 +1,7 @@
 package com.example.prm392.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,8 +46,11 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
         holder.nameTextView.setText(customer.getUsername());
         holder.phoneTextView.setText(customer.getPhone());
         holder.addressTextView.setText(customer.getAddress());
-        holder.customerImageView.setImageResource(R.drawable.user_profile);
-
+        if (customer.getImage() != null) {
+            holder.customerImageView.setImageBitmap(BitmapFactory.decodeFile(customer.getImage()));
+        } else {
+            holder.customerImageView.setImageResource(R.drawable.user_profile);
+        }
         holder.bind(customer, context);
     }
 
