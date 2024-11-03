@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.activities.HomePageActivity;
 import com.example.prm392.adapter.ShoeListAdminAdapter;
 import com.example.prm392.entity.Product;
 
@@ -145,7 +146,7 @@ public class ShoeListAdminActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ShoeListAdminActivity.this, MainActivity.class);
+            Intent intent = new Intent(ShoeListAdminActivity.this, HomePageActivity.class);
             startActivity(intent);
         });
 
