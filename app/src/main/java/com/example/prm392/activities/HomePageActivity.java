@@ -33,6 +33,7 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_homepage);
+        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
         //Initialize Room database
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         //Set content for user name
@@ -53,6 +54,17 @@ public class HomePageActivity extends AppCompatActivity {
                     Intent intent = new Intent(HomePageActivity.this, CustomerActivity.class);
                     startActivity(intent);
                 });
+                seeAllRecommend.setOnClickListener(view -> {
+                    Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
+                    startActivity(intent);
+                });
+            }else{
+                //Set click listener for see all recommend textview
+                seeAllRecommend.setOnClickListener(view -> {
+                    //Navigate to product page
+                    Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
+                    startActivity(intent);
+                });
             }
         });
 
@@ -63,7 +75,7 @@ public class HomePageActivity extends AppCompatActivity {
         ImageView profile = findViewById(R.id.profile);
         ImageView cart = findViewById(R.id.cart);
         ImageView order = findViewById(R.id.order);
-        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
+
 
         //Set click listener for each imageview
         discovery.setOnClickListener(view -> {
@@ -84,12 +96,6 @@ public class HomePageActivity extends AppCompatActivity {
         order.setOnClickListener(view -> {
             //Navigate to order page
             Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
-            startActivity(intent);
-        });
-        //Set click listener for see all recommend textview
-        seeAllRecommend.setOnClickListener(view -> {
-            //Navigate to product page
-            Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
             startActivity(intent);
         });
     }
