@@ -78,7 +78,6 @@ public class HomePageActivity extends AppCompatActivity {
         ImageView profile = findViewById(R.id.profile);
         ImageView cart = findViewById(R.id.cart);
         ImageView order = findViewById(R.id.order);
-        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
 
         //Set click listener for each imageview
         discovery.setOnClickListener(view -> {

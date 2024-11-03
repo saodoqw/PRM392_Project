@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm392.AddShoeActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.activities.UpdateShoeActivity;
