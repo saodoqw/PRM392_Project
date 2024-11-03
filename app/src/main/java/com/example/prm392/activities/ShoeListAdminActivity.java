@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -146,6 +147,8 @@ public class ShoeListAdminActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
+            Intent resultIntent = new Intent();
+            setResult(RESULT_OK, resultIntent);
             finish();
         });
 
@@ -158,6 +161,15 @@ public class ShoeListAdminActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);  // Request code 1
         });
 
+        // Đăng ký trực tiếp hành động khi nhấn nút Back
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
