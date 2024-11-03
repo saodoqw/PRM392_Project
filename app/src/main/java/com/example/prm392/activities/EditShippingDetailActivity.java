@@ -47,7 +47,7 @@ public class EditShippingDetailActivity extends AppCompatActivity {
                         address.setText(order.getShippingAddress());
                     });
         } else {
-            Toast.makeText(this, "Không tìm thấy đơn hàng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Not found", Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -58,14 +58,16 @@ public class EditShippingDetailActivity extends AppCompatActivity {
                 executor.execute(() -> {
                     appDatabase.orderDao().updateShippingAddress(orderId, newAddress);
 
-                    runOnUiThread(() ->
-                            Toast.makeText(this, "Đã lưu địa chỉ mới", Toast.LENGTH_SHORT).show()
-                    );
+                    runOnUiThread(() -> {
+                        Toast.makeText(this, "Address updated", Toast.LENGTH_SHORT).show();
+                        finish();
+                    });
                 });
             } else {
-                Toast.makeText(this, "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Please enter address", Toast.LENGTH_SHORT).show();
             }
         });
+
 
         backButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, OrderDetailActivity.class);

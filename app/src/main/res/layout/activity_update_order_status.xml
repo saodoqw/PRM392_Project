@@ -24,7 +24,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Order Detail"
+                android:text="@string/update_order_status"
                 android:textColor="@color/black"
                 android:textSize="25dp"
                 android:textStyle="bold"
@@ -51,32 +51,32 @@
                 android:id="@+id/rdb_pending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Pending" />
+                android:text="@string/pending" />
 
             <RadioButton
                 android:id="@+id/rdb_processing"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Processing" />
+                android:text="@string/processing" />
 
             <RadioButton
                 android:id="@+id/rdb_shipping"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Shipping" />
+                android:text="@string/shipping" />
 
             <RadioButton
                 android:id="@+id/rdb_completed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Completed" />
+                android:text="@string/completed" />
         </RadioGroup>
 
         <Button
             android:id="@+id/btn_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update" />
+            android:text="@string/update" />
 
     </LinearLayout>
 

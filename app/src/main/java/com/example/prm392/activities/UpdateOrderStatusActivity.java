@@ -51,9 +51,12 @@ public class UpdateOrderStatusActivity extends AppCompatActivity {
                             break;
                         case "Processing":
                             processingRadio.setChecked(true);
+                            pendingRadio.setEnabled(false);
                             break;
                         case "Shipping":
                             shippingRadio.setChecked(true);
+                            pendingRadio.setEnabled(false);
+                            processingRadio.setEnabled(false);
                             break;
                         case "Completed":
                             completedRadio.setChecked(true);
@@ -81,6 +84,7 @@ public class UpdateOrderStatusActivity extends AppCompatActivity {
 
             if (newStatus != null && orderId != -1) {
                 updateOrderStatus(orderId, newStatus);
+                finish();
             } else {
                 Toast.makeText(this, "Please select order status", Toast.LENGTH_SHORT).show();
             }

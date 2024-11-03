@@ -73,5 +73,16 @@
     <string name="address_ha_noi">Address: Ha Noi</string>
     <string name="completed">Completed</string>
     <string name="detail">Detail</string>
+    <string name="amount">amount</string>
+    <string name="price_number">price_number</string>
+    <string name="total_price_number">Total Price Number</string>
+    <string name="order_is_completed">Order is completed</string>
+    <string name="phone_number">phone number</string>
+    <string name="change_shipping_detail">Change Shipping Detail</string>
+    <string name="update_order_status">Update Order Status</string>
+    <string name="pending">Pending</string>
+    <string name="processing">Processing</string>
+    <string name="shipping">Shipping</string>
+    <string name="update">Update</string>
     <string name="logout">Logout</string>
 </resources>

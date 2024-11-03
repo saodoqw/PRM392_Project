@@ -1,6 +1,5 @@
 package com.example.prm392.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -31,7 +30,6 @@ import java.util.concurrent.Executors;
 public class OrderDetailActivity extends AppCompatActivity {
 
     private AppDatabase appDatabase;
-    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,21 +111,32 @@ public class OrderDetailActivity extends AppCompatActivity {
                                             if (userRoleId == 1) {
                                                 updateButton.setVisibility(View.VISIBLE);
                                                 changeAddressButton.setVisibility(View.GONE);
-                                                cancelButton.setVisibility(View.GONE);
                                             } else {
                                                 changeAddressButton.setVisibility(View.VISIBLE);
                                                 updateButton.setVisibility(View.GONE);
                                             }
+                                            cancelButton.setVisibility(View.VISIBLE);
                                             status.setBackgroundColor(0xFFFF6600);
                                             break;
                                         case "Processing":
                                             if (userRoleId == 1) {
                                                 cancelButton.setVisibility(View.VISIBLE);
+                                                updateButton.setVisibility(View.VISIBLE);
                                             } else {
                                                 cancelButton.setVisibility(View.GONE);
+                                                updateButton.setVisibility(View.GONE);
                                             }
                                             changeAddressButton.setVisibility(View.GONE);
-                                            updateButton.setVisibility(View.VISIBLE);
+                                            status.setBackgroundColor(0xFFFF6600);
+                                            break;
+                                        case "Shipping":
+                                            cancelButton.setVisibility(View.GONE);
+                                            changeAddressButton.setVisibility(View.GONE);
+                                            if(userRoleId == 1) {
+                                                updateButton.setVisibility(View.VISIBLE);
+                                            } else {
+                                                updateButton.setVisibility(View.GONE);
+                                            }
                                             status.setBackgroundColor(0xFFFF6600);
                                             break;
                                     }
@@ -142,14 +151,12 @@ public class OrderDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EditShippingDetailActivity.class);
             intent.putExtra("orderId", orderId);
             startActivity(intent);
-            finish();
         });
 
         updateButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, UpdateOrderStatusActivity.class);
             intent.putExtra("orderId", orderId);
             startActivity(intent);
-            finish();
         });
 
         backButton.setOnClickListener(v -> {

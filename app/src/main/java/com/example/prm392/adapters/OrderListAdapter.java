@@ -62,6 +62,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
         TextView brand = convertView.findViewById(R.id.brand);
         TextView color = convertView.findViewById(R.id.color);
         TextView size = convertView.findViewById(R.id.size);
+        TextView address = convertView.findViewById(R.id.address);;
         TextView orderStatus = convertView.findViewById(R.id.order_status);
         TextView orderDate = convertView.findViewById(R.id.order_date);
         TextView amount = convertView.findViewById(R.id.amount);
@@ -85,15 +86,15 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
                         setProductDetail(orderDetails, name, productImg, brand, color, size);
 
                         amount.setText("x" + orderDetails.get(0).getQuantity());
-                        unitPrice.setText("đ" + orderDetails.get(0).getUnitPrice());
+                        unitPrice.setText("$" + orderDetails.get(0).getUnitPrice());
                         totalAmount.setText(totalProduct + " products");
-                        totalPrice.setText("Total: đ" + total);
+                        totalPrice.setText("Total: $" + total);
                     }
                 });
 
-
+        address.setText("Address: " + order.getShippingAddress());
         orderStatus.setText("Status: " + order.getStatus());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String formattedDate = dateFormat.format(order.getOrderDate());
         orderDate.setText("Order Date: " + formattedDate);
 
@@ -135,7 +136,7 @@ public class OrderListAdapter extends ArrayAdapter<Order> {
                     size.setText(String.valueOf(shoeSize.getSize()));
 
                 } else {
-                    Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Product not found", Toast.LENGTH_SHORT).show();
                 }
             });
         });
