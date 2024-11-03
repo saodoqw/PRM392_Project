@@ -15,6 +15,7 @@ import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.entity.Account;
 
+import java.sql.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -57,7 +58,9 @@ public class CustomerDetailActivity extends AppCompatActivity {
                 txtName.setText(customer.getUsername());
                 txtPhone.setText(customer.getPhone());
                 txtAdress.setText(customer.getAddress());
-                txtCreateAte.setText(customer.getCreatedAt().toString());
+                Date date = new Date(customer.getCreatedAt());
+
+                txtCreateAte.setText(date.toString());
                 ImageView img = findViewById(R.id.customerImg);
                 if (customer.getImage() != null) {
                     img.setImageBitmap(BitmapFactory.decodeFile(customer.getImage()));

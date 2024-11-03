@@ -45,27 +45,23 @@ public class HomePageActivity extends AppCompatActivity {
         Executors.newSingleThreadExecutor().execute(() -> {
             Account user = appDatabase.accountDao().getAccountById(accountId);
             //Set user name for textview after getting data
-            runOnUiThread(() -> {
-                userName.setText(user.getUsername());
-                if(user.getUserRoleId() == 1){
-                    seeAllRecommend.setOnClickListener(view -> {
-                        //Navigate to product page
-                        Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
-                        startActivity(intent);
-                    });
-                }else{
-                    seeAllRecommend.setOnClickListener(view -> {
-                        //Navigate to product page
-                        Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
-                        startActivity(intent);
-                    });
-                }
-            });
-            if (user.getUserRoleId() == 1) {
+            runOnUiThread(() -> userName.setText(user.getUsername()));
+            if (user.getUserRoleId()==1) {
                 ImageView btnToLisCustomer = findViewById(R.id.imageView6);
                 btnToLisCustomer.setVisibility(ImageView.VISIBLE);
                 btnToLisCustomer.setOnClickListener(view -> {
                     Intent intent = new Intent(HomePageActivity.this, CustomerActivity.class);
+                    startActivity(intent);
+                });
+                seeAllRecommend.setOnClickListener(view -> {
+                    Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
+                    startActivity(intent);
+                });
+            }else{
+                //Set click listener for see all recommend textview
+                seeAllRecommend.setOnClickListener(view -> {
+                    //Navigate to product page
+                    Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
                     startActivity(intent);
                 });
             }
@@ -78,6 +74,7 @@ public class HomePageActivity extends AppCompatActivity {
         ImageView profile = findViewById(R.id.profile);
         ImageView cart = findViewById(R.id.cart);
         ImageView order = findViewById(R.id.order);
+
 
         //Set click listener for each imageview
         discovery.setOnClickListener(view -> {
@@ -98,12 +95,6 @@ public class HomePageActivity extends AppCompatActivity {
         order.setOnClickListener(view -> {
             //Navigate to order page
             Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
-            startActivity(intent);
-        });
-        //Set click listener for see all recommend textview
-        seeAllRecommend.setOnClickListener(view -> {
-            //Navigate to product page
-            Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
             startActivity(intent);
         });
     }

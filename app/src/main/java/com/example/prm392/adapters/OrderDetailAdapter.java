@@ -53,10 +53,10 @@ public class OrderDetailAdapter extends ArrayAdapter<OrderDetail> {
 
         setProductDetail(detail, name, productImg, brand, color, size);
         amount.setText("x" + detail.getQuantity());
-        unitPrice.setText("đ" + detail.getUnitPrice());
+        unitPrice.setText("$" + detail.getUnitPrice());
         int total = detail.getQuantity() * detail.getUnitPrice();
-        totalPrice.setText("đ" + total);
-        finalPrice.setText("đ" + total);
+        totalPrice.setText("$" + total);
+        finalPrice.setText("$" + total);
 
         return convertView;
     }
@@ -83,7 +83,7 @@ public class OrderDetailAdapter extends ArrayAdapter<OrderDetail> {
                     color.setText(shoeColor.getColor());
                     size.setText(String.valueOf(shoeSize.getSize()));
                 } else {
-                    Toast.makeText(context, "Không tìm thấy sản phẩm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Product not found", Toast.LENGTH_SHORT).show();
                 }
             });
         });
