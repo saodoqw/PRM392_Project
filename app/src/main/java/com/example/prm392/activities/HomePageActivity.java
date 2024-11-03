@@ -35,9 +35,8 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
-
         setContentView(R.layout.activity_homepage);
+        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
         //Initialize Room database
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         //Set content for user name
