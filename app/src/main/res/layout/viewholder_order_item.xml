@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="4dp"
-                android:text="đ 10.000"
+                android:text="@string/_60"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/amount" />
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="4dp"
-                android:text="x2"
+                android:text="@string/x2"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -47,7 +47,7 @@
                 android:layout_width="287dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:text="Giay"
+                android:text="@string/shoe_name"
                 android:textSize="20sp"
                 app:layout_constraintStart_toEndOf="@+id/product_img"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="Brand"
+                android:text="@string/brand"
                 app:layout_constraintStart_toEndOf="@+id/product_img"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="Color"
+                android:text="@string/color"
                 app:layout_constraintStart_toEndOf="@+id/product_img"
                 app:layout_constraintTop_toBottomOf="@+id/brand" />
 
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
-                android:text="Size"
+                android:text="@string/size"
                 app:layout_constraintStart_toEndOf="@+id/product_img"
                 app:layout_constraintTop_toBottomOf="@+id/color" />
 
@@ -110,7 +110,7 @@
                 android:id="@+id/total_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2 sản phẩm"
+                android:text="@string/_2_products"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,7 +120,7 @@
                 android:id="@+id/total_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tổng cộng: đ20.000"
+                android:text="@string/total_120"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -154,7 +154,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:text="Địa chỉ: Hà Nội"
+            android:text="@string/address_ha_noi"
             android:textSize="15sp" />
 
         <View
@@ -168,7 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:text="Ngày đặt: "
+            android:text="@string/order_date"
             android:textSize="15sp"  />
 
         <View
@@ -182,7 +182,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:text="Giao hàng thành công"
+            android:text="@string/completed"
             android:textSize="15sp" />
 
         <View
@@ -204,7 +204,7 @@
                 android:layout_weight="1"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="Detail" />
+                android:text="@string/detail" />
 
         </LinearLayout>
 

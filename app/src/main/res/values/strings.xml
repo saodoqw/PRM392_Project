@@ -59,4 +59,18 @@
     <string name="image_of_customer">Image of customer</string>
     <string name="join_at">Join At:</string>
     <string name="policy">Policy</string>
+    <string name="price">Price</string>
+    <string name="total_price">Total price:</string>
+    <string name="_120">120</string>
+    <string name="_60">60</string>
+    <string name="x2">x2</string>
+    <string name="brand">Brand</string>
+    <string name="shoecolor">ShoeColor</string>
+    <string name="shoe_name">Shoe name</string>
+    <string name="coupon">Coupon:</string>
+    <string name="_2_products">2 products</string>
+    <string name="total_120">Total: 120</string>
+    <string name="address_ha_noi">Address: Ha Noi</string>
+    <string name="completed">Completed</string>
+    <string name="detail">Detail</string>
 </resources>
