@@ -17,6 +17,7 @@ import com.example.prm392.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.ShoeListActivity;
+import com.example.prm392.ShoeListAdminActivity;
 import com.example.prm392.adapter.HomePageAdapter;
 import com.example.prm392.adapter.HomePageBrandAdapter;
 import com.example.prm392.adapter.HomePageRecommendAdapter;
@@ -34,6 +35,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
 
         setContentView(R.layout.activity_homepage);
         //Initialize Room database
@@ -46,10 +48,25 @@ public class HomePageActivity extends AppCompatActivity {
 
         //Get account from database
         Executors.newSingleThreadExecutor().execute(() -> {
-             Account user = appDatabase.accountDao().getAccountById(accountId);
+            Account user = appDatabase.accountDao().getAccountById(accountId);
             //Set user name for textview after getting data
-            runOnUiThread(() -> userName.setText(user.getUsername()));
-            if (user.getUserRoleId()==1) {
+            runOnUiThread(() -> {
+                userName.setText(user.getUsername());
+                if(user.getUserRoleId() == 1){
+                    seeAllRecommend.setOnClickListener(view -> {
+                        //Navigate to product page
+                        Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
+                        startActivity(intent);
+                    });
+                }else{
+                    seeAllRecommend.setOnClickListener(view -> {
+                        //Navigate to product page
+                        Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
+                        startActivity(intent);
+                    });
+                }
+            });
+            if (user.getUserRoleId() == 1) {
                 ImageView btnToLisCustomer = findViewById(R.id.imageView6);
                 btnToLisCustomer.setVisibility(ImageView.VISIBLE);
                 btnToLisCustomer.setOnClickListener(view -> {
@@ -103,7 +120,6 @@ public class HomePageActivity extends AppCompatActivity {
         ImageView profile = findViewById(R.id.profile);
         ImageView cart = findViewById(R.id.cart);
         ImageView order = findViewById(R.id.order);
-        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
 
         //Set click listener for each imageview
         discovery.setOnClickListener(view -> {
@@ -126,11 +142,6 @@ public class HomePageActivity extends AppCompatActivity {
             Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
             startActivity(intent);
         });
-        //Set click listener for see all recommend textview
-        seeAllRecommend.setOnClickListener(view -> {
-            //Navigate to product page
-            Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
-            startActivity(intent);
-        });
+
     }
 }

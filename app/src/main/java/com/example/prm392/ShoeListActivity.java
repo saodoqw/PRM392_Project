@@ -150,8 +150,7 @@ public class ShoeListActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ShoeListActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
 
     }
