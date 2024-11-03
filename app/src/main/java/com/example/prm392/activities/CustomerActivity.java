@@ -1,4 +1,4 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.R;
 import com.example.prm392.entity.Account;
-import com.example.prm392.adapter.CustomerAdapter;
+import com.example.prm392.adapters.CustomerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

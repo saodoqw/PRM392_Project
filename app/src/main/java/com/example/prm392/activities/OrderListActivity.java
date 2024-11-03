@@ -7,7 +7,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -15,13 +14,9 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.adapter.OrderListAdapter;
-import com.example.prm392.entity.Order;
+import com.example.prm392.adapters.OrderListAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class OrderListActivity extends AppCompatActivity {
 

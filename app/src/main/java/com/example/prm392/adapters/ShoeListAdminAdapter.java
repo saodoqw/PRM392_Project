@@ -1,4 +1,4 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.UpdateShoeActivity;
+import com.example.prm392.activities.UpdateShoeActivity;
 import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;

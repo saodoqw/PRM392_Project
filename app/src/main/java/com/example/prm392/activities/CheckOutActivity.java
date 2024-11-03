@@ -1,4 +1,4 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,13 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.R;
 import com.example.prm392.entity.Coupon;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 import com.example.prm392.entity.Order;
 import com.example.prm392.entity.OrderDetail;
-import com.example.prm392.entity.ProductQuantity;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;

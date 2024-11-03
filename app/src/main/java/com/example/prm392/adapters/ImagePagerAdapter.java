@@ -1,4 +1,4 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;

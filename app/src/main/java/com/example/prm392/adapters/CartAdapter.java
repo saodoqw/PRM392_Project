@@ -1,4 +1,4 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -10,14 +10,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm392.CartActivity;
+import com.example.prm392.activities.CartActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
     private Context context;

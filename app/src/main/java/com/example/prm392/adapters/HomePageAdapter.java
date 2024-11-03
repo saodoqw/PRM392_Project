@@ -1,7 +1,6 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,29 +1,18 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.activities.OrderDetailActivity;
-import com.example.prm392.entity.Brand;
 import com.example.prm392.entity.Color;
 import com.example.prm392.entity.OrderDetail;
 import com.example.prm392.entity.Product;

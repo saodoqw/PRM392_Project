@@ -1,4 +1,4 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,7 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.adapter.ImageAdapter;
+import com.example.prm392.R;
+import com.example.prm392.adapters.ImageAdapter;
 import com.example.prm392.entity.Color;
 import com.example.prm392.entity.ImageShoe;
 import com.example.prm392.entity.Product;
@@ -39,7 +40,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class AddShoeActivity extends AppCompatActivity {

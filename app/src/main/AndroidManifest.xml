@@ -37,31 +37,31 @@
             android:name=".activities.OrderListActivity"
             android:exported="true" />
         <activity
-            android:name=".UpdateShoeActivity"
+            android:name=".activities.UpdateShoeActivity"
             android:exported="true" />
         <activity
-            android:name=".AddShoeActivity"
+            android:name=".activities.AddShoeActivity"
             android:exported="true" />
         <activity
-            android:name=".ShoeListAdminActivity"
+            android:name=".activities.ShoeListAdminActivity"
             android:exported="true" />
         <activity
-            android:name=".CheckOutActivity"
+            android:name=".activities.CheckOutActivity"
             android:exported="true" />
         <activity
-            android:name=".CustomerDetailActivity"
+            android:name=".activities.CustomerDetailActivity"
             android:exported="true" />
         <activity
-            android:name=".CustomerActivity"
+            android:name=".activities.CustomerActivity"
             android:exported="true" />
         <activity
-            android:name=".CartActivity"
+            android:name=".activities.CartActivity"
             android:exported="true" />
         <activity
-            android:name=".ShoeListActivity"
+            android:name=".activities.ShoeListActivity"
             android:exported="true" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".activities.DetailActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

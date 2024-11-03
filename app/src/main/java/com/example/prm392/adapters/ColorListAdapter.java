@@ -1,4 +1,4 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,43 +7,40 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-//import androidx.annotation.Size;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.R;
-import com.example.prm392.entity.Size;
+import com.example.prm392.entity.Color;
 
 import java.util.List;
 
-public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeListViewHolder> {
-
-    private String selectedColor;
-    private String selectedSize;
+public class ColorListAdapter extends RecyclerView.Adapter<ColorListAdapter.ColorListViewHolder> {
     private Context context;
-    private List<Size> sizes;
+    private List<Color> colors;
     private int selectedPosition = RecyclerView.NO_POSITION; // Initial no selection
-    private OnSizeClickListener listener;
-    public interface OnSizeClickListener {
-        void onSizeClick(int sizeId);
-    }
+    private OnColorClickListener listener;
 
-    public SizeListAdapter(Context context, List<Size> sizes, SizeListAdapter.OnSizeClickListener listener) {
+    public interface OnColorClickListener {
+        void onColorClick(int color);
+    }
+    public ColorListAdapter(Context context, List<Color> colors, OnColorClickListener listener) {
         this.context = context;
-        this.sizes = sizes;
+        this.colors = colors;
         this.listener = listener;
     }
     @NonNull
     @Override
-    public SizeListAdapter.SizeListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_size, parent,false);
+    public ColorListAdapter.ColorListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_color, parent,false);
 
-        return new SizeListViewHolder(view);
-    }
+        return new ColorListViewHolder(view);    }
 
     @Override
-    public void onBindViewHolder(@NonNull SizeListAdapter.SizeListViewHolder holder, int position) {
-        Size size = sizes.get(position);
-        holder.sizetxt.setText("" + (int)size.getSize());
+    public void onBindViewHolder(@NonNull ColorListAdapter.ColorListViewHolder holder, int position) {
+        Color color = colors.get(position);
+        holder.color.setText("" + color.getColor());
+        // Gắn sự kiện click cho từng item
+//        holder.itemView.setOnClickListener(v -> );
 
         // Check if the current position matches the selected position
         if (holder.getAdapterPosition() == selectedPosition) {
@@ -58,28 +55,25 @@ public class SizeListAdapter extends RecyclerView.Adapter<SizeListAdapter.SizeLi
         holder.itemView.setOnClickListener(v -> {
             int currentPosition = holder.getAdapterPosition();
             if (currentPosition == RecyclerView.NO_POSITION) return;
-
             // Update selected position
             notifyItemChanged(selectedPosition); // Notify previous selected item to remove the border
             selectedPosition = currentPosition;
             notifyItemChanged(selectedPosition); // Notify new selected item to add the border
-
-            listener.onSizeClick((int)size.getId());
+            listener.onColorClick((int)color.getId());
         });
     }
 
-
     @Override
     public int getItemCount() {
-        return sizes.size();  // Return the size of the colors list
+        return colors.size();  // Return the size of the colors list
     }
 
-    public class SizeListViewHolder extends RecyclerView.ViewHolder {
-        private TextView sizetxt;
+    public class ColorListViewHolder extends RecyclerView.ViewHolder {
+        private TextView color;
 
-        public SizeListViewHolder(@NonNull View itemView) {
+        public ColorListViewHolder(@NonNull View itemView) {
             super(itemView);
-            sizetxt = itemView.findViewById(R.id.sizeTxt);
+            color = itemView.findViewById(R.id.color_txt);
         }
     }
 }

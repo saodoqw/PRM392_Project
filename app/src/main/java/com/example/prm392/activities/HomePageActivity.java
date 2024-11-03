@@ -12,14 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.prm392.CartActivity;
-import com.example.prm392.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.ShoeListActivity;
-import com.example.prm392.adapter.HomePageAdapter;
-import com.example.prm392.adapter.HomePageBrandAdapter;
-import com.example.prm392.adapter.HomePageRecommendAdapter;
+import com.example.prm392.adapters.HomePageAdapter;
+import com.example.prm392.adapters.HomePageBrandAdapter;
+import com.example.prm392.adapters.HomePageRecommendAdapter;
 import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Brand;
 import com.example.prm392.entity.Product;

@@ -1,6 +1,7 @@
 package com.example.prm392.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,8 +38,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 //Check if phone exists in database
                 Account account = appDatabase.accountDao().checkPhone(phone.getText().toString().trim());
                 if (account != null) {
+                    SharedPreferences sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("ACCOUNT_ID", (int)account.getId());
+                    editor.apply();
                     //Redirect to reset password activity
                     Intent intent = new Intent(ForgotPasswordActivity.this, ResetPasswordActivity.class);
+
                     startActivity(intent);
                 } else {
                     //Log error message
