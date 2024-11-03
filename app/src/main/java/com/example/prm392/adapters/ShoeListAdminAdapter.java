@@ -18,8 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392.activities.AddShoeActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.activities.UpdateShoeActivity;
+import com.example.prm392.activities.ShoeListAdminActivity;
 import com.example.prm392.activities.UpdateShoeActivity;
 import com.example.prm392.entity.Product;
 
