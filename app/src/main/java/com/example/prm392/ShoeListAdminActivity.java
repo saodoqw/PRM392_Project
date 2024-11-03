@@ -145,8 +145,7 @@ public class ShoeListAdminActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ShoeListAdminActivity.this, MainActivity.class);
-            startActivity(intent);
+            finish();
         });
 
         //Handle delete button
@@ -155,9 +154,23 @@ public class ShoeListAdminActivity extends AppCompatActivity {
         ImageView createBtn = findViewById(R.id.createBtn);
         createBtn.setOnClickListener(v -> {
             Intent intent = new Intent(ShoeListAdminActivity.this, AddShoeActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 1);  // Request code 1
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Refresh the RecyclerView by re-fetching the product list
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                productList = appDatabase.productDao().getAllProducts();  // Re-fetch products
+                runOnUiThread(() -> {
+                    adapter.updateList(productList);  // Update the adapter
+                });
+            });
+        }
     }
 
     // Method to apply all filters

@@ -1,8 +1,12 @@
 package com.example.prm392.adapter;
 
+import static androidx.core.app.ActivityCompat.startActivityForResult;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +18,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.prm392.AddShoeActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.ShoeListAdminActivity;
 import com.example.prm392.UpdateShoeActivity;
 import com.example.prm392.entity.Product;
 
@@ -49,12 +55,16 @@ public class ShoeListAdminAdapter extends RecyclerView.Adapter<ShoeListAdminAdap
         Product product = filteredProductList.get(position);
         holder.shoeName.setText(product.getProductName());
         holder.shoePrice.setText("$" + String.valueOf(product.getPrice()));
+        Log.d("ShoeListAdminAdapter", "Image path: " + product.getImageSrc());
+
         holder.shoeImage.setImageBitmap(BitmapFactory.decodeFile(product.getImageSrc()));
+
         holder.update.setOnClickListener(v->{
             Intent intent = new Intent(context, UpdateShoeActivity.class);
             // Truyền thông tin sản phẩm qua Intent
             intent.putExtra("productId", product.getId());
-            context.startActivity(intent);
+            ((Activity) context).startActivityForResult(intent, 1); // ĐÚNG
+              // Request code 1
         });
         holder.delete.setOnClickListener(v->{
             // Tạo một AlertDialog

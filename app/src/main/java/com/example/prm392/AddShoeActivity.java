@@ -361,7 +361,7 @@ public class AddShoeActivity extends AppCompatActivity {
                 int x = appDatabase.productDao().lastProductId() + 1;
                 productId.set(x);
                 //add product
-                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description,selectedImages.get(0).toString());
+                Product product = new Product(productId.get(), name, Double.parseDouble(price), brandId, description,"");
                 appDatabase.productDao().addProduct(product);
 
                 // Lưu các ảnh đã chọn vào Internal Storage trong cùng một tác vụ
@@ -402,12 +402,14 @@ public class AddShoeActivity extends AppCompatActivity {
             }
             runOnUiThread(() -> {
                 Toast.makeText(this, getStatus(), Toast.LENGTH_SHORT).show();
+
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+                finish();
             });
         });
 
 
-        // Finish activity or go back to previous screen
-        finish();
     }
 
 
@@ -431,10 +433,7 @@ public class AddShoeActivity extends AppCompatActivity {
 
             // Tạo đối tượng ImageShoe với đường dẫn ảnh đã lưu
             ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(), productId);
-            Executor executor = Executors.newSingleThreadExecutor();
-            executor.execute(() -> {
-                appDatabase.imageShoeDao().addImageShoe(imageShoe);
-            });
+            appDatabase.imageShoeDao().addImageShoe(imageShoe);
             // Lưu vào database hoặc danh sách nào đó
             Log.d("ImageSave", "Image saved at: " + file.getAbsolutePath());
 
