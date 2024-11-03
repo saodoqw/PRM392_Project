@@ -1,4 +1,4 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -25,14 +25,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.adapter.CartAdapter;
+import com.example.prm392.R;
+import com.example.prm392.adapters.CartAdapter;
 import com.example.prm392.entity.Cart;
 import com.example.prm392.entity.Coupon;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
-import com.example.prm392.entity.Order;
-import com.example.prm392.entity.OrderDetail;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;

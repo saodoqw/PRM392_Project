@@ -3,8 +3,6 @@ package com.example.prm392.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -23,7 +20,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.adapter.OrderDetailAdapter;
+import com.example.prm392.adapters.OrderDetailAdapter;
 import com.example.prm392.entity.Account;
 
 import java.text.SimpleDateFormat;

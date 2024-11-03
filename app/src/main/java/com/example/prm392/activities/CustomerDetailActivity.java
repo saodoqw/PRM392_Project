@@ -1,7 +1,6 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +12,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.R;
 import com.example.prm392.entity.Account;
 
 import java.util.concurrent.ExecutorService;

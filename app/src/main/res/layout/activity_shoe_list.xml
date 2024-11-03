@@ -8,7 +8,7 @@
     android:id="@+id/main"
     android:focusableInTouchMode="true"
     android:clickable="true"
-    tools:context=".ShoeListActivity">
+    tools:context=".activities.ShoeListActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

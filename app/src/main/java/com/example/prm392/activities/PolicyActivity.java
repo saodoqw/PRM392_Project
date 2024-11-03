@@ -2,7 +2,6 @@ package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -15,7 +14,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.adapter.PolicyAdapter;
+import com.example.prm392.adapters.PolicyAdapter;
 import com.example.prm392.entity.Policy;
 
 import java.util.List;

@@ -1,6 +1,7 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +15,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.prm392.Data.AppDatabase;
+import com.example.prm392.R;
 import com.example.prm392.entity.Coupon;
 import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 import com.example.prm392.entity.Order;
 import com.example.prm392.entity.OrderDetail;
-import com.example.prm392.entity.ProductQuantity;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -34,7 +34,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private EditText etCardNumber, etCardholderName, etExpirationDate, etAddress;
     private Button btnConfirmPayment;
     private ImageView backBtn;
-    private int AccountId = 1;
+    private int accountId ;
     private AppDatabase appDatabase;
     private ExecutorService executorService;
     private AtomicReference<Long> orderId = new AtomicReference<>();
@@ -91,10 +91,15 @@ public class CheckOutActivity extends AppCompatActivity {
                 processPayment();
             }
         });
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences("login", MODE_PRIVATE);
+         accountId = sharedPreferences.getInt("ACCOUNT_ID", -1);
+        if (accountId == -1) {
+            return;
+        }
         appDatabase = AppDatabase.getAppDatabase(getApplicationContext());
         executorService = Executors.newSingleThreadExecutor(); // Initialize executorService
         executorService.execute(() -> {
-            cartItems.addAll(appDatabase.cartDao().getProductsInCartGroupedByAccountId(AccountId));
+            cartItems.addAll(appDatabase.cartDao().getProductsInCartGroupedByAccountId(accountId));
         });
     }
 
@@ -144,6 +149,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
         if (paymentSuccess) {
             Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
+
             addOrder();
             addOrderDetail();
             if (couponId != null && couponId != 1) {
@@ -175,7 +181,7 @@ public class CheckOutActivity extends AppCompatActivity {
         executorService.execute(() -> {
             double totalAmount = getIntent().getDoubleExtra("TOTAL_AMOUNT", 0.0);
             Order order = new Order(0, System.currentTimeMillis(), null, null, null, null, null,
-                    System.currentTimeMillis(), (int) totalAmount, "Pending", 0, AccountId, etAddress.getText().toString());
+                    System.currentTimeMillis(), (int) totalAmount, "Pending", 0, accountId, etAddress.getText().toString());
             orderId.set(appDatabase.orderDao().insertOrder(order));
             latch.countDown();
         });
@@ -192,7 +198,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
     private void addOrderDetail() {
         if (orderId.get() != null && orderId.get() > 0) {
-            List<ProductInCartWithQuantity> cartItems = appDatabase.cartDao().getProductsInCartGroupedByAccountId(AccountId);
+            List<ProductInCartWithQuantity> cartItems = appDatabase.cartDao().getProductsInCartGroupedByAccountId(accountId);
             for (ProductInCartWithQuantity cartItem : cartItems) {
                 long sizeId = cartItem.size;
                 long colorId = cartItem.color;
@@ -207,7 +213,7 @@ public class CheckOutActivity extends AppCompatActivity {
     // CheckOutActivity.java
     private void deleteCart() {
         executorService.execute(() -> {
-            appDatabase.cartDao().deleteCartByAccountId(AccountId);
+            appDatabase.cartDao().deleteCartByAccountId(accountId);
             runOnUiThread(() -> {
                 // Notify CartActivity to reload the cart
                 Intent intent = new Intent("com.example.prm392.CART_UPDATED");

@@ -1,4 +1,4 @@
-package com.example.prm392.adapter;
+package com.example.prm392.adapters;
 
 import android.content.Context;
 import android.graphics.BitmapFactory;
@@ -13,7 +13,7 @@ import android.content.Intent; // Import Intent
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.prm392.CustomerDetailActivity;
+import com.example.prm392.activities.CustomerDetailActivity;
 import com.example.prm392.R;
 import com.example.prm392.entity.Account;
 

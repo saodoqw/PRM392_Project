@@ -1,4 +1,4 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.adapter.ShoeListAdapter;
+import com.example.prm392.R;
+import com.example.prm392.adapters.ShoeListAdminAdapter;
 import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;
@@ -29,9 +30,8 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class ShoeListActivity extends AppCompatActivity {
-
-    private ShoeListAdapter adapter;
+public class ShoeListAdminActivity extends AppCompatActivity {
+    private ShoeListAdminAdapter adapter;
     private EditText searchBar;
     private String selectedBrand = "All";  // Default to "All"
     private String selectedPriceOption = "Price";  // Default to "Price"
@@ -40,15 +40,11 @@ public class ShoeListActivity extends AppCompatActivity {
     private List<Product> productList;
     private AppDatabase appDatabase;
     List<String> brands = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shoe_list);
-        ImageView cartBtn = findViewById(R.id.cartBtn);
-        cartBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ShoeListActivity.this, CartActivity.class);
-            startActivity(intent);
-        });
+        setContentView(R.layout.activity_shoe_list_admin);
 
         Spinner brandSpinner = findViewById(R.id.brand_spinner);
         // Set up RecyclerView
@@ -64,7 +60,7 @@ public class ShoeListActivity extends AppCompatActivity {
             brands.addAll(appDatabase.brandDao().getAllBrand());
             runOnUiThread(() -> {
                 // Set up the adapter
-                adapter = new ShoeListAdapter(this, productList);
+                adapter = new ShoeListAdminAdapter(this, productList);
                 recyclerView.setAdapter(adapter);
 
                 //Set up brands spinner
@@ -153,6 +149,29 @@ public class ShoeListActivity extends AppCompatActivity {
             finish();
         });
 
+        //Handle delete button
+// 
+        //Handle create button
+        ImageView createBtn = findViewById(R.id.createBtn);
+        createBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(ShoeListAdminActivity.this, AddShoeActivity.class);
+            startActivityForResult(intent, 1);  // Request code 1
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Refresh the RecyclerView by re-fetching the product list
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                productList = appDatabase.productDao().getAllProducts();  // Re-fetch products
+                runOnUiThread(() -> {
+                    adapter.updateList(productList);  // Update the adapter
+                });
+            });
+        }
     }
 
     // Method to apply all filters
@@ -192,5 +211,4 @@ public class ShoeListActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
-
 }

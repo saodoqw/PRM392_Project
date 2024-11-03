@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText password;
     private AppDatabase appDatabase;
 
+    // This method is called when the activity is first created.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

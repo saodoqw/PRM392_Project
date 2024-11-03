@@ -4,10 +4,12 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Relations.RoleWithUsers;
 import com.example.prm392.entity.Relations.UserWithOrdersPoliciesCartsComments;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 
 import java.util.List;
 
@@ -34,4 +36,8 @@ public abstract interface AccountDAO {
 
     @Query("SELECT * FROM account WHERE phone = :phone")
     Account checkPhone(String phone);
+
+    @Query("UPDATE account SET password = :password WHERE id = :id")
+    void updatePassword(long id, String password);
+
 }

@@ -1,11 +1,10 @@
-package com.example.prm392;
+package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,17 +18,16 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.prm392.DAO.CartDAO;
 import com.example.prm392.Data.AppDatabase;
-import com.example.prm392.adapter.ColorListAdapter;
-import com.example.prm392.adapter.ImagePagerAdapter;
-import com.example.prm392.adapter.SizeListAdapter;
+import com.example.prm392.R;
+import com.example.prm392.adapters.ColorListAdapter;
+import com.example.prm392.adapters.ImagePagerAdapter;
+import com.example.prm392.adapters.SizeListAdapter;
 import com.example.prm392.entity.Cart;
 import com.example.prm392.entity.Color;
-import com.example.prm392.entity.DTO.ProductInCartWithQuantity;
 import com.example.prm392.entity.Product;
 import com.example.prm392.entity.ProductQuantity;
 import com.example.prm392.entity.Size;

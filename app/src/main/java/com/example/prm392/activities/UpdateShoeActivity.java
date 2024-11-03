@@ -1,6 +1,4 @@
-package com.example.prm392;
-
-import static android.content.ContentValues.TAG;
+package com.example.prm392.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -28,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.adapter.ImageAdapter;
+import com.example.prm392.adapters.ImageAdapter;
 import com.example.prm392.entity.Brand;
 import com.example.prm392.entity.Color;
 import com.example.prm392.entity.ImageShoe;
@@ -44,7 +41,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class UpdateShoeActivity extends AppCompatActivity {
 

@@ -12,15 +12,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.prm392.CartActivity;
-import com.example.prm392.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
-import com.example.prm392.ShoeListActivity;
-import com.example.prm392.ShoeListAdminActivity;
-import com.example.prm392.adapter.HomePageAdapter;
-import com.example.prm392.adapter.HomePageBrandAdapter;
-import com.example.prm392.adapter.HomePageRecommendAdapter;
+import com.example.prm392.adapters.HomePageAdapter;
+import com.example.prm392.adapters.HomePageBrandAdapter;
+import com.example.prm392.adapters.HomePageRecommendAdapter;
 import com.example.prm392.entity.Account;
 import com.example.prm392.entity.Brand;
 import com.example.prm392.entity.Product;
@@ -75,6 +71,52 @@ public class HomePageActivity extends AppCompatActivity {
             }
         });
 
+        SetData();
+
+        //Get imageview id from layout
+        ImageView discovery = findViewById(R.id.discovery);
+        ImageView profile = findViewById(R.id.profile);
+        ImageView cart = findViewById(R.id.cart);
+        ImageView order = findViewById(R.id.order);
+        TextView seeAllRecommend = findViewById(R.id.seeAllRecommend);
+
+        //Set click listener for each imageview
+        discovery.setOnClickListener(view -> {
+            //Navigate to policy
+            Intent intent = new Intent(HomePageActivity.this, PolicyActivity.class);
+            startActivity(intent);
+        });
+        profile.setOnClickListener(view -> {
+            //Navigate to profile page
+            Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+        cart.setOnClickListener(view -> {
+            //Navigate to cart page
+            Intent intent = new Intent(HomePageActivity.this, CartActivity.class);
+            startActivity(intent);
+        });
+        order.setOnClickListener(view -> {
+            //Navigate to order page
+            Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
+            startActivity(intent);
+        });
+        //Set click listener for see all recommend textview
+        seeAllRecommend.setOnClickListener(view -> {
+            //Navigate to product page
+            Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        SetData();
+    }
+
+
+    private void SetData(){
         //set image for imageviewSlider
         ViewPager2 viewPager = findViewById(R.id.viewPageSlider);
 
@@ -114,33 +156,5 @@ public class HomePageActivity extends AppCompatActivity {
         viewRecommend.setAdapter(recommendAdapter);
         //Hide progress bar if product is loaded
         findViewById(R.id.progressBarPopular).setVisibility(ImageView.GONE);
-        //Get imageview id from layout
-        ImageView discovery = findViewById(R.id.discovery);
-        ImageView profile = findViewById(R.id.profile);
-        ImageView cart = findViewById(R.id.cart);
-        ImageView order = findViewById(R.id.order);
-
-        //Set click listener for each imageview
-        discovery.setOnClickListener(view -> {
-            //Navigate to policy
-            Intent intent = new Intent(HomePageActivity.this, PolicyActivity.class);
-            startActivity(intent);
-        });
-        profile.setOnClickListener(view -> {
-            //Navigate to profile page
-            Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
-            startActivity(intent);
-        });
-        cart.setOnClickListener(view -> {
-            //Navigate to cart page
-            Intent intent = new Intent(HomePageActivity.this, CartActivity.class);
-            startActivity(intent);
-        });
-        order.setOnClickListener(view -> {
-            //Navigate to order page
-            Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
-            startActivity(intent);
-        });
-
     }
 }

@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="16dp"
     android:orientation="vertical"
-    tools:context=".UpdateShoeActivity">
+    tools:context=".activities.UpdateShoeActivity">
 
 
     <LinearLayout
