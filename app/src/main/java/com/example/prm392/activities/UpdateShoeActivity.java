@@ -482,12 +482,14 @@ public class UpdateShoeActivity extends AppCompatActivity {
 
             runOnUiThread(() -> {
                 Toast.makeText(this, "Shoe updated successfully!", Toast.LENGTH_SHORT).show();
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+                finish();
             });
         });
 
 
         // Finish activity or go back to previous screen
-        finish();
     }
 
     private void saveImageToInternalStorage(Bitmap bitmap, int productId) {
@@ -509,10 +511,7 @@ public class UpdateShoeActivity extends AppCompatActivity {
 
             // Tạo đối tượng ImageShoe với đường dẫn ảnh đã lưu
             ImageShoe imageShoe = new ImageShoe(file.getAbsolutePath(), productId);
-            Executor executor = Executors.newSingleThreadExecutor();
-            executor.execute(() -> {
-                appDatabase.imageShoeDao().addImageShoe(imageShoe);
-            });
+            appDatabase.imageShoeDao().addImageShoe(imageShoe);
             // Lưu vào database hoặc danh sách nào đó
             Log.d("ImageSave", "Image saved at: " + file.getAbsolutePath());
 

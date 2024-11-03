@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.activities.CartActivity;
 import com.example.prm392.adapters.ShoeListAdapter;
 import com.example.prm392.entity.Product;
 
@@ -151,8 +152,6 @@ public class ShoeListActivity extends AppCompatActivity {
         ImageView backBtn = findViewById(R.id.backBtn);
         // Gán sự kiện OnClickListener
         backBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(ShoeListActivity.this, HomePageActivity.class);
-            startActivity(intent);
             finish();
         });
 

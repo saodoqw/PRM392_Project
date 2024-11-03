@@ -12,8 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.prm392.activities.CartActivity;
+import com.example.prm392.activities.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.activities.ShoeListActivity;
+import com.example.prm392.adapters.HomePageAdapter;
+import com.example.prm392.adapters.HomePageBrandAdapter;
+import com.example.prm392.adapters.HomePageRecommendAdapter;
 import com.example.prm392.adapters.HomePageAdapter;
 import com.example.prm392.adapters.HomePageBrandAdapter;
 import com.example.prm392.adapters.HomePageRecommendAdapter;
@@ -23,11 +29,14 @@ import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class HomePageActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
-
+    List<Product> products = new ArrayList<>();
+    HomePageRecommendAdapter recommendAdapter;
+    RecyclerView viewRecommend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,31 +53,36 @@ public class HomePageActivity extends AppCompatActivity {
 
         //Get account from database
         Executors.newSingleThreadExecutor().execute(() -> {
-             Account user = appDatabase.accountDao().getAccountById(accountId);
+            Account user = appDatabase.accountDao().getAccountById(accountId);
             //Set user name for textview after getting data
-            runOnUiThread(() -> userName.setText(user.getUsername()));
-            if (user.getUserRoleId()==1) {
+            runOnUiThread(() -> {
+                userName.setText(user.getUsername());
+                if(user.getUserRoleId() == 1){
+                    seeAllRecommend.setOnClickListener(view -> {
+                        //Navigate to product page
+                        Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
+                        startActivityForResult(intent, 1);
+                    });
+                }else{
+                    seeAllRecommend.setOnClickListener(view -> {
+                        //Navigate to product page
+                        Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
+                        startActivity(intent);
+                    });
+                }
+            });
+            if (user.getUserRoleId() == 1) {
                 ImageView btnToLisCustomer = findViewById(R.id.imageView6);
                 btnToLisCustomer.setVisibility(ImageView.VISIBLE);
                 btnToLisCustomer.setOnClickListener(view -> {
                     Intent intent = new Intent(HomePageActivity.this, CustomerActivity.class);
                     startActivity(intent);
                 });
-                seeAllRecommend.setOnClickListener(view -> {
-                    Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
-                    startActivity(intent);
-                });
-            }else{
-                //Set click listener for see all recommend textview
-                seeAllRecommend.setOnClickListener(view -> {
-                    //Navigate to product page
-                    Intent intent = new Intent(HomePageActivity.this, ShoeListActivity.class);
-                    startActivity(intent);
-                });
             }
         });
 
         SetData();
+
 
         //Get imageview id from layout
         ImageView discovery = findViewById(R.id.discovery);
@@ -103,7 +117,7 @@ public class HomePageActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        SetData();
+//        SetData();
     }
 
 
@@ -134,18 +148,63 @@ public class HomePageActivity extends AppCompatActivity {
         //Hide progress bar if official brand is loaded
         findViewById(R.id.progressBar2).setVisibility(ImageView.GONE);
         //Set data for product
-        List<Product> products = new ArrayList<>();
-        RecyclerView viewRecommend = findViewById(R.id.viewRecommend);
+
+        viewRecommend = findViewById(R.id.viewRecommend);
         //get all product from database
         Executors.newSingleThreadExecutor().execute(() -> {
             products.addAll(appDatabase.productDao().getAllProducts());
         });
         //set adapter for viewpager
-        HomePageRecommendAdapter recommendAdapter = new HomePageRecommendAdapter(products);
+        recommendAdapter = new HomePageRecommendAdapter(products);
         viewRecommend.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         // set adapter for recyclerview
         viewRecommend.setAdapter(recommendAdapter);
         //Hide progress bar if product is loaded
         findViewById(R.id.progressBarPopular).setVisibility(ImageView.GONE);
+        //Get imageview id from layout
+        ImageView discovery = findViewById(R.id.discovery);
+        ImageView profile = findViewById(R.id.profile);
+        ImageView cart = findViewById(R.id.cart);
+        ImageView order = findViewById(R.id.order);
+
+        //Set click listener for each imageview
+        discovery.setOnClickListener(view -> {
+            //Navigate to policy
+            Intent intent = new Intent(HomePageActivity.this, PolicyActivity.class);
+            startActivity(intent);
+        });
+        profile.setOnClickListener(view -> {
+            //Navigate to profile page
+            Intent intent = new Intent(HomePageActivity.this, ProfileActivity.class);
+            startActivity(intent);
+        });
+        cart.setOnClickListener(view -> {
+            //Navigate to cart page
+            Intent intent = new Intent(HomePageActivity.this, CartActivity.class);
+            startActivity(intent);
+        });
+        order.setOnClickListener(view -> {
+            //Navigate to order page
+            Intent intent = new Intent(HomePageActivity.this, OrderListActivity.class);
+            startActivity(intent);
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Refresh the RecyclerView by re-fetching the product list
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                products = appDatabase.productDao().getAllProducts();  // Re-fetch products
+                runOnUiThread(() -> {
+                    recommendAdapter = new HomePageRecommendAdapter(products);
+                    viewRecommend.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
+                    // set adapter for recyclerview
+                    viewRecommend.setAdapter(recommendAdapter);
+                });
+            });
+        }
     }
 }
