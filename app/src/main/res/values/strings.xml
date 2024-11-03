@@ -73,4 +73,5 @@
     <string name="address_ha_noi">Address: Ha Noi</string>
     <string name="completed">Completed</string>
     <string name="detail">Detail</string>
+    <string name="logout">Logout</string>
 </resources>
