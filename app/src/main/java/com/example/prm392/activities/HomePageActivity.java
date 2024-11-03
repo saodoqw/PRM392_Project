@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.ShoeListActivity;
 import com.example.prm392.adapters.HomePageAdapter;
 import com.example.prm392.adapters.HomePageBrandAdapter;
 import com.example.prm392.adapters.HomePageRecommendAdapter;

@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.prm392.Data.AppDatabase;
 import com.example.prm392.R;
+import com.example.prm392.activities.CartActivity;
 import com.example.prm392.adapters.ShoeListAdapter;
 import com.example.prm392.entity.Product;
 
