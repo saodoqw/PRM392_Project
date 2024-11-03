@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.prm392.AddShoeActivity;
 import com.example.prm392.CartActivity;
 import com.example.prm392.CustomerActivity;
 import com.example.prm392.Data.AppDatabase;
@@ -27,11 +28,14 @@ import com.example.prm392.entity.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class HomePageActivity extends AppCompatActivity {
     private AppDatabase appDatabase;
-
+    List<Product> products = new ArrayList<>();
+    HomePageRecommendAdapter recommendAdapter;
+    RecyclerView viewRecommend;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +59,7 @@ public class HomePageActivity extends AppCompatActivity {
                     seeAllRecommend.setOnClickListener(view -> {
                         //Navigate to product page
                         Intent intent = new Intent(HomePageActivity.this, ShoeListAdminActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, 1);
                     });
                 }else{
                     seeAllRecommend.setOnClickListener(view -> {
@@ -101,14 +105,14 @@ public class HomePageActivity extends AppCompatActivity {
         //Hide progress bar if official brand is loaded
         findViewById(R.id.progressBar2).setVisibility(ImageView.GONE);
         //Set data for product
-        List<Product> products = new ArrayList<>();
-        RecyclerView viewRecommend = findViewById(R.id.viewRecommend);
+
+        viewRecommend = findViewById(R.id.viewRecommend);
         //get all product from database
         Executors.newSingleThreadExecutor().execute(() -> {
             products.addAll(appDatabase.productDao().getAllProducts());
         });
         //set adapter for viewpager
-        HomePageRecommendAdapter recommendAdapter = new HomePageRecommendAdapter(products);
+        recommendAdapter = new HomePageRecommendAdapter(products);
         viewRecommend.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
         // set adapter for recyclerview
         viewRecommend.setAdapter(recommendAdapter);
@@ -142,5 +146,21 @@ public class HomePageActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            // Refresh the RecyclerView by re-fetching the product list
+            Executor executor = Executors.newSingleThreadExecutor();
+            executor.execute(() -> {
+                products = appDatabase.productDao().getAllProducts();  // Re-fetch products
+                runOnUiThread(() -> {
+                    recommendAdapter = new HomePageRecommendAdapter(products);
+                    viewRecommend.setLayoutManager(new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false));
+                    // set adapter for recyclerview
+                    viewRecommend.setAdapter(recommendAdapter);                });
+            });
+        }
     }
 }
