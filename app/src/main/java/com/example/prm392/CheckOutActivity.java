@@ -149,7 +149,7 @@ public class CheckOutActivity extends AppCompatActivity {
         boolean paymentSuccess = true; // Assume payment is successful
 
         if (paymentSuccess) {
-            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();,
+            Toast.makeText(this, "Payment Successful", Toast.LENGTH_SHORT).show();
 
             addOrder();
             addOrderDetail();
