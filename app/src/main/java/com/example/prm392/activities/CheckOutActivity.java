@@ -219,6 +219,8 @@ public class CheckOutActivity extends AppCompatActivity {
                 Intent intent = new Intent("com.example.prm392.CART_UPDATED");
                 LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                 finish();
+                Intent intent1 = new Intent(CheckOutActivity.this, OrderListActivity.class);
+                startActivity(intent1);
             });
         });
     }
